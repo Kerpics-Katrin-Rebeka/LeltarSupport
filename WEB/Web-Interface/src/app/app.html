@@ -1,0 +1,11 @@
+@if (isLoggedIn) {
+    <table>
+        <tr>
+            <td id="sidebar"><app-sidebar-component></app-sidebar-component></td>
+            <td id="PageContent"></td>
+        </tr>
+    </table>
+}
+@else {
+    <app-login-component (loginStateChanged)="loginAttempted($event)"></app-login-component>
+}

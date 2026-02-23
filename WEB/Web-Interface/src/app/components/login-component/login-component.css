@@ -1,0 +1,15 @@
+#loginBTN{
+    width: 150px;
+    background-color: goldenrod;
+}
+
+input{
+    border-radius: 3px;
+    border-left: none;
+    border-right: none;
+    margin-top: 0px;
+}
+
+h4{
+    margin-bottom: 0px;
+}
