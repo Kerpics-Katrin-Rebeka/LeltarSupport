@@ -1,8 +1,29 @@
-<h4>User</h4>
-<input type="text" name="loginUser"/>
-<h4>Email</h4>
-<input type="email" name="loginEmail"/>
-<h4>Password</h4>
-<input type="email" name="loginPassword"/>
-<br>
-<button id="loginBTN" (click)="loginAttempt()">Login</button>
+<span id="body">
+    <span>
+        <img/>
+        <h2>StoreTrack</h2>
+    </span>
+    <h2>Welcome Back</h2>
+    <p>Please enter your credentials to continue</p>
+
+    <table>
+        <tr>
+            <td><input type="email" name="loginEmail" placeholder="Email" class="form-control" [(ngModel)]="email"/></td>
+        </tr>
+        <tr>
+            <td><input type="password" name="loginPassword" placeholder="Password" class="form-control" [(ngModel)]="pwd"/></td>
+        </tr>
+        <tr>
+            <td><a class="loginBTN btn btn-primary" (click)="loginAttempt('coordinator')">Log in as Coordinator</a></td>
+        </tr>
+        <tr>
+            <td><button class="loginBTN btn btn-primary" (click)="loginAttempt('manager')">Log in as Manager</button></td>
+        </tr>
+        <tr>
+            <td><button class="loginBTN btn btn-primary" (click)="loginAttempt('genManager')">Log in as General Manager</button></td>
+        </tr>
+        <tr>
+            <td><a href="">Forgot Password</a></td>
+        </tr>
+    </table>
+</span>

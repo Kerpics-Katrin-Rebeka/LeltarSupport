@@ -1,0 +1,35 @@
+@if (currentPage==="menu") {
+    <table>
+        <tr>
+            <td>
+                <div class="menuBtn" (click)="navigateTo('inventory')">
+                    <p>Manage inventory</p>
+                    <img/>
+                </div>
+            </td>
+            <td id="spacer"></td>
+            <td>
+                <div class="menuBtn" (click)="navigateTo('staff')">
+                    <p>Manage staff</p>
+                    <img/>
+                </div>
+            </td>
+            <td id="spacer"></td>
+            <td>
+                <div class="menuBtn" (click)="navigateTo('sales')">
+                    <p>Manage sales</p>
+                    <img/>
+                </div>
+            </td>
+        </tr>
+    </table>
+}
+@else if (currentPage==="inventory") {
+    <app-inventory-component (backToMenu)="navigateTo($event)"></app-inventory-component>
+}
+@else if (currentPage==="staff") {
+    <app-staff-component></app-staff-component>
+}
+@else if (currentPage==="sales") {
+    <app-sales-component></app-sales-component>
+}

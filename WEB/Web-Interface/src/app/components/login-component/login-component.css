@@ -1,15 +1,19 @@
-#loginBTN{
-    width: 150px;
-    background-color: goldenrod;
+#body{
+   text-align: center;
+   margin: auto;
 }
 
-input{
-    border-radius: 3px;
-    border-left: none;
-    border-right: none;
-    margin-top: 0px;
+table{
+    margin: auto;
 }
 
-h4{
-    margin-bottom: 0px;
+tr{
+    height: 50px;
+}
+
+.loginBTN{
+
+
+    color: white;
+    border-radius: 10px;
 }

@@ -1,0 +1,15 @@
+import { Component, EventEmitter, Output } from '@angular/core';
+
+@Component({
+  selector: 'app-staff-component',
+  imports: [],
+  templateUrl: './staff-component.html',
+  styleUrl: './staff-component.css',
+})
+export class StaffComponent {
+  @Output() backToMenu = new EventEmitter;
+
+  goBack(){
+    this.backToMenu.emit("menu");
+  }
+}
