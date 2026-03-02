@@ -2,3 +2,48 @@ a{
     text-decoration: none;
     color: black;
 }
+
+table{
+    width: 30%;
+}
+td{
+    border-bottom: solid black 1px;
+    border-left: solid black 1px;
+    text-align: center;
+    width: 40px;
+}
+
+td.pbar{
+    vertical-align: bottom;
+}
+
+.fuller{
+    display: inline-block;
+    background-color: blue;
+    /* fill the inside of the bar exactly */
+    width: 100%;
+    box-sizing: border-box;
+    border: none;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.bar{
+    display: inline-block;
+    border: solid 1px grey;
+    box-sizing: border-box;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    width: 20px;
+    height: 7rem;
+    position:relative;
+    z-index: 1;
+}
+
+img{
+    width: 25px;
+}
