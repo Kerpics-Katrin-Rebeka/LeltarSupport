@@ -19,20 +19,7 @@ td.pbar{
     vertical-align: bottom;
 }
 
-.fuller{
-    display: inline-block;
-    background-color: blue;
-    /* fill the inside of the bar exactly */
-    width: 100%;
-    box-sizing: border-box;
-    border: none;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    z-index: 1;
-}
+
 
 .bar{
     display: inline-block;

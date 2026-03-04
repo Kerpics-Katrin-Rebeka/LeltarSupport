@@ -22,4 +22,8 @@ export class MenuComponent {
     this.currentPage = chosenPage;
   }
 
+  logout(){
+    sessionStorage.setItem("loggedIn","false"),
+    this.isLoggedIn.emit(false)
+  }
 }

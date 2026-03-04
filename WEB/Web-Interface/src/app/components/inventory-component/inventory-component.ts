@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
+import { timer } from 'rxjs';
 
 @Component({
   selector: 'app-inventory-component',
@@ -11,13 +12,15 @@ export class InventoryComponent {
   backButton:string = "<-"
   goal:number=100;
 
-  ngOnInit(){
-    var fullers = document.getElementsByClassName("fuller") as  HTMLCollectionOf<HTMLDivElement>;
-    var bars  = document.getElementsByClassName("bar") as  HTMLCollectionOf<HTMLDivElement>;
-    for (let i = 0; i < bars.length; i++) {
+  async ngOnInit(){
+    var fullers = await document.getElementsByClassName("fuller");
+    var bars = await document.getElementsByClassName("bar");
+    console.log(fullers);
+    for (let i = 0; i < bars.length; i+1) {
       var curr = this.rng();
-      fullers[i].style.height = `${(curr/this.goal)*100}%`;
-      bars[i].appendChild(fullers[i])
+      console.log(fullers[i]);
+      (fullers[i] as HTMLDivElement).style.height = `${(curr/this.goal)*100}%`;
+      (fullers[i] as HTMLDivElement).className += "p-3 bg-gradient-from-t from-blue-600 to-blue-200"
     }
   }
 
