@@ -1,34 +1,30 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { timer } from 'rxjs';
+import { SidebarComponent } from "../sidebar-component/sidebar-component";
 
 @Component({
   selector: 'app-inventory-component',
-  imports: [],
+  imports: [SidebarComponent],
   templateUrl: './inventory-component.html',
   styleUrl: './inventory-component.css',
 })
 export class InventoryComponent {
-  @Output() backToMenu = new EventEmitter;
-  backButton:string = "<-"
   goal:number=100;
+  interval:any;
 
-  async ngOnInit(){
-    var fullers = await document.getElementsByClassName("fuller");
-    var bars = await document.getElementsByClassName("bar");
-    console.log(fullers);
-    for (let i = 0; i < bars.length; i+1) {
-      var curr = this.rng();
-      console.log(fullers[i]);
+  ngOnInit(){
+    this.fillTable();
+  }
+
+  fillTable(){
+    const fullers = document.getElementsByClassName("fuller");
+    for (let i = 0; i < fullers.length; i++) {
+      const curr = this.rng();
       (fullers[i] as HTMLDivElement).style.height = `${(curr/this.goal)*100}%`;
-      (fullers[i] as HTMLDivElement).className += "p-3 bg-gradient-from-t from-blue-600 to-blue-200"
     }
   }
 
   rng(){
     return Math.round(Math.random()*100)
-  }
-
-  goBack(){
-    this.backToMenu.emit("menu");
   }
 }

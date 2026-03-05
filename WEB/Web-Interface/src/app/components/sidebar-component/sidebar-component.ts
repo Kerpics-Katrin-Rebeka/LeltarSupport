@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-sidebar-component',
@@ -7,5 +7,17 @@ import { Component } from '@angular/core';
   styleUrl: './sidebar-component.css',
 })
 export class SidebarComponent {
+    @Output() backToMenu = new EventEmitter;
+    @Output() navigated=new EventEmitter;
+    currentPage: string = 'menu'
+    backButton:string = "<-"
 
+  goBack(){
+    this.backToMenu.emit("menu");
+  }
+
+  navigateTo(chosenPage:string){
+    this.navigated.emit(chosenPage)
+  }
 }
+
