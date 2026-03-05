@@ -1,70 +1,81 @@
-<table>
-    <tr>
-        <td></td>
-        <td rowspan="4" class="pbar">
-            <div class="bar">
-                <div class="fuller p-3 bg-gradient-from-t from-blue-600 to-blue-200 block align-bottom w-full"></div>
-            </div>
-        </td>
-       <td rowspan="4" class="pbar">
-            <div class="bar">
-                <div class="fuller p-3 bg-gradient-from-t from-blue-600 to-blue-200 block align-bottom w-full"></div>
-            </div>
-        </td>
-        <td rowspan="4" class="pbar">
-            <div class="bar">
-                <div class="fuller p-3 bg-gradient-from-t from-blue-600 to-blue-200 block align-bottom w-full"></div>
-            </div>
-        </td>
-        <td rowspan="4" class="pbar">
-            <div class="bar">
-                <div class="fuller p-3 bg-gradient-from-t from-blue-600 to-blue-200 block align-bottom w-full"></div>
-            </div>
-        </td>
-        <td rowspan="4" class="pbar">
-            <div class="bar">
-                <div class="fuller p-3 bg-gradient-from-t from-blue-600 to-blue-200 block align-bottom w-full">
-            </div>
-            </div>
-        </td>
-        <td rowspan="4" class="pbar">
-            <div class="bar">
-                <div class="fuller p-3 bg-gradient-from-t from-blue-600 to-blue-200 block align-bottom w-full"></div>
-            </div>
-        </td>
-        <td rowspan="4" class="pbar">
-            <div class="bar">
-                <div class="fuller p-3 bg-gradient-from-t from-blue-600 to-blue-200 block align-bottom w-full"></div>
-            </div>
-        </td>
-    </tr>
-    <tr>
-        <td></td>
-    </tr>
-    <tr>
-        <td></td>
-    </tr>
-    <tr>
-        <td></td>
-    </tr>
-    <tr>
-        <td></td>
-        <td>Mon</td>
-        <td>Tue</td>
-        <td>Wed</td>
-        <td>Thu</td>
-        <td>Fri</td>
-        <td>Sat</td>
-        <td>Sun</td>
-    </tr>
+@if (!isInStorage) {
+    <span class="align-top p-3">
+    <h2 class="font-bold">Kiadások</h2>
+
+    <table class="w-[250%] block">
+            <tr>
+            <td>Details:</td>
+            <td class="details"></td>
+            <td class="details"></td>
+            <td class="details"></td>
+            <td class="details"></td>
+            <td class="details"></td>
+            <td class="details"></td>
+            <td class="details"></td>
+        </tr>
         <tr>
-        <td>Details:</td>
-        <td class="details"></td>
-        <td class="details"></td>
-        <td class="details"></td>
-        <td class="details"></td>
-        <td class="details"></td>
-        <td class="details"></td>
-        <td class="details"></td>
-    </tr>
-</table>
+            <td></td>
+            <td>Mon</td>
+            <td>Tue</td>
+            <td>Wed</td>
+            <td>Thu</td>
+            <td>Fri</td>
+            <td>Sat</td>
+            <td>Sun</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td rowspan="4" class="w-3">
+                <div class="bar">
+                    <div class="fuller p-3 bg-gradient-from-t from-blue-600 to-blue-200 block align-bottom w-full"></div>
+                </div>
+            </td>
+        <td rowspan="4" class="pbar">
+                <div class="bar">
+                    <div class="fuller p-3 bg-gradient-from-t from-blue-600 to-blue-200 block align-bottom w-full"></div>
+                </div>
+            </td>
+            <td rowspan="4" class="pbar">
+                <div class="bar">
+                    <div class="fuller p-3 bg-gradient-from-t from-blue-600 to-blue-200 block align-bottom w-full"></div>
+                </div>
+            </td>
+            <td rowspan="4" class="pbar">
+                <div class="bar">
+                    <div class="fuller p-3 bg-gradient-from-t from-blue-600 to-blue-200 block align-bottom w-full"></div>
+                </div>
+            </td>
+            <td rowspan="4" class="pbar">
+                <div class="bar">
+                    <div class="fuller p-3 bg-gradient-from-t from-blue-600 to-blue-200 block align-bottom w-full">
+                </div>
+                </div>
+            </td>
+            <td rowspan="4" class="pbar">
+                <div class="bar">
+                    <div class="fuller p-3 bg-gradient-from-t from-blue-600 to-blue-200 block align-bottom w-full"></div>
+                </div>
+            </td>
+            <td rowspan="4" class="pbar">
+                <div class="bar">
+                    <div class="fuller p-3 bg-gradient-from-t from-blue-600 to-blue-200 block align-bottom w-full"></div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+        </tr>
+    </table>
+
+    <button class="bg-yellow-500 rounded-xl p-1 border-gray-600 border-2 mt-5" (click)="openStorage()">Jelenlegi készlet megtekintése</button>
+    </span>
+}@else {
+    <app-storage-component></app-storage-component>
+}
+

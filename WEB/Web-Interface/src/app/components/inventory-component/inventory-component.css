@@ -5,32 +5,32 @@ a{
     color: black;
 }
 
-table{
-    width: 30%;
-}
 td{
-    border-bottom: solid black 1px;
-    border-left: solid black 1px;
+    width: 12.5%;
+    border-right: 1px solid black;
     text-align: center;
-    width: 40px;
+}
+
+.bar{
+    border:solid gray 1px;
+    border-bottom-left-radius: 20%;
+    border-bottom-right-radius: 20%;
+    height: 125px;
+    width: 80%;
+    vertical-align: bottom;
+    margin: auto;
+}
+
+.fuller{
+    background-color: blue;
+    vertical-align: top;
+    border-bottom-left-radius: 20%;
+    border-bottom-right-radius: 20%;
+    
 }
 
 td.pbar{
     vertical-align: bottom;
-}
-
-
-
-.bar{
-    display: inline-block;
-    border: solid 1px grey;
-    box-sizing: border-box;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    width: 20px;
-    height: 7rem;
-    position:relative;
-    z-index: 1;
 }
 
 img{

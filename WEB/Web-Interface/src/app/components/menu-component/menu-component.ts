@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, input, Output } from '@angular/core';
 import { InventoryComponent } from '../inventory-component/inventory-component';
 import { StaffComponent } from '../staff-component/staff-component';
 import { SalesComponent } from '../sales-component/sales-component';
-import { SidebarComponent } from "../sidebar-component/sidebar-component";
+import { SidebarComponent } from '../sidebar-component/sidebar-component';
 
 @Component({
   selector: 'app-menu-component',

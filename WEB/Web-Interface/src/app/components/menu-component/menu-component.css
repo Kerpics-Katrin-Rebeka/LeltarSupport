@@ -1,11 +1,4 @@
 @import 'tailwindcss';
-
-table{
-    width: 80%;
-    height: 100%;
-    margin: auto;
-    margin-top: 25%;
-}
 td{
     width: 30%;
     height: width;

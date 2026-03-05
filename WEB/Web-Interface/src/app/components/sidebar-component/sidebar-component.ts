@@ -17,6 +17,7 @@ export class SidebarComponent {
   }
 
   navigateTo(chosenPage:string){
+    console.log(chosenPage);
     this.navigated.emit(chosenPage)
   }
 }

@@ -1,16 +1,15 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { timer } from 'rxjs';
-import { SidebarComponent } from "../sidebar-component/sidebar-component";
+import { StorageComponent } from '../storage-component/storage-component';
 
 @Component({
   selector: 'app-inventory-component',
-  imports: [SidebarComponent],
+  imports: [StorageComponent],
   templateUrl: './inventory-component.html',
   styleUrl: './inventory-component.css',
 })
 export class InventoryComponent {
   goal:number=100;
-  interval:any;
+  isInStorage:boolean=false;
 
   ngOnInit(){
     this.fillTable();
@@ -26,5 +25,9 @@ export class InventoryComponent {
 
   rng(){
     return Math.round(Math.random()*100)
+  }
+
+  openStorage(){
+    this.isInStorage = true;
   }
 }

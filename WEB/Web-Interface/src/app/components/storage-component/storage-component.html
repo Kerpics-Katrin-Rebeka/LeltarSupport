@@ -1,0 +1,16 @@
+<table class="border border-gray-300 w-[100%] flex flex-wrap">
+<tr>
+    <td>Name</td>
+    <td>Current amount</td>
+    <td>Maximum amount</td>
+    <td>Differential</td>
+</tr>
+@for (ing of ingredients; track $index) {
+    <tr>
+        <td>{{ing.name}}</td>
+        <td>{{ing.amount}} {{ing.unit}}</td>
+        <td>{{ing.maxAmount}} {{ing.unit}}</td>
+        <td>{{-(ing.maxAmount - ing.amount)}}</td>
+    </tr>
+}
+</table>

@@ -1,13 +1,13 @@
-<table>
+<table class="">
     <tr>
         <td>
-            <button class="">{{backButton}}</button>
+            <button class="hover:cursor-pointer bg-amber-500" (click)="goBack()">{{backButton}}</button>
         </td>
     </tr>
     <tr>            
         <td>
             <div class="w-50 bg-blue-500 hover:cursor-pointer" (click)="navigateTo('inventory')">
-                <p>Manage inventory</p>
+                <p (click)="navigateTo('inventory')">Manage inventory</p>
                 <img/>
             </div>
         </td>
@@ -15,7 +15,7 @@
     <tr>
         <td>
             <div class="w-50 bg-blue-500 hover:cursor-pointer" (click)="navigateTo('sales')">
-                <p>Manage inventory</p>
+                <p (click)="navigateTo('sales')">Manage inventory</p>
                 <img/>
             </div>
         </td>
@@ -23,7 +23,7 @@
     <tr>
         <td>
             <div class="w-50 bg-blue-500 hover:cursor-pointer" (click)="navigateTo('staff')">
-                <p>Manage inventory</p>
+                <p (click)="navigateTo('staff')">Manage inventory</p>
                 <img/>
             </div>
         </td>
