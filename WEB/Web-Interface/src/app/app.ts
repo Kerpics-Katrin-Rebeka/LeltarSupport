@@ -6,7 +6,7 @@ import { MenuComponent } from "./components/menu-component/menu-component";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, LoginComponent, SidebarComponent, MenuComponent],
+  imports: [LoginComponent, MenuComponent],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

@@ -1,4 +1,6 @@
-<table class="border border-gray-300 w-[100%] flex flex-wrap">
+<button (click)="goBack()">{{backBtn}}</button>
+
+<table class="border border-gray-300 w-[75%]">
 <tr>
     <td>Name</td>
     <td>Current amount</td>
@@ -8,9 +10,14 @@
 @for (ing of ingredients; track $index) {
     <tr>
         <td>{{ing.name}}</td>
-        <td>{{ing.amount}} {{ing.unit}}</td>
+        @if (ing.amount == 0) {
+            <td class="bg-red-700 text-white">{{ing.amount}} {{ing.unit}}</td>
+        }@else {
+            <td class="">{{ing.amount}} {{ing.unit}}</td>  
+        }
+   
         <td>{{ing.maxAmount}} {{ing.unit}}</td>
-        <td>{{-(ing.maxAmount - ing.amount)}}</td>
+        <td>{{differential(ing.amount,ing.maxAmount)}}</td>
     </tr>
 }
 </table>

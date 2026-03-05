@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { StorageComponent } from '../storage-component/storage-component';
+import IngredientModel from '../../Models/IngredientModel';
 
 @Component({
   selector: 'app-inventory-component',
@@ -8,11 +9,15 @@ import { StorageComponent } from '../storage-component/storage-component';
   styleUrl: './inventory-component.css',
 })
 export class InventoryComponent {
+  @Output() outOfIngredient = new EventEmitter;
   goal:number=100;
   isInStorage:boolean=false;
+  @Input() ingredients:IngredientModel[] = [];
+  @Input() isOutOfIngredient:boolean=false;
 
   ngOnInit(){
     this.fillTable();
+    
   }
 
   fillTable(){

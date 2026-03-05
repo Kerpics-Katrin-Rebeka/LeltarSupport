@@ -73,9 +73,9 @@
         </tr>
     </table>
 
-    <button class="bg-yellow-500 rounded-xl p-1 border-gray-600 border-2 mt-5" (click)="openStorage()">Jelenlegi készlet megtekintése</button>
+    <button class="bg-yellow-500 rounded-xl p-1 border-gray-600 border-2 mt-5" (click)="openStorage()">Details on current inventory</button>
+    @if (isOutOfIngredient){<span id="alert" class="text-white px-2 m-2 rounded-2xl size-1 bg-red-800">!</span>}
     </span>
 }@else {
-    <app-storage-component></app-storage-component>
+    <app-storage-component (back)="isInStorage = $event" (ranOut)="isOutOfIngredient=$event" [ingredients]="ingredients"></app-storage-component>
 }
-
