@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36429.23 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeltarSupportMauiApp", "LeltarSupportMauiApp.csproj", "{FC873E02-D308-4955-AC65-FE0523A3C074}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FC873E02-D308-4955-AC65-FE0523A3C074}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC873E02-D308-4955-AC65-FE0523A3C074}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC873E02-D308-4955-AC65-FE0523A3C074}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC873E02-D308-4955-AC65-FE0523A3C074}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D765824A-D155-4795-AE45-FE977DD2349D}
+	EndGlobalSection
+EndGlobal
