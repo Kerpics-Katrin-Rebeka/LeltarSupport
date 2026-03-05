@@ -2,17 +2,20 @@
 
 namespace LeltarSupportMauiApp.Models
 {
-    public class ProductsModel
+    public class IngredientModel
     {
         [JsonProperty("id")]
         public int Id { get; set; }
-        
-        [JsonProperty("name")]
-        public string Name { get; set; } = string.Empty;
 
-        [JsonProperty("price")]
-        public double Price { get; set; }
-        
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
+        [JsonProperty("quantity")]
+        public double Quantity { get; set; }
+
+        [JsonProperty("unit")]
+        public string Unit { get; set; }
+
         [JsonProperty("active")]
         public bool Active { get; set; }
     }

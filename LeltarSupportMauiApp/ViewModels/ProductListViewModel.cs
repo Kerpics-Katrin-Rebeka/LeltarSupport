@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using LeltarSupportMauiApp.DataServices;
+using LeltarSupportMauiApp.Services;
 using LeltarSupportMauiApp.Models;
 using System;
 using System.Collections.Generic;
@@ -20,10 +20,10 @@ namespace LeltarSupportMauiApp.ViewModels
         private ProductsModel selectedProduct;
 
         [RelayCommand]
-        private async void ProductDetails()
+        private async Task ProductDetails()
         {
             var navigationParameters = new Dictionary<string, object>() {
-                { "products", selectedProduct  }
+                { "products", SelectedProduct  }
             };
             await Shell.Current.GoToAsync("details", navigationParameters);
         }
@@ -31,13 +31,12 @@ namespace LeltarSupportMauiApp.ViewModels
         public ProductListViewModel()
         {
             getProducts();
-            Console.WriteLine(productList);
         }
 
         public async void getProducts()
         {
             ProductList.Clear();
-            IEnumerable<ProductsModel> list = await DataService.select("/products");
+            IEnumerable<ProductsModel> list = await DataService.SelectAsync<ProductsModel>("/products");
             var reversedList = list.Reverse();
             foreach (var item in reversedList)
             {
