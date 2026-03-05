@@ -3,14 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace LeltarSupportMauiApp.Models
 {
-    public interface Products
+    public class ProductsModel
     {
-        int Id { get; set; }
-        string Name { get; set; }
-        double Price { get; set; }
-        bool Active { get; set; }
+        [JsonProperty("id")]
+        public int Id { get; set; }
+        
+        [JsonProperty("name")]
+        public string Name { get; set; }
+        
+        [JsonProperty("price")]
+        public double Price { get; set; }
+        
+        [JsonProperty("active")]
+        public bool Active { get; set; }
     }
 }

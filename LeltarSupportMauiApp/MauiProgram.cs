@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using LeltarSupportMauiApp.ViewModels;
+using LeltarSupportMauiApp.Views;
+using Microsoft.Extensions.Logging;
 
 namespace LeltarSupportMauiApp
 {
@@ -14,9 +16,11 @@ namespace LeltarSupportMauiApp
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
+            builder.Services.AddSingleton<ProductListView>();
+            builder.Services.AddSingleton<ProductListViewModel>();
 
 #if DEBUG
-    		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
 #endif
 
             return builder.Build();

@@ -1,26 +1,42 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\Holbok_Peter\\LeltarSupport\\LeltarSupportMauiApp\\",
+  "WorkspaceRootPath": "D:\\LeltarSupport\\LeltarSupportMauiApp\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{FC873E02-D308-4955-AC65-FE0523A3C074}|LeltarSupportMauiApp.csproj|d:\\holbok_peter\\leltarsupport\\leltarsupportmauiapp\\mainpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "AbsoluteMoniker": "D:0:0:{FC873E02-D308-4955-AC65-FE0523A3C074}|LeltarSupportMauiApp.csproj|d:\\leltarsupport\\leltarsupportmauiapp\\views\\produclistview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{FC873E02-D308-4955-AC65-FE0523A3C074}|LeltarSupportMauiApp.csproj|solutionrelative:views\\produclistview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FC873E02-D308-4955-AC65-FE0523A3C074}|LeltarSupportMauiApp.csproj|d:\\leltarsupport\\leltarsupportmauiapp\\viewmodels\\productlistviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FC873E02-D308-4955-AC65-FE0523A3C074}|LeltarSupportMauiApp.csproj|solutionrelative:viewmodels\\productlistviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FC873E02-D308-4955-AC65-FE0523A3C074}|LeltarSupportMauiApp.csproj|d:\\leltarsupport\\leltarsupportmauiapp\\views\\produclistview.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FC873E02-D308-4955-AC65-FE0523A3C074}|LeltarSupportMauiApp.csproj|solutionrelative:views\\produclistview.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FC873E02-D308-4955-AC65-FE0523A3C074}|LeltarSupportMauiApp.csproj|d:\\leltarsupport\\leltarsupportmauiapp\\models\\products.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FC873E02-D308-4955-AC65-FE0523A3C074}|LeltarSupportMauiApp.csproj|solutionrelative:models\\products.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FC873E02-D308-4955-AC65-FE0523A3C074}|LeltarSupportMauiApp.csproj|d:\\leltarsupport\\leltarsupportmauiapp\\services\\dataservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FC873E02-D308-4955-AC65-FE0523A3C074}|LeltarSupportMauiApp.csproj|solutionrelative:services\\dataservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FC873E02-D308-4955-AC65-FE0523A3C074}|LeltarSupportMauiApp.csproj|d:\\leltarsupport\\leltarsupportmauiapp\\appshell.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{FC873E02-D308-4955-AC65-FE0523A3C074}|LeltarSupportMauiApp.csproj|solutionrelative:appshell.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FC873E02-D308-4955-AC65-FE0523A3C074}|LeltarSupportMauiApp.csproj|d:\\leltarsupport\\leltarsupportmauiapp\\mauiprogram.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FC873E02-D308-4955-AC65-FE0523A3C074}|LeltarSupportMauiApp.csproj|solutionrelative:mauiprogram.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FC873E02-D308-4955-AC65-FE0523A3C074}|LeltarSupportMauiApp.csproj|d:\\leltarsupport\\leltarsupportmauiapp\\mainpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FC873E02-D308-4955-AC65-FE0523A3C074}|LeltarSupportMauiApp.csproj|solutionrelative:mainpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FC873E02-D308-4955-AC65-FE0523A3C074}|LeltarSupportMauiApp.csproj|d:\\leltarsupport\\leltarsupportmauiapp\\mainpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{FC873E02-D308-4955-AC65-FE0523A3C074}|LeltarSupportMauiApp.csproj|solutionrelative:mainpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FC873E02-D308-4955-AC65-FE0523A3C074}|LeltarSupportMauiApp.csproj|d:\\holbok_peter\\leltarsupport\\leltarsupportmauiapp\\models\\interface1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FC873E02-D308-4955-AC65-FE0523A3C074}|LeltarSupportMauiApp.csproj|solutionrelative:models\\interface1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FC873E02-D308-4955-AC65-FE0523A3C074}|LeltarSupportMauiApp.csproj|d:\\holbok_peter\\leltarsupport\\leltarsupportmauiapp\\views\\foodlistview.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FC873E02-D308-4955-AC65-FE0523A3C074}|LeltarSupportMauiApp.csproj|solutionrelative:views\\foodlistview.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FC873E02-D308-4955-AC65-FE0523A3C074}|LeltarSupportMauiApp.csproj|d:\\holbok_peter\\leltarsupport\\leltarsupportmauiapp\\viewmodels\\foodlistviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FC873E02-D308-4955-AC65-FE0523A3C074}|LeltarSupportMauiApp.csproj|solutionrelative:viewmodels\\foodlistviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FC873E02-D308-4955-AC65-FE0523A3C074}|LeltarSupportMauiApp.csproj|d:\\holbok_peter\\leltarsupport\\leltarsupportmauiapp\\views\\foodlistview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{FC873E02-D308-4955-AC65-FE0523A3C074}|LeltarSupportMauiApp.csproj|solutionrelative:views\\foodlistview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,67 +46,120 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Interface1.cs",
-              "DocumentMoniker": "D:\\Holbok_Peter\\LeltarSupport\\LeltarSupportMauiApp\\Models\\Interface1.cs",
-              "RelativeDocumentMoniker": "Models\\Interface1.cs",
-              "ToolTip": "D:\\Holbok_Peter\\LeltarSupport\\LeltarSupportMauiApp\\Models\\Interface1.cs*",
-              "RelativeToolTip": "Models\\Interface1.cs*",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAdAAAAAAAAAA==",
+              "Title": "ProductListViewModel.cs",
+              "DocumentMoniker": "D:\\LeltarSupport\\LeltarSupportMauiApp\\ViewModels\\ProductListViewModel.cs",
+              "RelativeDocumentMoniker": "ViewModels\\ProductListViewModel.cs",
+              "ToolTip": "D:\\LeltarSupport\\LeltarSupportMauiApp\\ViewModels\\ProductListViewModel.cs",
+              "RelativeToolTip": "ViewModels\\ProductListViewModel.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABcAAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-05T08:15:19.809Z",
+              "WhenOpened": "2026-03-05T08:12:56.082Z",
+              "IsPinned": true,
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "FoodListView.xaml.cs",
-              "DocumentMoniker": "D:\\Holbok_Peter\\LeltarSupport\\LeltarSupportMauiApp\\Views\\FoodListView.xaml.cs",
-              "RelativeDocumentMoniker": "Views\\FoodListView.xaml.cs",
-              "ToolTip": "D:\\Holbok_Peter\\LeltarSupport\\LeltarSupportMauiApp\\Views\\FoodListView.xaml.cs*",
-              "RelativeToolTip": "Views\\FoodListView.xaml.cs*",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAYAAAAAAAAAA==",
+              "Title": "ProducListView.xaml.cs",
+              "DocumentMoniker": "D:\\LeltarSupport\\LeltarSupportMauiApp\\Views\\ProducListView.xaml.cs",
+              "RelativeDocumentMoniker": "Views\\ProducListView.xaml.cs",
+              "ToolTip": "D:\\LeltarSupport\\LeltarSupportMauiApp\\Views\\ProducListView.xaml.cs",
+              "RelativeToolTip": "Views\\ProducListView.xaml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-05T08:12:57.943Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "FoodListViewModel.cs",
-              "DocumentMoniker": "D:\\Holbok_Peter\\LeltarSupport\\LeltarSupportMauiApp\\ViewModels\\FoodListViewModel.cs",
-              "RelativeDocumentMoniker": "ViewModels\\FoodListViewModel.cs",
-              "ToolTip": "D:\\Holbok_Peter\\LeltarSupport\\LeltarSupportMauiApp\\ViewModels\\FoodListViewModel.cs",
-              "RelativeToolTip": "ViewModels\\FoodListViewModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-05T08:12:56.082Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "FoodListView.xaml",
-              "DocumentMoniker": "D:\\Holbok_Peter\\LeltarSupport\\LeltarSupportMauiApp\\Views\\FoodListView.xaml",
-              "RelativeDocumentMoniker": "Views\\FoodListView.xaml",
-              "ToolTip": "D:\\Holbok_Peter\\LeltarSupport\\LeltarSupportMauiApp\\Views\\FoodListView.xaml",
-              "RelativeToolTip": "Views\\FoodListView.xaml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "ProducListView.xaml",
+              "DocumentMoniker": "D:\\LeltarSupport\\LeltarSupportMauiApp\\Views\\ProducListView.xaml",
+              "RelativeDocumentMoniker": "Views\\ProducListView.xaml",
+              "ToolTip": "D:\\LeltarSupport\\LeltarSupportMauiApp\\Views\\ProducListView.xaml",
+              "RelativeToolTip": "Views\\ProducListView.xaml",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABMAAAAqAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
               "WhenOpened": "2026-03-05T08:12:43.214Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 5,
+              "Title": "AppShell.xaml",
+              "DocumentMoniker": "D:\\LeltarSupport\\LeltarSupportMauiApp\\AppShell.xaml",
+              "RelativeDocumentMoniker": "AppShell.xaml",
+              "ToolTip": "D:\\LeltarSupport\\LeltarSupportMauiApp\\AppShell.xaml",
+              "RelativeToolTip": "AppShell.xaml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2026-03-05T09:45:50.563Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "DataService.cs",
+              "DocumentMoniker": "D:\\LeltarSupport\\LeltarSupportMauiApp\\Services\\DataService.cs",
+              "RelativeDocumentMoniker": "Services\\DataService.cs",
+              "ToolTip": "D:\\LeltarSupport\\LeltarSupportMauiApp\\Services\\DataService.cs",
+              "RelativeToolTip": "Services\\DataService.cs",
+              "ViewState": "AgIAAAQAAAAAAAAAAAAAABUAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-05T09:19:27.977Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "MainPage.xaml.cs",
+              "DocumentMoniker": "D:\\LeltarSupport\\LeltarSupportMauiApp\\MainPage.xaml.cs",
+              "RelativeDocumentMoniker": "MainPage.xaml.cs",
+              "ToolTip": "D:\\LeltarSupport\\LeltarSupportMauiApp\\MainPage.xaml.cs",
+              "RelativeToolTip": "MainPage.xaml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-05T09:43:41.372Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Products.cs",
+              "DocumentMoniker": "D:\\LeltarSupport\\LeltarSupportMauiApp\\Models\\Products.cs",
+              "RelativeDocumentMoniker": "Models\\Products.cs",
+              "ToolTip": "D:\\LeltarSupport\\LeltarSupportMauiApp\\Models\\Products.cs",
+              "RelativeToolTip": "Models\\Products.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-05T08:15:19.809Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "MauiProgram.cs",
+              "DocumentMoniker": "D:\\LeltarSupport\\LeltarSupportMauiApp\\MauiProgram.cs",
+              "RelativeDocumentMoniker": "MauiProgram.cs",
+              "ToolTip": "D:\\LeltarSupport\\LeltarSupportMauiApp\\MauiProgram.cs",
+              "RelativeToolTip": "MauiProgram.cs",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAAABMAAABCAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-05T09:43:44.393Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
               "Title": "MainPage.xaml",
-              "DocumentMoniker": "D:\\Holbok_Peter\\LeltarSupport\\LeltarSupportMauiApp\\MainPage.xaml",
+              "DocumentMoniker": "D:\\LeltarSupport\\LeltarSupportMauiApp\\MainPage.xaml",
               "RelativeDocumentMoniker": "MainPage.xaml",
-              "ToolTip": "D:\\Holbok_Peter\\LeltarSupport\\LeltarSupportMauiApp\\MainPage.xaml",
+              "ToolTip": "D:\\LeltarSupport\\LeltarSupportMauiApp\\MainPage.xaml",
               "RelativeToolTip": "MainPage.xaml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
