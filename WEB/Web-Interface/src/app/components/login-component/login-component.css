@@ -1,0 +1,19 @@
+#body{
+   text-align: center;
+   margin: auto;
+}
+
+table{
+    margin: auto;
+}
+
+tr{
+    height: 50px;
+}
+
+.loginBTN{
+
+
+    color: white;
+    border-radius: 10px;
+}

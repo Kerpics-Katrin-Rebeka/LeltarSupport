@@ -1,0 +1,34 @@
+<table>
+    <tr>
+        <td>
+            <button class="hover:cursor-pointer bg-amber-500" (click)="goBack()">{{backButton}}</button>
+        </td>
+    </tr>
+    <tr class="h-1"></tr>
+    <tr>            
+        <td>
+            <div class="w-50 bg-blue-500 hover:cursor-pointer" (click)="navigateTo('inventory')">
+                <p (click)="navigateTo('inventory')">Manage inventory</p>
+                <img/>
+            </div>
+        </td>
+    </tr>
+    <tr class="h-1"></tr>
+    <tr>
+        <td>
+            <div class="w-50 bg-blue-500 hover:cursor-pointer" (click)="navigateTo('sales')">
+                <p (click)="navigateTo('sales')">Manage sales</p>
+                <img/>
+            </div>
+        </td>
+    </tr>
+    <tr class="h-1"></tr>
+    <tr>
+        <td>
+            <div class="w-50 bg-blue-500 hover:cursor-pointer" (click)="navigateTo('staff')">
+                <p (click)="navigateTo('staff')">Manage staff</p>
+                <img/>
+            </div>
+        </td>
+    </tr>
+</table>

@@ -1,0 +1,60 @@
+@if (currentPage==="menu") {
+    <button class="bg-orange-800 hover:cursor-pointer" (click)="logout()">Log out</button>
+    <table class="size-full m-auto mt-[10%]">
+        <tr>
+            <td>
+                @if (isOutOfIngredients) {
+                    <div class="menuBtn bg-red-700 text-white" (click)="navigateTo('inventory')">
+                        <p >Manage inventory</p>         
+                        <img/>
+                    </div>
+                } 
+                @else {
+                    <div class="menuBtn" (click)="navigateTo('inventory')">
+                        <p>Manage inventory</p>         
+                        <img/>
+                    </div>
+                }  
+            </td>
+            <td id="spacer"></td>
+            <td>
+                <div class="menuBtn" (click)="navigateTo('staff')">
+                    <p>Manage staff</p>
+                    <img/>
+                </div>
+            </td>
+            <td id="spacer"></td>
+            <td>
+                <div class="menuBtn" (click)="navigateTo('sales')">
+                    <p>Manage sales</p>
+                    <img/>
+                </div>
+            </td>
+        </tr>
+    </table>
+}
+@else if (currentPage==="inventory") {
+    <table class="m-auto min-h-screen min-w-screen ps-5 align-top">
+        <tr class="">
+            <td class="align-top" style="width: 1%;"><app-sidebar-component (navigated)="navigateTo($event)" (backToMenu)="navigateTo($event)"></app-sidebar-component></td>
+            <td class="w-full align-top ms-5"><app-inventory-component class="w-[30%]" (outOfIngredient)="isOutOfIngredients=$event" [ingredients]="ingredients" [isOutOfIngredient]="isOutOfIngredients"></app-inventory-component></td>
+        </tr>
+    </table>
+
+}
+@else if (currentPage==="staff") {
+    <table class="block align-top">
+        <tr class="align-top">
+            <td class=""><app-sidebar-component (navigated)="navigateTo($event)" (backToMenu)="navigateTo($event)"></app-sidebar-component></td>
+            <td class=""><app-staff-component></app-staff-component></td>
+        </tr>
+    </table>
+}
+@else if (currentPage==="sales") {
+    <table class="block align-top">
+        <tr class="align-top">
+            <td><app-sidebar-component (navigated)="navigateTo($event)" (backToMenu)="navigateTo($event)"></app-sidebar-component></td>
+            <td><app-sales-component></app-sales-component></td>
+        </tr>
+    </table>
+}

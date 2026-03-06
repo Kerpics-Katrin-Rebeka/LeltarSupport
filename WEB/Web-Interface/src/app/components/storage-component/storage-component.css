@@ -1,0 +1,10 @@
+@import "tailwindcss";
+
+td{
+    margin: 30px;
+    text-align: center;
+    border-bottom: 1px solid gray;
+}
+table{
+    text-align: center;
+}

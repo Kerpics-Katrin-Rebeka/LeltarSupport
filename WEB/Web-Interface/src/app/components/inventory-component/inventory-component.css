@@ -1,0 +1,38 @@
+@import "tailwindcss";
+
+a{
+    text-decoration: none;
+    color: black;
+}
+
+td{
+    width: 12.5%;
+    border-right: 1px solid black;
+    text-align: center;
+}
+
+.bar{
+    border:solid gray 1px;
+    border-bottom-left-radius: 20%;
+    border-bottom-right-radius: 20%;
+    height: 125px;
+    width: 80%;
+    vertical-align: bottom;
+    margin: auto;
+}
+
+.fuller{
+    background-color: blue;
+    vertical-align: top;
+    border-bottom-left-radius: 20%;
+    border-bottom-right-radius: 20%;
+    
+}
+
+td.pbar{
+    vertical-align: bottom;
+}
+
+img{
+    width: 25px;
+}

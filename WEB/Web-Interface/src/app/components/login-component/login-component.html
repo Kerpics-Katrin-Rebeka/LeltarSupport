@@ -1,0 +1,29 @@
+<span id="body">
+    <span>
+        <img src="favicon.ico" class="w-10 m-auto pt-[10%]"/>
+        <h2>StoreTrack</h2>
+    </span>
+    <h2>Welcome Back</h2>
+    <p>Please enter your credentials to continue</p>
+
+    <table>
+        <tr>
+            <td><input type="email" name="loginEmail" placeholder="Email" class="border-gray-500 border rounded-md p-1" [(ngModel)]="email"/></td>
+        </tr>
+        <tr>
+            <td><input type="password" name="loginPassword" placeholder="Password" class="border-gray-500 border rounded-md p-1" [(ngModel)]="pwd"/></td>
+        </tr>
+        <tr>
+            <td><a class="loginBTN bg-blue-500 p-3" (click)="loginAttempt('coordinator')">Log in as Coordinator</a></td>
+        </tr>
+        <tr>
+            <td><button class="loginBTN bg-blue-500 p-3" (click)="loginAttempt('manager')">Log in as Manager</button></td>
+        </tr>
+        <tr>
+            <td><button class="loginBTN bg-blue-500 p-3" (click)="loginAttempt('genManager')">Log in as General Manager</button></td>
+        </tr>
+        <tr>
+            <td><a href="" class="text-blue-400">Forgot Password</a></td>
+        </tr>
+    </table>
+</span>
