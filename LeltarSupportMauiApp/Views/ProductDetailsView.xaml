@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LeltarSupportMauiApp.Views.ProductDetailsView"
+             xmlns:viewmodels="clr-namespace:LeltarSupportMauiApp.ViewModels"
+             xmlns:models="clr-namespace:LeltarSupportMauiApp.Models"
+             x:DataType="viewmodels:ProductDetailsViewModel"
+             Title="Product Details">
+    <Grid Padding="12" RowDefinitions="Auto,*,Auto" ColumnDefinitions="*">
+        <!-- Product header -->
+        <Grid Grid.Row="0" ColumnDefinitions="*,Auto">
+            <Label Text="{Binding SelectedProduct.Name}" FontSize="20" FontAttributes="Bold" />
+            <Label Grid.Column="1" Text="{Binding SelectedProduct.Price, StringFormat='{0:C}'}" VerticalOptions="Center" HorizontalOptions="End" />
+            <Label Grid.Row="1" Grid.ColumnSpan="2" Text="{Binding SelectedProduct.Active, StringFormat='Active: {0}'}" FontSize="12" TextColor="Gray"/>
+        </Grid>
+
+        <!-- Ingredients list -->
+        <CollectionView Grid.Row="1"
+                        ItemsSource="{Binding Ingredients}"
+                        SelectionMode="Single"
+                        SelectedItem="{Binding SelectedIngredient}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:IngredientModel">
+                    <Grid Padding="8" ColumnDefinitions="*,Auto">
+                        <Label Text="{Binding Name}" FontSize="16" />
+                        <Label Grid.Column="1" Text="{Binding Quantity, StringFormat='{0}'}" VerticalOptions="Center" HorizontalOptions="End" FontSize="14" />
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <!-- Actions -->
+        <Grid Grid.Row="2" ColumnDefinitions="*,Auto" Padding="4">
+            <Button Text="Add selected ingredient to product"
+                    IsEnabled="{Binding SelectedIngredient, Converter={StaticResource NullToBooleanConverter}}"
+                    Command="{Binding AddIngredientCommand}" />
+        </Grid>
+    </Grid>
+</ContentPage>
