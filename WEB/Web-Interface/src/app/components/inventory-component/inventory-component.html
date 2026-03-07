@@ -2,7 +2,7 @@
     <span class="align-top p-3">
     <h2 class="font-bold">Kiadások</h2>
 
-    <table class="w-[250%] block">
+    <table class="w-full block">
             <tr>
             <td>Details:</td>
             <td class="details"></td>
@@ -27,38 +27,38 @@
             <td></td>
             <td rowspan="4" class="w-3">
                 <div class="bar">
-                    <div class="fuller p-3 bg-gradient-from-t from-blue-600 to-blue-200 block align-bottom w-full"></div>
+                    <div class="fuller p-3 bg-linear-to-b from-blue-600 to-blue-400 block align-bottom w-full"></div>
                 </div>
             </td>
         <td rowspan="4" class="pbar">
                 <div class="bar">
-                    <div class="fuller p-3 bg-gradient-from-t from-blue-600 to-blue-200 block align-bottom w-full"></div>
+                    <div class="fuller p-3 bg-linear-to-b from-blue-600 to-blue-400 block align-bottom w-full"></div>
                 </div>
             </td>
             <td rowspan="4" class="pbar">
                 <div class="bar">
-                    <div class="fuller p-3 bg-gradient-from-t from-blue-600 to-blue-200 block align-bottom w-full"></div>
+                    <div class="fuller p-3 bg-linear-to-b from-blue-600 to-blue-400 block align-bottom w-full"></div>
                 </div>
             </td>
             <td rowspan="4" class="pbar">
                 <div class="bar">
-                    <div class="fuller p-3 bg-gradient-from-t from-blue-600 to-blue-200 block align-bottom w-full"></div>
+                    <div class="fuller p-3 bg-linear-to-b from-blue-600 to-blue-400 block align-bottom w-full"></div>
                 </div>
             </td>
             <td rowspan="4" class="pbar">
                 <div class="bar">
-                    <div class="fuller p-3 bg-gradient-from-t from-blue-600 to-blue-200 block align-bottom w-full">
+                    <div class="fuller p-3 bg-linear-to-b from-blue-600 to-blue-400 block align-bottom w-full">
                 </div>
                 </div>
             </td>
             <td rowspan="4" class="pbar">
                 <div class="bar">
-                    <div class="fuller p-3 bg-gradient-from-t from-blue-600 to-blue-200 block align-bottom w-full"></div>
+                    <div class="fuller p-3 bg-linear-to-b from-blue-600 to-blue-400 block align-bottom w-full"></div>
                 </div>
             </td>
             <td rowspan="4" class="pbar">
                 <div class="bar">
-                    <div class="fuller p-3 bg-gradient-from-t from-blue-600 to-blue-200 block align-bottom w-full"></div>
+                    <div class="fuller p-3 bg-linear-to-b from-blue-600 to-blue-400 block align-bottom w-full"></div>
                 </div>
             </td>
         </tr>
@@ -73,9 +73,9 @@
         </tr>
     </table>
 
-    <button class="bg-yellow-500 rounded-xl p-1 border-gray-600 border-2 mt-5" (click)="openStorage()">Details on current inventory</button>
-    @if (isOutOfIngredient){<span id="alert" class="text-white px-2 m-2 rounded-2xl size-1 bg-red-800">!</span>}
+    <button class="bg-linear-to-r from-yellow-500 via-yellow-400 to-yellow-500 rounded-xl p-1 border-gray-600 border-2 mt-5" (click)="openStorage()">Details on current inventory</button>
+    @if (isOutOfIngredient){<span id="alert" class="text-white px-2 m-2 rounded-2xl size-1 bg-radial from-red-500 to-red-700 text-center">!</span>}
     </span>
 }@else {
-    <app-storage-component (back)="isInStorage = $event" (ranOut)="isOutOfIngredient=$event" [ingredients]="ingredients"></app-storage-component>
+    <app-storage-component class="w-full" (back)="isInStorage = $event" (ranOut)="isOutOfIngredient=$event" [ingredients]="ingredients"></app-storage-component>
 }

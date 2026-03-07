@@ -8,8 +8,15 @@ import { Component, EventEmitter, Output } from '@angular/core';
 })
 export class SalesComponent {
   @Output() backToMenu = new EventEmitter;
+  backBtn:string = "<-";
+  weeklyTotal:number=0;
+  dailyTotal:number=0;
 
   goBack(){
     this.backToMenu.emit("menu");
+  }
+
+  openSalesLogs(){
+    
   }
 }

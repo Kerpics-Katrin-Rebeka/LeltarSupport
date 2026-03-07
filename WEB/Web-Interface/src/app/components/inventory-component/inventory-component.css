@@ -9,6 +9,7 @@ td{
     width: 12.5%;
     border-right: 1px solid black;
     text-align: center;
+    padding: 2px;
 }
 
 .bar{

@@ -1,0 +1,13 @@
+Angular todos
+inventory:
+	empty list,
+	close to empty list
+sales:
+	daily stat,
+	today stats,
+staff:
+	currently on shift,
+	next shift,
+	previous shift,
+	check shifts by day,
+	schedule calendar
