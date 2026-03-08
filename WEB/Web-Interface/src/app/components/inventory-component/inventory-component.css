@@ -7,7 +7,6 @@ a{
 
 td{
     width: 12.5%;
-    border-right: 1px solid black;
     text-align: center;
     padding: 2px;
 }
@@ -20,6 +19,7 @@ td{
     width: 80%;
     vertical-align: bottom;
     margin: auto;
+    background-color: white;
 }
 
 .fuller{

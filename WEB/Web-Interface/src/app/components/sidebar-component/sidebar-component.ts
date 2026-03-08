@@ -7,13 +7,13 @@ import { Component, EventEmitter, Output } from '@angular/core';
   styleUrl: './sidebar-component.css',
 })
 export class SidebarComponent {
-    @Output() backToMenu = new EventEmitter;
+    @Output() logOut = new EventEmitter;
     @Output() navigated=new EventEmitter;
     currentPage: string = 'menu'
-    backButton:string = "<-"
 
-  goBack(){
-    this.backToMenu.emit("menu");
+  logout(){
+    sessionStorage.setItem("loggedIn","false"),
+    this.logOut.emit(false)
   }
 
   navigateTo(chosenPage:string){

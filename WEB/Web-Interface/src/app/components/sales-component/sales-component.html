@@ -1,65 +1,48 @@
-<table class="w-full">
-    <tr>
-        <td><div class="total border border-gray-200 shadow-md h-25 rounded-md m-3 w-[90%] p-[2%]">
-                <h2>This week's income total</h2>
-                <h3>{{weeklyTotal}} Ft</h3>
-            </div>
-        </td>
-        <td>
-            <div class="total border border-gray-200 shadow-md h-25 rounded-md m-3 w-[90%] p-[2%]">
-                <h2>Today's income total</h2>
-                <h3>{{dailyTotal}} Ft</h3>
-            </div>
-        </td>
-        <td class="p-3">
-            <div class="total border border-gray-200 shadow-md h-auto rounded-md w-[80%] hover:cursor-pointer" (click)="openSalesLogs()">
-                <h1>Details</h1>
-            </div>
-        </td>
-    </tr>
-</table>
-<h1 class="font-bold text-xl">Yesterday's statistics</h1>
-
-
-<div class="w-full shadow-md rounded-md pt-5 pb-2">
-    <table class="w-full">
-        <tr>
-            <td class="w-[50%]">
-                <div class="total mr-5 border-2 border-gray-400 w-[15%] h-auto ml-3 rounded-3xl text-white bg-linear-to-r from-blue-500 via-blue-700 to-blue-500 hover:cursor-pointer hover:scale-101">
-                    <h2>Details</h2>
-                </div>
-            </td>
-            <td class="text-left">
-                <div>
-                    <h2>Total sales value</h2>
+@if (!isViewingLog) {
+    <h1 class="font-bold text-xl">Yesterday's statistics</h1>
+    <div class="w-full shadow-md rounded-md pt-5 pb-2">
+        <table class="w-full">
+            <tr>
+                <td class="w-[50%]">
+                    <div class="total mr-5 border-2 border-gray-400 w-[15%] h-auto ml-3 rounded-3xl text-white bg-linear-to-r from-blue-500 via-blue-700 to-blue-500 hover:cursor-pointer hover:scale-101">
+                        <h2>Details</h2>
+                    </div>
+                </td>
+                <td class="text-left">
+                    <div>
+                        <h2>Total influx</h2>
+                        <h3>1 Ft</h3>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="ml-5">
+                        <h2>Top sellers:</h2>
+                        <table class="shadow-xl h-[10%] w-[80%]">
+                            <tr>
+                                <td>BEANS</td>
+                                <td>150 units sold</td>
+                            </tr>
+                            <tr>
+                                <td>BEESE CHURGER</td>
+                                <td>140 units sold</td>
+                            </tr>
+                            <tr>
+                                <td>ONION</td>
+                                <td>1 units sold</td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+                <td>
+                    <h2>Expenses</h2>
                     <h3>1 Ft</h3>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <div class="ml-5">
-                    <h2>Top sellers:</h2>
-                    <table class="shadow-xl h-[10%] w-[80%]">
-                        <tr>
-                            <td>BEANS</td>
-                            <td>150 units sold</td>
-                        </tr>
-                        <tr>
-                            <td>CHEESE BURGER</td>
-                            <td>140 units sold</td>
-                        </tr>
-                        <tr>
-                            <td>ONION</td>
-                            <td>1 units sold</td>
-                        </tr>
-                    </table>
-                </div>
-            </td>
-            <td>
-                <h2>Expenses</h2>
-                <h3>1 Ft</h3>
-            </td>
-        </tr>
-    </table>
+                </td>
+            </tr>
+        </table>
     </div>
+    <button class="bg-linear-90 from-blue-500 via-blue-600 to-blue-500 px-3 text-xl font-medium border-2 border-green-900 rounded-xl hover:cursor-pointer" (click)="openSalesLogs()">Check today's sales</button>
+}@else {
+    <app-sales-log-component></app-sales-log-component>
+}

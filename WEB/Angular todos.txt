@@ -1,13 +1,15 @@
 Angular todos
-inventory:
-	empty list,
-	close to empty list
 sales:
-	daily stat,
-	today stats,
+	log view:
+		total price
+		total cost
+	inventory disappear on log open
 staff:
 	currently on shift,
 	next shift,
 	previous shift,
 	check shifts by day,
 	schedule calendar
+SERVICES!!!
+forgot password
+everything into sessionStorage

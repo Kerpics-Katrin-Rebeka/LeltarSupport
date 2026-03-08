@@ -1,0 +1,17 @@
+<button (click)="goBack()">Back</button>
+@if (salesLog.length == 0) {
+    <h1 class="text-center m-auto text-xl font-bold">No sales so far today</h1>
+}@else {
+    <table class="w-full">
+        <tr>
+            <td class="w-[50%]">Total ingredient cost: {{costTotal}} Ft</td>
+            <td class="w-[50%]">Total income: {{incomeTotal}} Ft</td>
+        </tr>
+        @for (s of salesLog; track $index) {
+            <tr class="w-[90%]">
+                <td colspan="2">{{s}}</td>
+                <td colspan="2"></td>
+            </tr>
+            }
+    </table>
+}

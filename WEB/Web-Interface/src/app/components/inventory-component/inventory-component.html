@@ -1,81 +1,117 @@
 @if (!isInStorage) {
-    <span class="align-top p-3">
+<app-sales-component></app-sales-component>
+<span class="align-top p-3">
     <h2 class="font-bold">Kiadások</h2>
 
-    <table class="w-full block">
-            <tr>
-            <td>Details:</td>
-            <td class="details"></td>
-            <td class="details"></td>
-            <td class="details"></td>
-            <td class="details"></td>
-            <td class="details"></td>
-            <td class="details"></td>
-            <td class="details"></td>
-        </tr>
+    <table>
         <tr>
-            <td></td>
-            <td>Mon</td>
-            <td>Tue</td>
-            <td>Wed</td>
-            <td>Thu</td>
-            <td>Fri</td>
-            <td>Sat</td>
-            <td>Sun</td>
+            <td>
+                <table class="w-full block">
+                    <tr>
+                        <td>Details:</td>
+                        <td class="details"></td>
+                        <td class="details"></td>
+                        <td class="details"></td>
+                        <td class="details"></td>
+                        <td class="details"></td>
+                        <td class="details"></td>
+                        <td class="details"></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>Mon</td>
+                        <td>Tue</td>
+                        <td>Wed</td>
+                        <td>Thu</td>
+                        <td>Fri</td>
+                        <td>Sat</td>
+                        <td>Sun</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td rowspan="4" class="w-3">
+                            <div class="bar">
+                                <div class="fuller p-3 bg-linear-to-b from-blue-600 to-blue-400 block align-bottom w-full"></div>
+                            </div>
+                        </td>
+                        <td rowspan="4" class="pbar">
+                            <div class="bar">
+                                <div class="fuller p-3 bg-linear-to-b from-blue-600 to-blue-400 block align-bottom w-full"></div>
+                            </div>
+                        </td>
+                        <td rowspan="4" class="pbar">
+                            <div class="bar">
+                                <div class="fuller p-3 bg-linear-to-b from-blue-600 to-blue-400 block align-bottom w-full"></div>
+                            </div>
+                        </td>
+                        <td rowspan="4" class="pbar">
+                            <div class="bar">
+                                <div class="fuller p-3 bg-linear-to-b from-blue-600 to-blue-400 block align-bottom w-full"></div>
+                            </div>
+                        </td>
+                        <td rowspan="4" class="pbar">
+                            <div class="bar">
+                                <div class="fuller p-3 bg-linear-to-b from-blue-600 to-blue-400 block align-bottom w-full">
+                                </div>
+                            </div>
+                        </td>
+                        <td rowspan="4" class="pbar">
+                            <div class="bar">
+                                <div class="fuller p-3 bg-linear-to-b from-blue-600 to-blue-400 block align-bottom w-full"></div>
+                            </div>
+                        </td>
+                        <td rowspan="4" class="pbar">
+                            <div class="bar">
+                                <div class="fuller p-3 bg-linear-to-b from-blue-600 to-blue-400 block align-bottom w-full"></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                    </tr>
+                </table>
+            </td>
+            <td>
+                <table>
+                    <tr class="font-bold">
+                        <td>Ingredients currently out of stock</td>
+                    </tr>
+                    <tr class="bg-linear-to-b from-red-600 via-red-500 to-red-600 rounded-2xl block w-fit m-auto hover:cursor-pointer px-2" (click)="isInStorage=true">
+                        <td>{{outOf.length != 0 ? outOf.length == 1 ? "1 item is out of stock": `${outOf.length} items are out of stock` : "No item is out of stock"}}</td>
+                    </tr>
+                </table>
+            </td>
         </tr>
-        <tr>
-            <td></td>
-            <td rowspan="4" class="w-3">
-                <div class="bar">
-                    <div class="fuller p-3 bg-linear-to-b from-blue-600 to-blue-400 block align-bottom w-full"></div>
-                </div>
+        <tr class="mx-auto">
+            <td>
+                @if (isOutOfIngredient){<button class="bg-linear-to-t from-red-600 via-red-700 to-red-600 rounded-xl p-1 border-gray-600 border-2 mt-5  w-[33%]" (click)="isInStorage = true">Details on current inventory</button>}
+                @else {<button class="bg-linear-to-r from-yellow-500 via-yellow-400 to-yellow-500 rounded-xl p-1 border-gray-600 border-2 mt-5 w-[33%]" (click)="isInStorage=true">Details on current inventory</button>}
             </td>
-        <td rowspan="4" class="pbar">
-                <div class="bar">
-                    <div class="fuller p-3 bg-linear-to-b from-blue-600 to-blue-400 block align-bottom w-full"></div>
-                </div>
+            <td>
+                <table>
+                    <tr class="font-bold">
+                        <td>Ingredients under the order limit</td>
+                    </tr>
+                    @if (underLimit.length == 0) {<tr class="bg-linear-to-b from-orange-600 via-orange-500 to-orange-600 rounded-2xl block w-fit m-auto px-3 border border-white hover:cursor-pointer">
+                        <td>None of the items are close to running out</td>
+                    </tr>}
+                    @for (ing of underLimit; track $index) {
+                    <tr class="bg-linear-to-b from-orange-600 via-orange-500 to-orange-600 rounded-2xl block w-full m-auto border border-white hover:cursor-pointer">
+                        <td>{{ing.name}}</td>
+                        <td>{{ing.amount}} {{ing.unit}}</td>
+                    </tr>
+                    }
+                </table>
             </td>
-            <td rowspan="4" class="pbar">
-                <div class="bar">
-                    <div class="fuller p-3 bg-linear-to-b from-blue-600 to-blue-400 block align-bottom w-full"></div>
-                </div>
-            </td>
-            <td rowspan="4" class="pbar">
-                <div class="bar">
-                    <div class="fuller p-3 bg-linear-to-b from-blue-600 to-blue-400 block align-bottom w-full"></div>
-                </div>
-            </td>
-            <td rowspan="4" class="pbar">
-                <div class="bar">
-                    <div class="fuller p-3 bg-linear-to-b from-blue-600 to-blue-400 block align-bottom w-full">
-                </div>
-                </div>
-            </td>
-            <td rowspan="4" class="pbar">
-                <div class="bar">
-                    <div class="fuller p-3 bg-linear-to-b from-blue-600 to-blue-400 block align-bottom w-full"></div>
-                </div>
-            </td>
-            <td rowspan="4" class="pbar">
-                <div class="bar">
-                    <div class="fuller p-3 bg-linear-to-b from-blue-600 to-blue-400 block align-bottom w-full"></div>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td></td>
-        </tr>
-        <tr>
-            <td></td>
-        </tr>
-        <tr>
-            <td></td>
         </tr>
     </table>
-
-    <button class="bg-linear-to-r from-yellow-500 via-yellow-400 to-yellow-500 rounded-xl p-1 border-gray-600 border-2 mt-5" (click)="openStorage()">Details on current inventory</button>
-    @if (isOutOfIngredient){<span id="alert" class="text-white px-2 m-2 rounded-2xl size-1 bg-radial from-red-500 to-red-700 text-center">!</span>}
-    </span>
+</span>
 }@else {
-    <app-storage-component class="w-full" (back)="isInStorage = $event" (ranOut)="isOutOfIngredient=$event" [ingredients]="ingredients"></app-storage-component>
+<app-storage-component class="w-full" (back)="isInStorage = $event" (ranOut)="isOutOfIngredient=$event" [ingredients]="ingredients"></app-storage-component>
 }

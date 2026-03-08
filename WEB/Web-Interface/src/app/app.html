@@ -1,5 +1,15 @@
 @if (isLoggedIn) {
-    <app-menu-component class="h-[75%] block" (isLoggedIn)="isLoggedIn=$event"></app-menu-component>
+    <table class="w-full">
+        <tr>
+            <td class="w-[10%]"><app-sidebar-component (logOut)="isLoggedIn=$event" (navigated)="currentPage=$event"></app-sidebar-component></td>
+            @if (currentPage == "inventory") {
+                        <td class="w-[60%]"><app-inventory-component class="h-[75%] block"></app-inventory-component></td> 
+            }
+            @if (currentPage == "staff") {
+                <td><app-staff-component></app-staff-component></td>
+            }
+        </tr>
+    </table> 
 }
 @else {
     <app-login-component (loginAttempted)="loginAttempted()" class="bg-gray-100 rounded-lg block m-auto mt-[10%] size-[35%]"></app-login-component>

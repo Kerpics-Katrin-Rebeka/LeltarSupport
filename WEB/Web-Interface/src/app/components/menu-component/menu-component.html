@@ -36,8 +36,8 @@
 @else if (currentPage==="inventory") {
     <table class="m-auto h-[75%] w-[90%] ps-5 align-middle">
         <tr class="">
-            <td class="align-middle" style="width: 1%;height: 75%;"><app-sidebar-component (navigated)="navigateTo($event)" (backToMenu)="navigateTo($event)"></app-sidebar-component></td>
-            <td class="w-full align-middle ms-5"><app-inventory-component class="m-3 block" (outOfIngredient)="isOutOfIngredients=$event" [ingredients]="ingredients" [isOutOfIngredient]="isOutOfIngredients"></app-inventory-component></td>
+            <td class="align-middle" style="width: 1%;height: 75%;"><app-sidebar-component (navigated)="navigateTo($event)"></app-sidebar-component></td>
+            <td class="w-full align-middle ms-5"><app-inventory-component class="m-3 block" (outOfIngredient)="isOutOfIngredients=$event"></app-inventory-component></td>
         </tr>
     </table>
 
@@ -45,7 +45,7 @@
 @else if (currentPage==="staff") {
     <table class="block align-middle">
         <tr class="align-middle">
-            <td class="align-middle" style="width: 1%;"><app-sidebar-component (navigated)="navigateTo($event)" (backToMenu)="navigateTo($event)"></app-sidebar-component></td>
+            <td class="align-middle" style="width: 1%;"><app-sidebar-component (navigated)="navigateTo($event)"></app-sidebar-component></td>
             <td class="w-full align-middle ms-5"><app-staff-component class="m-3 block"></app-staff-component></td>
         </tr>
     </table>
@@ -53,7 +53,7 @@
 @else if (currentPage==="sales") {
     <table class="block align-middle">
         <tr class="align-middle">
-            <td class="align-middle" style="width: 1%;"><app-sidebar-component (navigated)="navigateTo($event)" (backToMenu)="navigateTo($event)"></app-sidebar-component></td>
+            <td class="align-middle" style="width: 1%;"><app-sidebar-component (navigated)="navigateTo($event)"></app-sidebar-component></td>
             <td class="w-full align-middle ms-5"><app-sales-component class="m-3 block"></app-sales-component></td>
         </tr>
     </table>

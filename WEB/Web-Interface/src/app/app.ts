@@ -2,16 +2,18 @@ import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { LoginComponent } from "./components/login-component/login-component";
 import { SidebarComponent } from "./components/sidebar-component/sidebar-component";
-import { MenuComponent } from "./components/menu-component/menu-component";
+import { InventoryComponent } from "./components/inventory-component/inventory-component";
+import { StaffComponent } from './components/staff-component/staff-component';
 
 @Component({
   selector: 'app-root',
-  imports: [LoginComponent, MenuComponent],
+  imports: [LoginComponent, InventoryComponent, SidebarComponent, StaffComponent],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
 export class App {
   protected readonly title = signal('Web-Interface');
+  currentPage="inventory";
 
   ngOnInit(){
     sessionStorage.setItem("loggedIn","false");
