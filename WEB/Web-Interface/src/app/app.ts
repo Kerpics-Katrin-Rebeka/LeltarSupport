@@ -24,6 +24,5 @@ export class App {
 
   loginAttempted(){
     this.isLoggedIn = sessionStorage.getItem("loggedIn")==="true";
-    console.log(sessionStorage.getItem("loggedIn"))
   }
 }
