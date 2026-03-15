@@ -3,7 +3,7 @@
     <table class="w-full">
         <tr>
             <td class="w-[50%]">
-                <div class="total mr-5 border-2 border-gray-400 w-[15%] h-auto ml-3 rounded-3xl text-white bg-linear-to-r from-blue-500 via-blue-700 to-blue-500 hover:cursor-pointer hover:scale-101">
+                <div (click)="openSalesLogs('yesterday')" class="total mr-5 border-2 border-gray-400 w-[15%] h-auto ml-3 rounded-3xl text-white bg-linear-to-r from-blue-500 via-blue-700 to-blue-500 hover:cursor-pointer hover:scale-101">
                     <h2>Details</h2>
                 </div>
             </td>
@@ -41,4 +41,4 @@
         </tr>
     </table>
 </div>
-<button class="bg-linear-90 from-blue-500 via-blue-600 to-blue-500 px-3 text-xl font-medium border-2 border-green-900 rounded-xl hover:cursor-pointer" (click)="openSalesLogs()">Check today's sales</button>
+<button class="bg-linear-90 from-blue-500 via-blue-600 to-blue-500 px-3 text-xl font-medium border-2 border-green-900 rounded-xl hover:cursor-pointer" (click)="openSalesLogs('today')">Check today's sales</button>

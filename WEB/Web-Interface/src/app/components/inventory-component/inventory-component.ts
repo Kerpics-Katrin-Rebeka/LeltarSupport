@@ -3,6 +3,7 @@ import { StorageComponent } from '../storage-component/storage-component';
 import IngredientModel from '../../Models/IngredientModel';
 import { SalesComponent } from "../sales-component/sales-component";
 import { SalesLogComponent } from "../sales-log-component/sales-log-component";
+import { DataService } from '../../Services/data-service';
 
 @Component({
   selector: 'app-inventory-component',
@@ -17,23 +18,18 @@ export class InventoryComponent {
   isInStorage:boolean=false;
   isViewingLog: boolean = sessionStorage.getItem("isViewingLog") == "true";
 
-  outOf:IngredientModel[]=[];
-  underLimit:IngredientModel[]=[];
-  ingredients:IngredientModel[] = [
-    {id:0,name:'CHEESE',unit:"slice(s)",maxAmount:100,amount:10},
-    {id:0,name:'CHEESE(grated)',unit:"g",maxAmount:1000,amount:900},
-    {id:0,name:'BUNS',unit:"piece(s)",maxAmount:105,amount:100},
-    {id:0,name:'PATTY(made)',unit:"piece(s)",maxAmount:100,amount:0},
-    {id:0,name:'SAUCE',unit:"ml",maxAmount:10000,amount:10000},
-  ];
+  outOf:IngredientModel[]= DataService.ingredients.filter(ing => ing.amount == 0);
+  underLimit:IngredientModel[]= DataService.ingredients.filter(ing => ing.amount <= (ing.maxAmount*0.1) && ing.amount != 0);
+  ingredients: IngredientModel[] = DataService.ingredients;
 
 
   ngOnInit(){
     sessionStorage.setItem("isViewingLog","false");
-    console.log(sessionStorage.getItem("isViewingLog"));
-    console.log(this.isViewingLog);
+    console.log(this.ingredients);
     this.fillTable();
-    this.checkForEmpty();
+    if (this.outOf.length != 0) {
+      this.isOutOfIngredient = true;
+    }
   }
 
   fillTable(){
@@ -48,29 +44,13 @@ export class InventoryComponent {
     return Math.round(Math.random()*100)
   }
 
-  checkForEmpty(){
-    this.ingredients.forEach(ing => {
-      if (ing.amount == 0) {
-        this.outOf.push(ing)
-        this.isOutOfIngredient = true;
-      }
-      else if (ing.amount<= (ing.maxAmount*0.1)) {
-        this.underLimit.push(ing)
-      }
-    });
-  }
-
   outOfLog(){
     sessionStorage.setItem("isViewingLog","false")
-    console.log(sessionStorage.getItem("isViewingLog"));
-    console.log(this.isViewingLog);
     this.isViewingLog=!this.isViewingLog;
   }
 
   openLog(isIt:boolean){
     sessionStorage.setItem("isViewingLog",`${isIt}`)
-    console.log(sessionStorage.getItem("isViewingLog"))
     this.isViewingLog = isIt;
-    console.log(this.isViewingLog)
   }
 }

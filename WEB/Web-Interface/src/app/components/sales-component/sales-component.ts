@@ -10,11 +10,11 @@ export class SalesComponent {
   @Output() openLog = new EventEmitter;
 
   ngOnInit(){
-    
   }
 
-  openSalesLogs(){
+  openSalesLogs(day:string){
     sessionStorage.setItem("isViewingLog","true")
+    sessionStorage.setItem("selectedDay",`${day}`)
     this.openLog.emit(true);
   }
 }

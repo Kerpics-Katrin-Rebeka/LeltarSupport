@@ -1,6 +1,7 @@
 <button (click)="goBack()">Back</button>
 @if (salesLog.length == 0) {
-    <h1 class="text-center m-auto text-xl font-bold">No sales so far today</h1>
+    @if (today == null) {<h1 class="text-center m-auto text-xl font-bold">No sales were made yesterday</h1>}
+    @else {<h1 class="text-center m-auto text-xl font-bold">No sales so far today</h1>}
 }@else {
     <table class="w-full">
         <tr>
