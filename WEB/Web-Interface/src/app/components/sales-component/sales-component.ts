@@ -7,9 +7,14 @@ import { Component, EventEmitter, Output } from '@angular/core';
   styleUrl: './sales-component.css',
 })
 export class SalesComponent {
-  @Output() backToMenu = new EventEmitter;
+  @Output() openLog = new EventEmitter;
 
-  goBack(){
-    this.backToMenu.emit("menu");
+  ngOnInit(){
+  }
+
+  openSalesLogs(day:string){
+    sessionStorage.setItem("isViewingLog","true")
+    sessionStorage.setItem("selectedDay",`${day}`)
+    this.openLog.emit(true);
   }
 }

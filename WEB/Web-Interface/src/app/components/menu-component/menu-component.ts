@@ -21,7 +21,7 @@ export class MenuComponent {
     sessionStorage.setItem("loggedIn","true")
 
     this.ingredients = [
-    {id:0,name:'CHEESE',unit:"slice",maxAmount:100,amount:110},
+    {id:0,name:'CHEESE',unit:"slice(s)",maxAmount:100,amount:10},
     {id:0,name:'CHEESE(grated)',unit:"g",maxAmount:1000,amount:900},
     {id:0,name:'BUNS',unit:"piece(s)",maxAmount:105,amount:100},
     {id:0,name:'PATTY(made)',unit:"piece(s)",maxAmount:100,amount:0},
@@ -41,13 +41,13 @@ export class MenuComponent {
     this.isLoggedIn.emit(false)
   }
 
-    checkForEmpty(){
+  checkForEmpty(){
     this.ingredients.forEach(ing => {
       if (ing.amount == 0) {
-        this.isOutOfIngredients = true
-        return;
+        this.isOutOfIngredients = true;
       }
     });
+    
     return;
   }
 }

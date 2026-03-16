@@ -1,8 +1,4 @@
 @import 'tailwindcss';
-td{
-    width: 30%;
-    height: width;
-}
 #spacer{
     width: 5%;
 }

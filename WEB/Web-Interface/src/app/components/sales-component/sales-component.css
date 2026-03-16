@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+.total{
+    text-align: center;
+    line-height: 250%;
+}
+h1{
+    margin: auto;
+}
