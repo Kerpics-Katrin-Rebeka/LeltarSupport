@@ -5,60 +5,109 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product;
-use App\Models\Ingredient;
 
 class ProductController extends Controller
 {
     public function index()
     {
-        return Product::with('ingredients')->get();
+        $products = Product::with('ingredients')->get();
+
+        return response()->json([
+            'success' => true,
+            'data' => $products
+        ]);
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'name'=>'required|string',
-            'price'=>'required|numeric',
-            'active'=>'boolean',
-            'ingredients'=>'array'
+            'name' => 'required|string|unique:products,name',
+            'price' => 'required|numeric|min:0',
+            'active' => 'boolean',
+            'ingredients' => 'required|array|min:1',
+            'ingredients.*.id' => 'required|exists:ingredients,id',
+            'ingredients.*.quantity' => 'required|numeric|min:0.001'
         ]);
 
-        $product = Product::create($request->only('name','price','active'));
+        $product = Product::create([
+            'name' => $request->name,
+            'price' => $request->price,
+            'active' => $request->active ?? true
+        ]);
 
-        if($request->has('ingredients')){
-            foreach($request->ingredients as $ing){
-                $product->ingredients()->attach($ing['id'], ['quantity'=>$ing['quantity']]);
-            }
+        foreach ($request->ingredients as $ingredient) {
+            $product->ingredients()->attach($ingredient['id'], [
+                'quantity' => $ingredient['quantity']
+            ]);
         }
 
-        return response()->json($product->load('ingredients'),201);
+        return response()->json([
+            'success' => true,
+            'message' => 'Product created',
+            'data' => $product->load('ingredients')
+        ], 201);
     }
+
 
     public function show($id)
     {
-        return Product::with('ingredients')->findOrFail($id);
+        $product = Product::with('ingredients')->findOrFail($id);
+
+        return response()->json([
+            'success' => true,
+            'data' => $product
+        ]);
     }
 
     public function update(Request $request, $id)
     {
         $product = Product::findOrFail($id);
-        $product->update($request->only('name','price','active'));
 
-        if($request->has('ingredients')){
-            $product->ingredients()->sync([]);
-            foreach($request->ingredients as $ing){
-                $product->ingredients()->attach($ing['id'], ['quantity'=>$ing['quantity']]);
+        $request->validate([
+            'name' => 'required|string|unique:products,name,' . $id,
+            'price' => 'required|numeric|min:0',
+            'active' => 'boolean',
+            'ingredients' => 'array',
+            'ingredients.*.id' => 'exists:ingredients,id',
+            'ingredients.*.quantity' => 'numeric|min:0.001'
+        ]);
+
+        $product->update([
+            'name' => $request->name,
+            'price' => $request->price,
+            'active' => $request->active ?? $product->active
+        ]);
+
+        if ($request->has('ingredients')) {
+            $syncData = [];
+
+            foreach ($request->ingredients as $ingredient) {
+                $syncData[$ingredient['id']] = [
+                    'quantity' => $ingredient['quantity']
+                ];
             }
+
+            $product->ingredients()->sync($syncData);
         }
 
-        return response()->json($product->load('ingredients'));
+        return response()->json([
+            'success' => true,
+            'message' => 'Product updated',
+            'data' => $product->load('ingredients')
+        ]);
     }
 
     public function destroy($id)
     {
         $product = Product::findOrFail($id);
+
         $product->ingredients()->detach();
+
         $product->delete();
-        return response()->json(['message'=>'Deleted']);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Product deleted'
+        ]);
     }
 }
