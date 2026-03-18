@@ -1,12 +1,15 @@
 ﻿CREATE DATABASE inventory;
 USE inventory;
 
+CREATE USER 'vizsgaremek_user'@'localhost' IDENTIFIED BY 'vizsgaremek';
+
+GRANT ALL PRIVILEGES ON inventory.* TO 'vizsgaremek_user'@'localhost';
+FLUSH PRIVILEGES;
 
 CREATE TABLE roles (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(50) NOT NULL UNIQUE
 );
-
 
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -85,7 +88,6 @@ CREATE TABLE order_items (
     FOREIGN KEY (order_id) REFERENCES orders(id),
     FOREIGN KEY (product_id) REFERENCES products(id)
 );
-
 
 CREATE TABLE suppliers (
     id INT AUTO_INCREMENT PRIMARY KEY,
