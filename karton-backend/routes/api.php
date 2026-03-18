@@ -12,6 +12,10 @@ use App\Http\Controllers\Api\SupplierController;
 use App\Http\Controllers\Api\PurchaseOrderController;
 use App\Http\Controllers\Api\AnalyticsController;
 
+Route::options('{any}', function () {
+    return response('', 204);
+})->where('any', '.*');
+
 Route::prefix('auth')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
 });
