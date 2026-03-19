@@ -101,7 +101,7 @@
                         <tr class="font-bold">
                             <td>Ingredients under the order limit</td>
                         </tr>
-                        @if (underLimit.length == 0) {<tr class="bg-linear-to-b from-orange-600 via-orange-500 to-orange-600 rounded-2xl block w-fit m-auto px-3 border border-white hover:cursor-pointer">
+                        @if (underLimit.length == 0 || underLimit == undefined) {<tr class="bg-linear-to-b from-orange-600 via-orange-500 to-orange-600 rounded-2xl block w-fit m-auto px-3 border border-white hover:cursor-pointer">
                             <td>None of the items are close to running out</td>
                         </tr>}
                         @for (ing of underLimit; track $index) {

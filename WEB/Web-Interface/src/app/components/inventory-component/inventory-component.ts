@@ -4,6 +4,7 @@ import IngredientModel from '../../Models/IngredientModel';
 import { SalesComponent } from "../sales-component/sales-component";
 import { SalesLogComponent } from "../sales-log-component/sales-log-component";
 import { DataService } from '../../Services/data-service';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-inventory-component',
@@ -17,20 +18,29 @@ export class InventoryComponent {
   goal:number=100;
   isInStorage:boolean=false;
   isViewingLog: boolean = sessionStorage.getItem("isViewingLog") == "true";
+  outOf:any = [];
+  underLimit:any = [];
+  ingredients:any = [];
 
-  outOf:IngredientModel[]= DataService.ingredients.filter(ing => ing.amount == 0);
-  underLimit:IngredientModel[]= DataService.ingredients.filter(ing => ing.amount <= (ing.maxAmount*0.1) && ing.amount != 0);
-  ingredients: IngredientModel[] = DataService.ingredients;
-
+  constructor(private dataService:DataService){}
 
   ngOnInit(){
+    this.outOf= this.dataService.getIngredients;
+    this.underLimit= DataService.ingredients.filter(ing => ing.amount <= (ing.maxAmount*0.1) && ing.amount != 0);
+    this.ingredients = DataService.ingredients;
+
     sessionStorage.setItem("isViewingLog","false");
-    console.log(this.ingredients);
     this.fillTable();
     if (this.outOf.length != 0) {
       this.isOutOfIngredient = true;
     }
+
+    console.log(this.outOf);
+    console.log(this.underLimit);
+    console.log(this.ingredients);
   }
+
+
 
   fillTable(){
     const fullers = document.getElementsByClassName("fuller");
