@@ -25,9 +25,11 @@ export class InventoryComponent {
   constructor(private dataService:DataService){}
 
   ngOnInit(){
-    this.outOf= this.dataService.getIngredients;
-    this.underLimit= DataService.ingredients.filter(ing => ing.amount <= (ing.maxAmount*0.1) && ing.amount != 0);
-    this.ingredients = DataService.ingredients;
+    this.dataService.getIngredients().subscribe(ingredients => {
+      this.ingredients = ingredients;
+      this.outOf= this.ingredients.filter((ing: IngredientModel) => ing.amount == 0);
+      this.underLimit= this.ingredients.filter((ing: IngredientModel) => ing.amount < ing.maxAmount*0.1 && ing.amount > 0);
+    });
 
     sessionStorage.setItem("isViewingLog","false");
     this.fillTable();

@@ -11,7 +11,8 @@ export class DataService {
 
   getIngredients(){
     var data = this.http.get<IngredientModel[]>("http://127.0.0.1:8000/api/ingredients");
-    data.subscribe(ings=>DataService.ingredients=ings);
     return data;
   }
+
+  
 }
