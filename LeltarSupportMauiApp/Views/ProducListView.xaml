@@ -5,8 +5,8 @@
              xmlns:models="clr-namespace:LeltarSupportMauiApp.Models"
              x:DataType="viewmodels:ProductListViewModel"
              x:Class="LeltarSupportMauiApp.Views.ProductListView"
-             Title="Products"
-             >
+             x:Name="page"
+             Title="Products">
     <Grid>
         <CollectionView ItemsSource="{Binding ProductList}"
                         SelectionMode="Single"
@@ -28,7 +28,7 @@
                                TextColor="Gray"/>
                         <Button Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
                                 Text="Add ingredients"
-                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ProductListViewModel}}, Path=ProductDetailsCommand}"
+                                Command="{Binding BindingContext.ProductDetailsCommand, Source={x:Reference page}}"
                                 CommandParameter="{Binding .}"
                                 HorizontalOptions="End"/>
                     </Grid>

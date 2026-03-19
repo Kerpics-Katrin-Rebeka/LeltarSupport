@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace LeltarSupportMauiApp.ViewModels
@@ -15,79 +14,98 @@ namespace LeltarSupportMauiApp.ViewModels
     {
         [ObservableProperty]
         private ObservableCollection<IngredientModel> ingredients = new ObservableCollection<IngredientModel>();
+
         [ObservableProperty]
         private ObservableCollection<ProductIngredientsModel> productIngredients = new ObservableCollection<ProductIngredientsModel>();
+
         [ObservableProperty]
         private ProductsModel selectedProduct;
+
         [ObservableProperty]
         private IngredientModel selectedIngredient;
 
         public ProductDetailsViewModel()
         {
-            getIngredients();
+            _ = LoadIngredientsAsync();
         }
 
         public void ApplyQueryAttributes(IDictionary<string, object> query)
         {
-            if (query != null && query.ContainsKey("products") && query["products"] is ProductsModel prod)
+            if (query != null && query.ContainsKey("product") && query["product"] is ProductsModel prod)
             {
                 SelectedProduct = prod;
+                _ = LoadProductDetailsAsync(prod.Id);
             }
         }
+
         partial void OnSelectedProductChanged(ProductsModel value)
         {
             if (value != null)
             {
-                getIngredientsByProductId(value.Id);
+                _ = LoadProductDetailsAsync(value.Id);
             }
         }
 
-        public async void getIngredients()
+        private async Task LoadIngredientsAsync()
         {
-            Ingredients.Clear();
-            IEnumerable<IngredientModel> list = await DataService.SelectAsync<IngredientModel>("/ingredients");
-            var reversedList = list.Reverse();
-            foreach (var item in reversedList)
+            try
             {
-                Ingredients.Add(item);
+                Ingredients.Clear();
+                var list = await DataService.SelectAsync<IngredientModel>("api/ingredients").ConfigureAwait(false);
+                var reversed = list?.Reverse() ?? Enumerable.Empty<IngredientModel>();
+                foreach (var item in reversed)
+                    Ingredients.Add(item);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"LoadIngredientsAsync error: {ex.Message}");
             }
         }
 
-        public async void getIngredientsByProductId(int id)
+        private async Task LoadProductDetailsAsync(int id)
         {
-            ProductIngredients.Clear();
-            IEnumerable<ProductIngredientsModel> list = await DataService.SelectAsync<ProductIngredientsModel>("/product_ingredients");
-            var reversedList = list.Reverse();
-            foreach (var item in reversedList)
+            try
             {
-                if (item.ProductId == id)
-                {
-                    ProductIngredients.Add(item);
-                }
+                ProductIngredients.Clear();
+
+                var product = await DataService.SelectSingleAsync<ProductsModel>($"api/products/{id}").ConfigureAwait(false);
+                if (product == null)
+                    return;
+
+                var allLinks = await DataService.SelectAsync<ProductIngredientsModel>("api/product_ingredients").ConfigureAwait(false);
+                foreach (var link in allLinks.Where(x => x.ProductId == id))
+                    ProductIngredients.Add(link);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"LoadProductDetailsAsync error: {ex.Message}");
             }
         }
 
         [RelayCommand]
         private async Task AddIngredientAsync()
         {
-            if (SelectedProduct == null)
-                return;
-
-            var ingredient = SelectedIngredient;
-            if (ingredient == null)
+            if (SelectedProduct == null || SelectedIngredient == null)
                 return;
 
             var newLink = new ProductIngredientsModel
             {
                 ProductId = SelectedProduct.Id,
-                IngredientId = ingredient.Id,
-                Quantity = 1 
+                IngredientId = SelectedIngredient.Id,
+                Quantity = 1
             };
 
             try
             {
-                await DataService.SelectAsync<ProductIngredientsModel>("/product_ingredients");
-                getIngredientsByProductId(SelectedProduct.Id);
+                var created = await DataService.PostAsync<ProductIngredientsModel, ProductIngredientsModel>("api/product_ingredients", newLink).ConfigureAwait(false);
+                if (created != null)
+                {
+                    ProductIngredients.Add(created);
+                }
+                else
+                {
+                    await LoadProductDetailsAsync(SelectedProduct.Id).ConfigureAwait(false);
+                }
             }
             catch (Exception ex)
             {

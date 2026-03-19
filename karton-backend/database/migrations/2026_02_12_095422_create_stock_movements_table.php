@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('stock_movements', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('ingredient_id')->constrained('ingredients');
+            $table->decimal('change_amount', 10, 4);
+            $table->string('reason')->nullable();
             $table->timestamps();
         });
     }

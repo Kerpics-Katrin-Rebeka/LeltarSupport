@@ -1,17 +1,17 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using LeltarSupportMauiApp.Services;
 using LeltarSupportMauiApp.Models;
+using LeltarSupportMauiApp.Services;
+using Microsoft.Maui.Controls;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace LeltarSupportMauiApp.ViewModels
 {
-    public partial class ProductListViewModel: ObservableObject
+    public partial class ProductListViewModel : ObservableObject
     {
         [ObservableProperty]
         private ObservableCollection<ProductsModel> productList = new ObservableCollection<ProductsModel>();
@@ -19,29 +19,40 @@ namespace LeltarSupportMauiApp.ViewModels
         [ObservableProperty]
         private ProductsModel selectedProduct;
 
+        public ProductListViewModel()
+        {
+            _ = LoadProductsAsync();
+        }
+
+        [RelayCommand]
+        private async Task LoadProductsAsync()
+        {
+            try
+            {
+                ProductList.Clear();
+                var list = await DataService.SelectAsync<ProductsModel>("api/products").ConfigureAwait(false);
+                var reversed = list?.Reverse() ?? Enumerable.Empty<ProductsModel>();
+                foreach (var item in reversed)
+                    ProductList.Add(item);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"LoadProductsAsync error: {ex.Message}");
+            }
+        }
+
         [RelayCommand]
         private async Task ProductDetails()
         {
-            var navigationParameters = new Dictionary<string, object>() {
-                { "products", SelectedProduct  }
-            };
-            await Shell.Current.GoToAsync("details", navigationParameters);
-        }
+            if (SelectedProduct == null)
+                return;
 
-        public ProductListViewModel()
-        {
-            getProducts();
-        }
-
-        public async void getProducts()
-        {
-            ProductList.Clear();
-            IEnumerable<ProductsModel> list = await DataService.SelectAsync<ProductsModel>("/products");
-            var reversedList = list.Reverse();
-            foreach (var item in reversedList)
+            var navigationParameters = new Dictionary<string, object>()
             {
-                ProductList.Add(item);
-            }
+                { "product", SelectedProduct }
+            };
+
+            await Shell.Current.GoToAsync("details", navigationParameters).ConfigureAwait(false);
         }
     }
 }

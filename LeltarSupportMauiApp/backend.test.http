@@ -1,0 +1,74 @@
+@token = 1|qt9wgn1QPaNYj1Wy1goGZ8W73uuK5b7uEQ0fJMWh512e6654
+
+### Login
+POST http://127.0.0.1:8000/api/login
+Accept: application/json
+Content-Type: application/json
+
+{
+    "email": "admin@example.com",
+    "password": "password"
+}
+
+###
+
+### Logout
+POST http://127.0.0.1:8000/api/logout
+Accept: application/json
+Authorization: Bearer {{token}}
+
+###
+
+### Get Products
+GET http://127.0.0.1:8000/api/products
+Accept: application/json
+Authorization: Bearer {{token}}
+
+###
+
+### Get Ingredients
+GET http://127.0.0.1:8000/api/ingredients
+Accept: application/json
+Authorization: Bearer {{token}}
+
+###
+
+### Get Inventory
+GET http://127.0.0.1:8000/api/inventory
+Accept: application/json
+Authorization: Bearer {{token}}
+
+###
+
+### Get Orders
+GET http://127.0.0.1:8000/api/orders
+Accept: application/json
+Authorization: Bearer {{token}}
+
+###
+
+### Get Suppliers
+GET http://127.0.0.1:8000/api/suppliers
+Accept: application/json
+Authorization: Bearer {{token}}
+
+###
+
+### Get Purchase Orders
+GET http://127.0.0.1:8000/api/purchase-orders
+Accept: application/json
+Authorization: Bearer {{token}}
+
+###
+
+### Stock Summary (Analytics)
+GET http://127.0.0.1:8000/api/analytics/stock
+Accept: application/json
+Authorization: Bearer {{token}}
+
+###
+
+### Reorder Suggestions (Analytics)
+GET http://127.0.0.1:8000/api/analytics/reorder
+Accept: application/json
+Authorization: Bearer {{token}}

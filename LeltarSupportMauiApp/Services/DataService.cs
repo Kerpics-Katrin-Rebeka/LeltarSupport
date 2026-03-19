@@ -1,47 +1,38 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 
 namespace LeltarSupportMauiApp.Services
 {
     internal static class DataService
     {
-        private static readonly HttpClient _client = new HttpClient { BaseAddress = new Uri("http://localhost:3000") };
+        private static readonly ApiClient _client = new ApiClient();
 
-        public static async Task<IEnumerable<T>> SelectAsync<T>(string route)
+        public static void SetBaseAddress(string baseAddress) => _client.SetBaseAddress(baseAddress);
+
+        public static void SetBearerToken(string token) => _client.SetBearerToken(token);
+
+        public static void ClearAuthorization() => _client.ClearAuthorization();
+
+        public static Task<T?> SelectSingleAsync<T>(string route)
+            => _client.GetAsync<T>(Normalize(route));
+
+        public static Task<IEnumerable<T>> SelectAsync<T>(string route)
+            => _client.GetListAsync<T>(Normalize(route));
+
+        public static Task<TResponse?> PostAsync<TRequest, TResponse>(string route, TRequest item)
+            => _client.PostAsync<TRequest, TResponse>(Normalize(route), item);
+
+        public static Task<TResponse?> PutAsync<TRequest, TResponse>(string route, TRequest item)
+            => _client.PutAsync<TRequest, TResponse>(Normalize(route), item);
+
+        public static Task DeleteAsync(string route)
+            => _client.DeleteAsync(Normalize(route));
+
+        private static string Normalize(string route)
         {
-            var result = await _client.GetStringAsync(route).ConfigureAwait(false);
-            return JsonConvert.DeserializeObject<List<T>>(result);
-        }
-
-        public static async Task<T?> PostAsync<T>(string route, T item)
-        {
-            var json = JsonConvert.SerializeObject(item);
-            using var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var resp = await _client.PostAsync(route, content).ConfigureAwait(false);
-            resp.EnsureSuccessStatusCode();
-            var respJson = await resp.Content.ReadAsStringAsync().ConfigureAwait(false);
-
-            if (string.IsNullOrWhiteSpace(respJson))
-                return default;
-
-            return JsonConvert.DeserializeObject<T>(respJson);
-        }
-
-        public static async Task<IEnumerable<object>> SelectByRouteAsync(string route, Dictionary<string, Type> map)
-        {
-            var result = await _client.GetStringAsync(route).ConfigureAwait(false);
-            if (!map.TryGetValue(route, out var targetType))
-                throw new InvalidOperationException($"No mapping found for route '{route}'.");
-
-            var listType = typeof(List<>).MakeGenericType(targetType);
-            var deserialized = JsonConvert.DeserializeObject(result, listType) as IEnumerable;
-            return deserialized?.Cast<object>() ?? Enumerable.Empty<object>();
+            if (string.IsNullOrWhiteSpace(route)) return string.Empty;
+            return route.TrimStart('/');
         }
     }
 }

@@ -32,7 +32,6 @@
         <!-- Actions -->
         <Grid Grid.Row="2" ColumnDefinitions="*,Auto" Padding="4">
             <Button Text="Add selected ingredient to product"
-                    IsEnabled="{Binding SelectedIngredient, Converter={StaticResource NullToBooleanConverter}}"
                     Command="{Binding AddIngredientCommand}" />
         </Grid>
     </Grid>
