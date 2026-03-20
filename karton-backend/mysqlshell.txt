@@ -1,0 +1,23 @@
+https://blogs.oracle.com/mysql/a-quick-guide-to-mysql-heatwave-olap-with-mysql-shell-for-vs-code
+
+Connecting to a MySQL HeatWave instance on OCI
+Before we can get started, we have to setup a DB Connection to the MySQL HeatWave instance on the Oracle Cloud Infrastructure (OCI).
+
+This only needs to be done once since MySQL Shell for VS Code will store all registered DB Connections. To create a DB Connection, follow the instructions below or watch the screen recording following it.
+
+Let’s start by logging into OCI and generating a new API key. This key will be used by MySQL Shell for VS Code to access the resources on OCI.
+
+Click the user icon, top right and select User Settings.
+Click API Keys on the bottom left and click Add API Key.
+Click Download Private Key and store the API Key in a .oci folder inside your user’s home directory. Then click Add.
+Copy the configuration file text and switch to VS Code.
+In VS Code, select the MySQL Shell for VS Code extension and click on the configuration icon right to the ORACLE CLOUD INFRASTRUCTURE view.
+Paste the configuration file text into the config file that has opened. Rename the top section from DEFAULT to the name of the tenancy.
+Type the path to the stored Private Key file as indicated in the text. Close the file and reload the ORACLE CLOUD INFRASTRUCTURE view.
+Now MySQL Shell for VS Code is configured and you can browse the resources of your OCI tenancy. Next we are going to create the DB Connection inside MySQL Shell for VS Code.
+
+Browse to the MySQL HeatWave instance and click the right mouse button.
+Select Create Connection with Bastion Service, the DB Connection dialog will show. It might ask whether to create a new Bastion, if so, confirm.
+Enter the MySQL user name and click Store Password to enter the MySQL password.
+Click OK to create the connection.
+Now you can connect by clicking the DB Connection tile or by pressing the > button next to the name of the DB Connection in the DATABASE CONNECTIONS view.
