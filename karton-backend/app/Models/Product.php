@@ -17,8 +17,12 @@ class Product extends Model
 
     public function ingredients()
     {
-        return $this->belongsToMany(Ingredient::class)
-                    ->withPivot('quantity');
+        return $this->belongsToMany(
+                Ingredient::class,
+                'product_ingredient',
+                'product_id',         
+                'ingredient_id'       
+            )->withPivot('quantity');
     }
 
     public function orderItems()
