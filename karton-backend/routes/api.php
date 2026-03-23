@@ -30,7 +30,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // Products
     Route::apiResource('products', ProductController::class);
 
-    // ngredients
+    // Ingredients
     Route::apiResource('ingredients', IngredientController::class);
 
     // Inventory
