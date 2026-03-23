@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('inventory', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('ingredient_id')->constrained()->cascadeOnDelete();
+            $table->decimal('quantity', 10, 3)->default(0);
+            $table->decimal('minimum_level', 10, 3)->default(0);
             $table->timestamps();
         });
     }
