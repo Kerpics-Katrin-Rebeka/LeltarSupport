@@ -1,15 +1,15 @@
-<table>
+<table class="w-full max-w-xs border-separate border-spacing-y-2">
     <tr>
         <td>
-            <button class="hover:cursor-pointer bg-amber-500" (click)="logout()">Log out</button>
+            <button class="w-auto rounded-md px-4 py-2 text-left font-medium shadow-sm transition hover:cursor-pointer hover:shadow bg-amber-500" (click)="logout()">Log out</button>
         </td>
     </tr>
     <tr class="h-1"></tr>
-    <tr class="text-center border-white">            
+    <tr class="text-center border-white">
         <td>
-            <div class="w-50 bg-blue-500 hover:cursor-pointer" (click)="navigateTo('inventory')">
-                <p (click)="navigateTo('inventory')">Inventory and sales</p>
-                <img/>
+            <div class="w-full rounded-md px-4 py-3 text-left shadow-sm transition hover:cursor-pointer hover:shadow bg-blue-500" (click)="navigateTo('inventory')">
+                <p class="font-medium leading-tight" (click)="navigateTo('inventory')">Inventory and sales</p>
+                <img />
             </div>
         </td>
     </tr>
@@ -17,9 +17,9 @@
     <tr class="h-1"></tr>
     <tr class="text-center">
         <td>
-            <div class="w-50 bg-blue-500 hover:cursor-pointer" (click)="navigateTo('staff')">
-                <p (click)="navigateTo('staff')">Staff</p>
-                <img/>
+            <div class="w-full rounded-md px-4 py-3 text-left shadow-sm transition hover:cursor-pointer hover:shadow bg-blue-500" (click)="navigateTo('staff')">
+                <p class="font-medium leading-tight" (click)="navigateTo('staff')">Staff</p>
+                <img />
             </div>
         </td>
     </tr>
