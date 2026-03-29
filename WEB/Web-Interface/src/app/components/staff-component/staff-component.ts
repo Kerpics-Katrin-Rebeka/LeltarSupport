@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
+import UserModel from '../../Models/UserModel';
 
 @Component({
   selector: 'app-staff-component',
@@ -7,9 +8,5 @@ import { Component, EventEmitter, Output } from '@angular/core';
   styleUrl: './staff-component.css',
 })
 export class StaffComponent {
-  @Output() backToMenu = new EventEmitter;
-
-  goBack(){
-    this.backToMenu.emit("menu");
-  }
+  employees: UserModel[] = [];
 }
