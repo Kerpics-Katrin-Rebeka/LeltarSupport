@@ -12,8 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('inventory', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->unsignedBigInteger('ingredient_id')->primary();
+            $table->decimal('quantity', 10, 2);
+            $table->decimal('minimum_level', 10, 2)->default(0);
+            $table->foreign('ingredient_id')->references('id')->on('ingredients');
         });
     }
 

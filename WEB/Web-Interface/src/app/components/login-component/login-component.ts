@@ -1,7 +1,9 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import UserModel, { response } from '../../Models/UserModel';
 import { DataService } from '../../Services/data-service';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { PopUpComponent } from '../pop-up-component/pop-up-component';
 
 @Component({
   selector: 'app-login-component',
@@ -11,29 +13,34 @@ import { DataService } from '../../Services/data-service';
 })
 export class LoginComponent {
   @Output() loginAttempted = new EventEmitter;
-  logger:response | undefined;
+  private logger:response|undefined;
   users:UserModel[]=[];
   pwd:string = '';
   email:string = '';
 
-  constructor(private dataService: DataService){};
+  constructor(private dataService: DataService, @Inject(MatDialog) private dialog:MatDialog){};
 
-  loginAttempt(role:string){
-        console.log(this.email, this.pwd);
-    this.dataService.Login(this.email, this.pwd).subscribe(resp=>{
-      this.logger = resp;
-    });
-    if (this.logger != undefined) {
+  loginAttempt(){
+    this.dataService.Login(this.email, this.pwd).subscribe({
+      next: (resp) =>{
+        console.log(resp, resp.token);
+        this.logger = resp;
+        if (this.logger != undefined) {
           sessionStorage.setItem("loggedIn","true");
-          sessionStorage.setItem("userRole", this.logger.user.role);
           sessionStorage.setItem("token", this.logger.token);
-          console.log(this.logger);
           this.loginAttempted.emit()
-    }
-    else{
-      alert(`No user of ${role} role found with these credentials!`);
-      this.pwd = '';
-      this.email = '';
-    }
+        }    
+      },
+      error:(err)=>{
+        this.dialog.open(PopUpComponent, {
+          width: '250px',
+          height: '150px',
+          data: {message: "Incorrect credentials!"}
+        });
+        this.pwd = '';
+        this.email = '';
+      }
+    });
+    console.log(this.logger);
   }
 }

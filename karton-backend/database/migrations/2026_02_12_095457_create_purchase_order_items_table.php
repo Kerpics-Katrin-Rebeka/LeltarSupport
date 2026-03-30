@@ -13,7 +13,11 @@ return new class extends Migration
     {
         Schema::create('purchase_order_items', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->unsignedBigInteger('purchase_order_id');
+            $table->unsignedBigInteger('ingredient_id');
+            $table->decimal('quantity', 10, 2)->nullable();
+            $table->foreign('purchase_order_id')->references('id')->on('purchase_orders');
+            $table->foreign('ingredient_id')->references('id')->on('ingredients');
         });
     }
 

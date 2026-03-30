@@ -3,5 +3,6 @@ export default interface IngredientModel{
     name:string,
     amount:number,
     maxAmount:number,
+    minAmount:number,
     unit:string
 }

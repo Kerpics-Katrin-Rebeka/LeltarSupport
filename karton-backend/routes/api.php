@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\InventoryController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\AnalyticsController;
 use App\Http\Controllers\Api\PurchaseOrderController;
+use App\Http\Controllers\Api\StaffController;
 use App\Http\Controllers\Api\SupplierController;
 
 Route::post('/login', [AuthController::class, 'login']);
@@ -21,6 +22,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::apiResource('products', ProductController::class);
 
+    Route::apiResource('users', StaffController::class);
 
     Route::apiResource('ingredients', IngredientController::class);
 

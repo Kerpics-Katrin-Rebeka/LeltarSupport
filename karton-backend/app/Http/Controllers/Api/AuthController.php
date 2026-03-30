@@ -23,8 +23,9 @@ class AuthController extends Controller
         if(!$user || !Hash::check($request->password, $user->password_hash)){
             return response()->json(['message'=>$toreturn, 'user'=> $returnUser], 401);
         }
-
-        $token = $user->createToken('api-token')->plainTextToken;
+        else{
+            $token = $user->createToken('api-token')->plainTextToken;
+        }
 
         return response()->json([
             'user'=>$user,

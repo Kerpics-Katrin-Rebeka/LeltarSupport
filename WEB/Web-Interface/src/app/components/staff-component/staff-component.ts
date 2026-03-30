@@ -14,7 +14,10 @@ export class StaffComponent {
 
   ngOnInit(){
     this.staffService.getEmployees().subscribe(employees => {
+      console.log(employees);
       this.employees = employees;
     })
+    console.log(this.employees);
+    
   }
 }

@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import IngredientModel from '../../Models/IngredientModel';
+import { DataService } from '../../Services/data-service';
 
 @Component({
   selector: 'app-storage-component',
@@ -10,11 +11,14 @@ import IngredientModel from '../../Models/IngredientModel';
 export class StorageComponent {
   @Output() back = new EventEmitter;
   @Output() ranOut = new EventEmitter;
-  @Input() ingredients:IngredientModel[] = [];
+  @Input() ingredients:any = [];
   backBtn:string = "<-";
 
-  ngOnInit(){
+  constructor(private dataService:DataService){}
 
+  ngOnInit(){
+    this.dataService.getIngredients().subscribe(data=>{this.ingredients = data;console.log(data);
+    });
   }
 
   differential(current:number, max:number){

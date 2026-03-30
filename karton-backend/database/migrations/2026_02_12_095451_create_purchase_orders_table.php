@@ -13,7 +13,10 @@ return new class extends Migration
     {
         Schema::create('purchase_orders', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->unsignedBigInteger('supplier_id');
+            $table->enum('status', ['recommended', 'ordered', 'received']);
+            $table->timestamp('created_at')->useCurrent();
+            $table->foreign('supplier_id')->references('id')->on('suppliers');
         });
     }
 
