@@ -19,7 +19,7 @@ namespace LeltarSupportMauiApp.ViewModels
         private ObservableCollection<ProductIngredientsModel> productIngredients = new ObservableCollection<ProductIngredientsModel>();
 
         [ObservableProperty]
-        private ProductsModel selectedProduct;
+        private Product selectedProduct;
 
         [ObservableProperty]
         private IngredientModel selectedIngredient;
@@ -31,14 +31,14 @@ namespace LeltarSupportMauiApp.ViewModels
 
         public void ApplyQueryAttributes(IDictionary<string, object> query)
         {
-            if (query != null && query.ContainsKey("product") && query["product"] is ProductsModel prod)
+            if (query != null && query.ContainsKey("product") && query["product"] is Product prod)
             {
                 SelectedProduct = prod;
                 _ = LoadProductDetailsAsync(prod.Id);
             }
         }
 
-        partial void OnSelectedProductChanged(ProductsModel value)
+        partial void OnSelectedProductChanged(Product value)
         {
             if (value != null)
             {
@@ -68,7 +68,7 @@ namespace LeltarSupportMauiApp.ViewModels
             {
                 ProductIngredients.Clear();
 
-                var product = await DataService.SelectSingleAsync<ProductsModel>($"api/products/{id}").ConfigureAwait(false);
+                var product = await DataService.SelectSingleAsync<Product>($"api/products/{id}").ConfigureAwait(false);
                 if (product == null)
                     return;
 

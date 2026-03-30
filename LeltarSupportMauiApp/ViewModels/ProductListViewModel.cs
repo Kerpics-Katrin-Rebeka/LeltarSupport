@@ -13,11 +13,12 @@ namespace LeltarSupportMauiApp.ViewModels
 {
     public partial class ProductListViewModel : ObservableObject
     {
+        private readonly ProductsService _productservice = new();
         [ObservableProperty]
-        private ObservableCollection<ProductsModel> productList = new ObservableCollection<ProductsModel>();
+        private ObservableCollection<Product> productList = new ObservableCollection<Product>();
 
         [ObservableProperty]
-        private ProductsModel selectedProduct;
+        private Product selectedProduct;
 
         public ProductListViewModel()
         {
@@ -30,10 +31,11 @@ namespace LeltarSupportMauiApp.ViewModels
             try
             {
                 ProductList.Clear();
-                var list = await DataService.SelectAsync<ProductsModel>("api/products").ConfigureAwait(false);
-                var reversed = list?.Reverse() ?? Enumerable.Empty<ProductsModel>();
-                foreach (var item in reversed)
+                var list = await _productservice.GetProductsAsync().ConfigureAwait(false);
+                foreach (Product item in list)
+                {
                     ProductList.Add(item);
+                }
             }
             catch (Exception ex)
             {

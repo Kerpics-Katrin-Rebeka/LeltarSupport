@@ -59,10 +59,10 @@ if not errorlevel 1 (
     )
 )
 
-echo Running database migrations...
-php artisan migrate --force
+echo Running database migrations and seeders...
+php artisan migrate --seed --force
 if errorlevel 1 (
-    echo Database migration failed. Aborting startup.
+    echo Database migration/seeding failed. Aborting startup.
     pause
     exit /b 1
 )

@@ -12,7 +12,7 @@
                         SelectionMode="Single"
                         SelectedItem="{Binding SelectedProduct}">
             <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="models:ProductsModel">
+                <DataTemplate x:DataType="models:Product">
                     <Grid Padding="10" ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto">
                         <Label Grid.Row="0" Grid.Column="0" 
                                Text="{Binding Name}" 
@@ -27,8 +27,8 @@
                                FontSize="14" 
                                TextColor="Gray"/>
                         <Button Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
-                                Text="Add ingredients"
-                                Command="{Binding BindingContext.ProductDetailsCommand, Source={x:Reference page}}"
+                                Text="Add to cart"
+                                Command="{Binding BindingContext.AddToCartCommand, Source={x:Reference page}}"
                                 CommandParameter="{Binding .}"
                                 HorizontalOptions="End"/>
                     </Grid>
