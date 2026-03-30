@@ -1,4 +1,4 @@
-@token = 4|I1ta6xqEVpRvMBO2WjC2p7IjvI2BwRWNULQWr4tb6e398290
+@token = 11|38DrPcFnxohG7Zj6CkUmkAuO5yYr5ufnT3AkngbH8faca3a0
 
 ### Login
 POST http://127.0.0.1:8000/api/login

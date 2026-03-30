@@ -7,13 +7,18 @@
              x:Class="LeltarSupportMauiApp.Views.ProductListView"
              x:Name="page"
              Title="Products">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Kosár"
+                     IconImageSource="kosar.png"
+                     Order="Primary"
+                     Command="{Binding CartCommand}"/>
+    </ContentPage.ToolbarItems>
     <Grid>
         <CollectionView ItemsSource="{Binding ProductList}"
-                        SelectionMode="Single"
-                        SelectedItem="{Binding SelectedProduct}">
+                        SelectionMode="None">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:Product">
-                    <Grid Padding="10" ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto">
+                    <Grid Padding="10" ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto">
                         <Label Grid.Row="0" Grid.Column="0" 
                                Text="{Binding Name}" 
                                FontSize="18" 
@@ -28,8 +33,7 @@
                                TextColor="Gray"/>
                         <Button Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
                                 Text="Add to cart"
-                                Command="{Binding BindingContext.AddToCartCommand, Source={x:Reference page}}"
-                                CommandParameter="{Binding .}"
+                                Clicked="OnAddToCartClicked"
                                 HorizontalOptions="End"/>
                     </Grid>
                 </DataTemplate>

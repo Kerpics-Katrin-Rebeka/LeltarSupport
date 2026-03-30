@@ -2,27 +2,32 @@
 using CommunityToolkit.Mvvm.Input;
 using LeltarSupportMauiApp.Models;
 using LeltarSupportMauiApp.Services;
+using LeltarSupportMauiApp.Views;
 using Microsoft.Maui.Controls;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace LeltarSupportMauiApp.ViewModels
 {
     public partial class ProductListViewModel : ObservableObject
     {
         private readonly ProductsService _productservice = new();
+        private readonly CartViewModel _cartViewModel;
+        public ICommand CartCommand { get; }
+
         [ObservableProperty]
         private ObservableCollection<Product> productList = new ObservableCollection<Product>();
 
-        [ObservableProperty]
-        private Product selectedProduct;
-
-        public ProductListViewModel()
+        public ProductListViewModel(CartViewModel cartViewModel)
         {
+            _cartViewModel = cartViewModel;
+            System.Diagnostics.Debug.WriteLine($"ProductListViewModel received CartViewModel hash={cartViewModel?.GetHashCode()}");
             _ = LoadProductsAsync();
+            CartCommand = new Command(OpenCart);
         }
 
         [RelayCommand]
@@ -44,17 +49,16 @@ namespace LeltarSupportMauiApp.ViewModels
         }
 
         [RelayCommand]
-        private async Task ProductDetails()
+        private async void OpenCart()
         {
-            if (SelectedProduct == null)
-                return;
+            await Shell.Current.GoToAsync("cart").ConfigureAwait(false);
+        }
 
-            var navigationParameters = new Dictionary<string, object>()
-            {
-                { "product", SelectedProduct }
-            };
-
-            await Shell.Current.GoToAsync("details", navigationParameters).ConfigureAwait(false);
+        public void AddToCartExecute(Product product)
+        {
+            if(product == null) return;
+            System.Diagnostics.Debug.WriteLine($"ProductListViewModel.AddToCartExecute -> {product?.Name}");
+            _cartViewModel.AddToCartCommand.Execute(product);
         }
     }
 }

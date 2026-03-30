@@ -13,9 +13,16 @@ namespace LeltarSupportMauiApp.Services
         private readonly HttpClient _httpClient;
         private bool _disposed;
 
+        // On Android the emulator maps the host machine's localhost to 10.0.2.2
+#if ANDROID
+        private const string DefaultBaseUrl = "http://10.0.2.2:8000/";
+#else
+        private const string DefaultBaseUrl = "http://127.0.0.1:8000/";
+#endif
+
         public ApiClient(HttpClient? client = null)
         {
-            _httpClient = client ?? new HttpClient { BaseAddress = new Uri("http://127.0.0.1:8000/") };
+            _httpClient = client ?? new HttpClient { BaseAddress = new Uri(DefaultBaseUrl) };
         }
 
         public void SetBaseAddress(string baseAddress) => _httpClient.BaseAddress = new Uri(baseAddress.TrimEnd('/') + "/");

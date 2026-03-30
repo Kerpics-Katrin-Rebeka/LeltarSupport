@@ -1,7 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using LeltarSupportMauiApp.Services;
-using LeltarSupportMauiApp.Views;
 using Microsoft.Maui.ApplicationModel;
 using Microsoft.Maui.Controls;
 using System;
@@ -60,13 +59,10 @@ namespace LeltarSupportMauiApp.ViewModels
                 // Clear sensitive data
                 Password = string.Empty;
 
-                // Navigate to product list on UI thread
+                // Navigate to products page using registered Shell route
                 await MainThread.InvokeOnMainThreadAsync(async () =>
                 {
-                    var vm = new ProductListViewModel();
-                    var page = new ProductListView(vm);
-                    // Use PushAsync to preserve the shell if not using registered routes
-                    await Shell.Current.Navigation.PushAsync(page).ConfigureAwait(false);
+                    await Shell.Current.GoToAsync("products").ConfigureAwait(false);
                 }).ConfigureAwait(false);
             }
             catch (Exception ex)

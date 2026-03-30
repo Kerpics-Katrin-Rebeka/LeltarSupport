@@ -8,8 +8,8 @@ namespace LeltarSupportMauiApp
         {
             InitializeComponent();
             Routing.RegisterRoute("products", typeof(ProductListView));
-            Routing.RegisterRoute("details", typeof(ProductDetailsView));
             Routing.RegisterRoute("login", typeof(LoginView));
+            Routing.RegisterRoute("cart", typeof(CartView));
         }
     }
 }
