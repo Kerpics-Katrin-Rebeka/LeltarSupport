@@ -4,7 +4,6 @@ import IngredientModel from '../../Models/IngredientModel';
 import { SalesComponent } from "../sales-component/sales-component";
 import { SalesLogComponent } from "../sales-log-component/sales-log-component";
 import { DataService } from '../../Services/data-service';
-import { map } from 'rxjs';
 
 @Component({
   selector: 'app-inventory-component',
@@ -22,7 +21,7 @@ export class InventoryComponent {
   underLimit:any = [];
   ingredients:any = [];
 
-  constructor(private dataService:DataService){}
+  constructor(private dataService: DataService){}
 
   ngOnInit(){
     this.dataService.getIngredients().subscribe(ingredients => {

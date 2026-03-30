@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import UserModel from '../../Models/UserModel';
+import UserModel, { response } from '../../Models/UserModel';
+import { DataService } from '../../Services/data-service';
 
 @Component({
   selector: 'app-login-component',
@@ -10,23 +11,23 @@ import UserModel from '../../Models/UserModel';
 })
 export class LoginComponent {
   @Output() loginAttempted = new EventEmitter;
+  logger:response | undefined;
   users:UserModel[]=[];
   pwd:string = '';
   email:string = '';
 
-  loadUsers(){
-    this.users = [];
-    this.users.push({name: 'Teszt Coordinator',role: 'coordinator',email: 'cord@cord.cord',pwd: 'coordinatorTest'})
-    this.users.push({name: 'Teszt Manager',role: 'manager',email: 'man@man.man',pwd: 'managerTest'})
-    this.users.push({name: 'Teszt Gen Manager',role: 'genManager',email: 'gman@gman.gman',pwd: 'genManagerTest'})
-  }
+  constructor(private dataService: DataService){};
 
   loginAttempt(role:string){
-    this.loadUsers();
-    var logger = this.users.find(u => u.email === this.email && u.pwd === this.pwd && u.role === role);
-    console.log(this.users);
-    if (logger != undefined) {
+        console.log(this.email, this.pwd);
+    this.dataService.Login(this.email, this.pwd).subscribe(resp=>{
+      this.logger = resp;
+    });
+    if (this.logger != undefined) {
           sessionStorage.setItem("loggedIn","true");
+          sessionStorage.setItem("userRole", this.logger.user.role);
+          sessionStorage.setItem("token", this.logger.token);
+          console.log(this.logger);
           this.loginAttempted.emit()
     }
     else{

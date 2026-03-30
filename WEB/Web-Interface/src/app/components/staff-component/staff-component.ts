@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import UserModel from '../../Models/UserModel';
+import { StaffService } from '../../Services/staff-service';
 
 @Component({
   selector: 'app-staff-component',
@@ -8,5 +9,12 @@ import UserModel from '../../Models/UserModel';
   styleUrl: './staff-component.css',
 })
 export class StaffComponent {
+  constructor(private staffService: StaffService){}
   employees: UserModel[] = [];
+
+  ngOnInit(){
+    this.staffService.getEmployees().subscribe(employees => {
+      this.employees = employees;
+    })
+  }
 }

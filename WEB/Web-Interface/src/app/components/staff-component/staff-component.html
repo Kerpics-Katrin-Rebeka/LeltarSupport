@@ -9,14 +9,15 @@
                             <td class="p-1 border-r">Name</td>
                             <td class="p-1">Role</td>
                         </tr>
-                        <tr>
-                            <td class="p-1 border-r">Gazsi</td>
-                            <td class="p-1">Manager</td>
-                        </tr>
-                        <tr>
-                            <td class="p-1 border-r">Józsi</td>
-                            <td class="p-1">Employee</td>
-                        </tr>
+                        @for (item of employees; track $index) {
+                            <tr class="m-2">
+                                <td class="p-1 border-r w-[30%]">{{ item.name }}</td>
+                                <td class="p-1 w-[30%]">{{ item.role }}</td>
+                                <td class="w-[15%]"><button class="bg-yellow-500 text-white px-2 font-bold my-1 rounded">Edit</button></td>
+                                <td class="w-[15%]"><button class="bg-blue-500 text-white px-2 font-bold my-1 rounded">Orders</button></td>
+                            </tr>
+                        }
+                        
                     </table>
                 </td>
             </tr>

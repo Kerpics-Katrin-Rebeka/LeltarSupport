@@ -11,14 +11,17 @@ class AuthController extends Controller
 {
     public function login(Request $request)
     {
+        $toreturn = $request->all();
+
         $request->validate([
             'email'=>'required|email',
             'password'=>'required|string'
         ]);
 
         $user = User::where('email', $request->email)->first();
-        if(!$user || !Hash::check($request->password, $user->password)){
-            return response()->json(['message'=>'Invalid credentials'], 401);
+        $returnUser = $user;
+        if(!$user || !Hash::check($request->password, $user->password_hash)){
+            return response()->json(['message'=>$toreturn, 'user'=> $returnUser], 401);
         }
 
         $token = $user->createToken('api-token')->plainTextToken;
