@@ -14,6 +14,11 @@ class InventoryController extends Controller
         return Inventory::with('ingredient')->get();
     }
 
+    public function show($ingredient_id)
+    {
+        return Inventory::with('ingredient')->where('ingredient_id', $ingredient_id)->firstOrFail();
+    }
+
     public function update(Request $request, $ingredient_id)
     {
         $request->validate([
@@ -22,7 +27,7 @@ class InventoryController extends Controller
 
         $inventory = Inventory::where('ingredient_id', $ingredient_id)->firstOrFail();
         $change = $request->quantity - $inventory->quantity;
-        $inventory->quantity = $request->quantity;
+        $inventory->quantity = $inventory->quantity - $request->quantity;
         $inventory->save();
 
         StockMovement::create([

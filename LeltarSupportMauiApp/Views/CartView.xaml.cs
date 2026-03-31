@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using LeltarSupportMauiApp.ViewModels;
 
 namespace LeltarSupportMauiApp.Views;
@@ -13,27 +12,17 @@ public partial class CartView : ContentPage
 
 	protected override void OnAppearing()
 	{
-		base.OnAppearing();
-		Debug.WriteLine("CartView OnAppearing");
-		// Force a refresh of the ListView ItemsSource to avoid visual duplicate cells
 		try
 		{
 			if (BindingContext is CartViewModel cvm && CartListView != null)
 			{
-				Debug.WriteLine($"CartView OnAppearing: CartItems.Count={cvm.CartItems?.Count}");
 				CartListView.ItemsSource = null;
 				CartListView.ItemsSource = cvm.CartItems;
 			}
 		}
-		catch (Exception ex)
+		catch
 		{
-			Debug.WriteLine($"CartView refresh error: {ex.Message}");
+			// ignore refresh errors
 		}
-	}
-
-	protected override void OnDisappearing()
-	{
-		base.OnDisappearing();
-		Debug.WriteLine("CartView OnDisappearing");
 	}
 }

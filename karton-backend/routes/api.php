@@ -26,7 +26,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('inventory', [InventoryController::class, 'index']); 
     Route::get('inventory/{ingredient}', [InventoryController::class, 'show']); 
-    Route::post('inventory/{ingredient}/adjust', [InventoryController::class, 'adjust']); 
+    Route::post('inventory/{ingredient}/adjust', [InventoryController::class, 'update']); 
 
 
     Route::apiResource('orders', OrderController::class);

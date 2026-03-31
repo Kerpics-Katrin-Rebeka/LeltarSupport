@@ -25,7 +25,6 @@ namespace LeltarSupportMauiApp.ViewModels
         public ProductListViewModel(CartViewModel cartViewModel)
         {
             _cartViewModel = cartViewModel;
-            System.Diagnostics.Debug.WriteLine($"ProductListViewModel received CartViewModel hash={cartViewModel?.GetHashCode()}");
             _ = LoadProductsAsync();
             CartCommand = new Command(OpenCart);
         }
@@ -57,7 +56,6 @@ namespace LeltarSupportMauiApp.ViewModels
         public void AddToCartExecute(Product product)
         {
             if(product == null) return;
-            System.Diagnostics.Debug.WriteLine($"ProductListViewModel.AddToCartExecute -> {product?.Name}");
             _cartViewModel.AddToCartCommand.Execute(product);
         }
     }

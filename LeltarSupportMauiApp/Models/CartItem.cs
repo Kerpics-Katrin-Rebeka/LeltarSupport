@@ -2,17 +2,22 @@
 using System.Runtime.CompilerServices;
 
 namespace LeltarSupportMauiApp.Models
-{
-    public class CartItem : INotifyPropertyChanged
+{ 
+    public class CartItem : PurchaseOrderItem, INotifyPropertyChanged
     {
-        private int _id;
         private Product _product = null!;
-        private int _quantity;
 
-        public int Id
+        public new int Id
         {
-            get => _id;
-            set { if (_id != value) { _id = value; OnPropertyChanged(); } }
+            get => base.Id;
+            set
+            {
+                if (base.Id != value)
+                {
+                    base.Id = value;
+                    OnPropertyChanged();
+                }
+            }
         }
 
         public Product Product
@@ -28,15 +33,15 @@ namespace LeltarSupportMauiApp.Models
                 }
             }
         }
-
-        public int Quantity
+        public new int Quantity
         {
-            get => _quantity;
+            get => (int)(base.Quantity ?? 0m);
             set
             {
-                if (_quantity != value)
+                var current = base.Quantity ?? 0m;
+                if (current != value)
                 {
-                    _quantity = value;
+                    base.Quantity = value;
                     OnPropertyChanged();
                     OnPropertyChanged(nameof(TotalPrice));
                 }

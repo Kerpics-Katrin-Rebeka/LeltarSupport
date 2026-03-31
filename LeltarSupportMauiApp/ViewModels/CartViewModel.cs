@@ -14,16 +14,17 @@ namespace LeltarSupportMauiApp.ViewModels
         private ObservableCollection<CartItem> cartItems = new ObservableCollection<CartItem>();
 
         public ICommand AddToCartCommand { get; }
+        public ICommand RemoveFromCartCommand { get; }
 
         public CartViewModel()
         {
             AddToCartCommand = new Command<Product>(AddToCart);
-            System.Diagnostics.Debug.WriteLine($"CartViewModel ctor hash={this.GetHashCode()}, initial Count={CartItems?.Count}");
+            RemoveFromCartCommand = new Command<CartItem>(RemoveFromCart);
+
         }
 
         private void AddToCart(Product product)
         {
-            System.Diagnostics.Debug.WriteLine($"CartViewModel.AddToCart -> {product?.Name}");
             if (product == null) return;
 
             var existingItem = CartItems.FirstOrDefault(i => i.Product.Name == product.Name);
@@ -31,7 +32,6 @@ namespace LeltarSupportMauiApp.ViewModels
             if (existingItem != null)
             {
                 existingItem.Quantity++;
-                System.Diagnostics.Debug.WriteLine($"CartViewModel: incremented existing item '{product?.Name}' -> Quantity={existingItem.Quantity}");
             }
             else
             {
@@ -40,7 +40,20 @@ namespace LeltarSupportMauiApp.ViewModels
                     Product = product,
                     Quantity = 1
                 });
-                System.Diagnostics.Debug.WriteLine($"CartViewModel: added new item '{product?.Name}' -> Count={CartItems.Count}");
+            }
+        }
+
+        private void RemoveFromCart(CartItem item)
+        {
+            if (item == null) return;
+            var existingItem = CartItems.FirstOrDefault(i => i.Product.Name == item.Product.Name);
+            if (existingItem != null)
+            {
+                existingItem.Quantity--;
+                if (existingItem.Quantity <= 0)
+                {
+                    CartItems.Remove(existingItem);
+                }
             }
         }
     }

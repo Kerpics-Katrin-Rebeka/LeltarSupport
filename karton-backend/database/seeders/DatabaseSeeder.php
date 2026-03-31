@@ -14,7 +14,7 @@ class DatabaseSeeder extends Seeder
         DB::table('roles')->insertOrIgnore([
             ['id' => 1, 'name' => 'admin'],
             ['id' => 2, 'name' => 'manager'],
-            ['id' => 3, 'name' => 'cashier'],
+            ['id' => 3, 'name' => 'cashier']
         ]);
 
         // Users  (password: "password" for every user)

@@ -3,12 +3,29 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="LeltarSupportMauiApp.Views.CartView"
              Title="CartView">
-    <ListView x:Name="CartListView" CachingStrategy="RecycleElement" ItemsSource="{Binding CartItems}">
+
+    <ListView x:Name="CartListView"
+              CachingStrategy="RecycleElement"
+              ItemsSource="{Binding CartItems}">
+
         <ListView.ItemTemplate>
-            <DataTemplate> 
-                <TextCell Text="{Binding Product.Name, StringFormat='{}{0} x {1}', Converter={StaticResource QuantityConverter}}"
-                          Detail="{Binding TotalPrice, StringFormat='{}{0:C}'}"/>
+            <DataTemplate>
+                <ViewCell>
+                    <Grid Padding="10" ColumnDefinitions="*, Auto">
+                        <VerticalStackLayout>
+                            <Label Text="{Binding Product.Name}" FontAttributes="Bold"/>
+                            <Label Text="{Binding TotalPrice, StringFormat='{}{0:C}'}"/>
+                        </VerticalStackLayout>
+                        <ImageButton
+                            Source="bin.png"
+                            BackgroundColor="Transparent"
+                            Grid.Column="1"
+                            Command="{Binding BindingContext.RemoveFromCartCommand, Source={x:Reference CartListView}}"
+                            CommandParameter="{Binding .}"/>
+                    </Grid>
+                </ViewCell>
             </DataTemplate>
-        </ListView.ItemTemplate>    
+        </ListView.ItemTemplate>
+
     </ListView>
 </ContentPage>
