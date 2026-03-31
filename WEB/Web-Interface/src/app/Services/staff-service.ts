@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import UserModel from '../Models/UserModel';
+import UserModel, { newUser } from '../Models/UserModel';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
@@ -16,7 +16,11 @@ export class StaffService {
     return data;
   }
 
-  Recruit(newGuy:UserModel){
-
+  Recruit(newGuy:newUser){
+    const headers = new HttpHeaders({
+    Authorization: sessionStorage.getItem("token")? `Bearer ${sessionStorage.getItem("token")}`:"",
+    });
+    var data = this.http.post<UserModel>("http://127.0.0.1:8000/api/users", newGuy, {headers});    
+    return data;
   }
 }

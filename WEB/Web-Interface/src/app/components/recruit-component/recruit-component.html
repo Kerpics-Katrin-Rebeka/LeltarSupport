@@ -2,7 +2,7 @@
 	<h2 class="mb-1 text-2xl font-bold text-slate-800">Add new employee</h2>
 	<p class="mb-6 text-sm text-slate-500">Fill in the details below to register a new staff member.</p>
 
-	<form class="grid grid-cols-1 gap-4 md:grid-cols-2" autocomplete="on" onsubmit="addEmployee()">
+	<form class="grid grid-cols-1 gap-4 md:grid-cols-2" autocomplete="on" (ngSubmit)="addEmployee()">
 		<div class="md:col-span-1">
 			<label for="employeeName" class="mb-1 block text-sm font-medium text-slate-700">Full name</label>
 			<input
@@ -11,6 +11,7 @@
 				type="text"
 				required
 				placeholder="e.g. John Doe"
+				[(ngModel)]="name"
 				class="w-full rounded-md border border-slate-300 px-3 bg-gray-50 py-2 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
 			/>
 		</div>
@@ -23,6 +24,7 @@
 				type="email"
 				required
 				placeholder="employee@company.com"
+				[(ngModel)]="email"
 				class="w-full rounded-md border border-slate-300 bg-gray-50 px-3 py-2 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
 			/>
 		</div>
@@ -33,12 +35,12 @@
 				id="employeeRole"
 				name="employeeRole"
 				required
+				[(ngModel)]="role"
 				class="w-full rounded-md border border-slate-300 px-3 bg-gray-50 py-2 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
 			>
-				<option value="" selected disabled>Select role</option>
 				<option value="admin">Admin</option>
 				<option value="manager">Manager</option>
-				<option value="cashier">Cashier</option>
+				<option value="staff">Staff</option>
 			</select>
 		</div>
 
@@ -50,6 +52,7 @@
 				type="password"
 				required
 				placeholder="Enter password"
+				[(ngModel)]="pwd"
 				class="w-full rounded-md border border-slate-300 bg-gray-50 px-3 py-2 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
 			/>
 		</div>

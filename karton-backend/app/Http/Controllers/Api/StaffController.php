@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Role;
+use Illuminate\Support\Facades\Hash;
 
 class StaffController extends Controller
 {
@@ -21,13 +23,27 @@ class StaffController extends Controller
      */
     public function store(Request $request)
     {
-        $newGuy = $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8',
+            'role' => 'required|string|exists:roles,name',
         ]);
 
-        User::create($request->all());
+        $role = Role::where('name', $validated['role'])->firstOrFail();
+
+        $newGuy = User::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password_hash' => Hash::make($validated['password']),
+        ]);
+
+        $newGuy->roles()->attach($role->id);
+
+        return response()->json([
+            'message' => 'Profile for ' . $newGuy->name . ' created successfully',
+            'user' => $newGuy,
+        ], 201);
     }
 
     /**

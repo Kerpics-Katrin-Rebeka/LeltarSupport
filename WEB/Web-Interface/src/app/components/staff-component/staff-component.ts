@@ -16,12 +16,20 @@ export class StaffComponent implements OnInit{
   employees: UserModel[] = [];
 
   ngOnInit(){
-    this.staffService.getEmployees().subscribe(employees => {
-      console.log(employees);
-      this.employees = employees;
-    })
-    console.log(this.employees);
-    
+    this.getEmployees();
+  }
+
+  getEmployees(){
+    this.staffService.getEmployees().subscribe({
+      next: (employees) => {
+        this.employees = employees;
+        this.cdr.detectChanges();
+      },
+      error: () => {
+        this.employees = [];
+        this.cdr.detectChanges();
+      }
+    });
   }
 
   openRecruitForm(){
@@ -30,5 +38,6 @@ export class StaffComponent implements OnInit{
       height: '400px',
       disableClose: true,
     });
+    this.dialog.afterAllClosed.subscribe(()=>{this.getEmployees()});
   }
 }
