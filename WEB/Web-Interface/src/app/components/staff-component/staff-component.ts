@@ -23,4 +23,11 @@ export class StaffComponent implements OnInit{
     console.log(this.employees);
     
   }
+
+  openRecruitForm(){
+    this.dialog.open(RecruitComponent, {
+      width: '500px',
+      height: '400px',
+    });
+  }
 }
