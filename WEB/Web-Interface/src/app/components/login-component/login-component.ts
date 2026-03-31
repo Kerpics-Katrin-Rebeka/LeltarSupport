@@ -20,7 +20,7 @@ export class LoginComponent {
 
   constructor(private dataService: DataService, @Inject(MatDialog) private dialog:MatDialog){};
 
-  loginAttempt(){
+  loginAttempt(){    
     this.dataService.Login(this.email, this.pwd).subscribe({
       next: (resp) =>{
         console.log(resp, resp.token);
@@ -37,8 +37,6 @@ export class LoginComponent {
           height: '150px',
           data: {message: "Incorrect credentials!"}
         });
-        this.pwd = '';
-        this.email = '';
       }
     });
     console.log(this.logger);

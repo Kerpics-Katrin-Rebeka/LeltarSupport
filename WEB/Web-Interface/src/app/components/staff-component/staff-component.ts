@@ -28,6 +28,7 @@ export class StaffComponent implements OnInit{
     this.dialog.open(RecruitComponent, {
       width: '500px',
       height: '400px',
+      disableClose: true,
     });
   }
 }

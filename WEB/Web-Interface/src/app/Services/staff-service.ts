@@ -15,4 +15,8 @@ export class StaffService {
     var data = this.http.get<UserModel[]>("http://127.0.0.1:8000/api/users",{headers});    
     return data;
   }
+
+  Recruit(newGuy:UserModel){
+
+  }
 }
