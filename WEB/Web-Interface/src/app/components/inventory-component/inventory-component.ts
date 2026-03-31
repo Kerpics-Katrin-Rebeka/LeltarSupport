@@ -31,28 +31,10 @@ export class InventoryComponent {
     });
 
     sessionStorage.setItem("isViewingLog","false");
-    this.fillTable();
-    if (this.outOf.length != 0) {
-      this.isOutOfIngredient = true;
-    }
 
     console.log(this.outOf);
     console.log(this.underLimit);
     console.log(this.ingredients);
-  }
-
-
-
-  fillTable(){
-    const fullers = document.getElementsByClassName("fuller");
-    for (let i = 0; i < fullers.length; i++) {
-      const curr = this.rng();
-      (fullers[i] as HTMLDivElement).style.height = `${(curr/this.goal)*100}%`;
-    }
-  }
-
-  rng(){
-    return Math.round(Math.random()*100)
   }
 
   outOfLog(){
