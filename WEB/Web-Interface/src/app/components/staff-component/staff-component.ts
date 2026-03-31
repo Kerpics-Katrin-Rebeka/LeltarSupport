@@ -13,9 +13,8 @@ export class StaffComponent {
   employees: UserModel[] = [];
 
   ngOnInit(){
-    this.staffService.getEmployees().subscribe(employees => {
-      console.log(employees);
-      this.employees = employees;
+    this.staffService.getEmployees().subscribe({
+      next:(data)=> this.employees = data,
     })
     console.log(this.employees);
     

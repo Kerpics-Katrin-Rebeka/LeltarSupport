@@ -12,9 +12,7 @@ export class StaffService {
     const headers = new HttpHeaders({
     Authorization: sessionStorage.getItem("token")? `Bearer ${sessionStorage.getItem("token")}`:"",
     });
-    var data = this.http.get<UserModel[]>("http://127.0.0.1:8000/api/users",{headers});
-    console.log(data);
-    
+    var data = this.http.get<UserModel[]>("http://127.0.0.1:8000/api/users",{headers});    
     return data;
   }
 }
