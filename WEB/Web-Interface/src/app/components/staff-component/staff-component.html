@@ -3,7 +3,7 @@
         <table class="h-[80%] w-full0.75 lg:w-3/4">
             <tr class="text-slate-800">
                 <td>
-                    <p class="p-1">Currently contracted employees</p>
+                    <p class="p-1">Currently contracted employees <button class="hover:cursor-pointer rounded-sm bg-linear-to-t from-0% to-80% from-gray-700 py-1 px-2" (click)="openRecruitForm()">Record new hires</button></p>
                     <table class="w-[75%] overflow-hidden rounded-md border border-slate-200 bg-white shadow-sm">
                         <tr class="border-b">
                             <td class="p-1 border-r">Name</td>
@@ -13,8 +13,8 @@
                             <tr class="m-2">
                                 <td class="p-1 border-r w-[30%]">{{ item.name }}</td>
                                 <td class="p-1 w-[30%]">{{ item.email }}</td>
-                                <td class="w-[15%]"><button class="bg-yellow-500 text-white px-2 font-bold my-1 rounded">Edit</button></td>
-                                <td class="w-[15%]"><button class="bg-blue-500 text-white px-2 font-bold my-1 rounded">Orders</button></td>
+                                <td class="w-[15%]"><button class="bg-yellow-500 text-white px-2 font-bold my-1 rounded hover:cursor-pointer" (click)="EditEmployee(item)">Edit</button></td>
+                                <td class="w-[15%]"><button class="bg-red-500 text-white px-2 font-bold my-1 rounded hover:cursor-pointer" (click)="RemoveEmployee(item)">Remove</button></td>
                             </tr>
                         }
                         
@@ -22,10 +22,6 @@
                 </td>
             </tr>
         </table>
-
-        <div class="shadow-md hover:scale-101 rounded-sm bg-linear-0 from-0% to-80% from-gray-700">
-            <button class="hover:cursor-pointer rounded-sm" (click)="openRecruitForm()">Record new hires</button><br>
-        </div>
     </div>
 
 </span>

@@ -23,6 +23,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('products', ProductController::class);
 
     Route::apiResource('users', StaffController::class);
+    Route::get("roles", [StaffController::class, 'getRoles']);
 
     Route::apiResource('ingredients', IngredientController::class);
 

@@ -1,73 +1,40 @@
-<section class="m-5 max-w-3xl rounded-xl border border-slate-200 bg-gray-200 p-6 shadow-sm">
+<section class="m-5 max-w-3xl rounded-xl border border-slate-200 bg-gray-200 p-3 shadow-sm">
 	<h2 class="mb-1 text-2xl font-bold text-slate-800">Add new employee</h2>
 	<p class="mb-6 text-sm text-slate-500">Fill in the details below to register a new staff member.</p>
 
 	<form class="grid grid-cols-1 gap-4 md:grid-cols-2" autocomplete="on" (ngSubmit)="addEmployee()">
 		<div class="md:col-span-1">
 			<label for="employeeName" class="mb-1 block text-sm font-medium text-slate-700">Full name</label>
-			<input
-				id="employeeName"
-				name="employeeName"
-				type="text"
-				required
-				placeholder="e.g. John Doe"
-				[(ngModel)]="name"
-				class="w-full rounded-md border border-slate-300 px-3 bg-gray-50 py-2 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-			/>
+			<input id="employeeName" name="employeeName" type="text" required placeholder="e.g. John Doe" [(ngModel)]="name" class="w-full rounded-md border border-slate-300 px-3 bg-gray-50 py-2 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200" />
 		</div>
 
 		<div class="md:col-span-1">
 			<label for="employeeEmail" class="mb-1 block text-sm font-medium  text-slate-700">Email address</label>
-			<input
-				id="employeeEmail"
-				name="employeeEmail"
-				type="email"
-				required
-				placeholder="employee@company.com"
-				[(ngModel)]="email"
-				class="w-full rounded-md border border-slate-300 bg-gray-50 px-3 py-2 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-			/>
+			<input id="employeeEmail" name="employeeEmail" type="email" required placeholder="employee@company.com" [(ngModel)]="email" class="w-full rounded-md border border-slate-300 bg-gray-50 px-3 py-2 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200" />
 		</div>
 
 		<div class="md:col-span-1">
 			<label for="employeeRole" class="mb-1 block text-sm font-medium text-slate-700">Role</label>
-			<select
-				id="employeeRole"
-				name="employeeRole"
-				required
-				[(ngModel)]="role"
-				class="w-full rounded-md border border-slate-300 px-3 bg-gray-50 py-2 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-			>
-				<option value="admin">Admin</option>
-				<option value="manager">Manager</option>
-				<option value="staff">Staff</option>
+			<select id="employeeRole" name="employeeRole" required [(ngModel)]="role" class="w-full rounded-md border border-slate-300 px-3 bg-gray-50 py-2 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
+				@for (r of roles; track $index) {
+					<option value="{{r.id}};{{r.name}}">{{r.name|titlecase}}</option>
+				}
 			</select>
 		</div>
 
 		<div class="md:col-span-1">
 			<label for="employeePwd" class="mb-1 block text-sm font-medium  text-slate-700">Password</label>
-			<input
-				id="employeePwd"
-				name="employeePwd"
-				type="password"
-				required
-				placeholder="Enter password"
-				[(ngModel)]="pwd"
-				class="w-full rounded-md border border-slate-300 bg-gray-50 px-3 py-2 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-			/>
+			<input id="employeePwd" name="employeePwd" type="password" required minlength="8" placeholder="Enter password" [(ngModel)]="pwd" class="w-full rounded-md border border-slate-300 bg-gray-50 px-3 py-2 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200" />
 		</div>
 
 		<div class="mt-2 flex items-center gap-3 md:col-span-2">
-			<button
-                type="submit"
-				class="rounded-md bg-blue-600 px-4 py-2 font-semibold text-white transition hover:bg-blue-700"
-			>
+			<button type="submit" class="rounded-md bg-blue-600 px-4 py-2 font-semibold text-white transition hover:bg-blue-700">
 				Add employee
 			</button>
-			<button (click)="cancel()" class="rounded-md border border-slate-300 bg-white px-4 py-2 font-semibold text-slate-700 transition hover:bg-slate-50">
+			<button type="button" (click)="cancel()" class="rounded-md border border-slate-300 bg-white px-4 py-2 font-semibold text-slate-700 transition hover:bg-slate-50">
 				Cancel
 			</button>
 		</div>
 	</form>
 </section>
-
+<h1 class="text-center text-red-700 font-bold text-xl m-1">{{ErrorMsg}}</h1>

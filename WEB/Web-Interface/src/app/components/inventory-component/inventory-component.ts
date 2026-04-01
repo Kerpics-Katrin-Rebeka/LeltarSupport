@@ -31,10 +31,6 @@ export class InventoryComponent {
     });
 
     sessionStorage.setItem("isViewingLog","false");
-
-    console.log(this.outOf);
-    console.log(this.underLimit);
-    console.log(this.ingredients);
   }
 
   outOfLog(){

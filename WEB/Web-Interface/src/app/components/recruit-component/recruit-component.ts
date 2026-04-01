@@ -1,11 +1,13 @@
 import { Component, Inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 import { StaffService } from '../../Services/staff-service';
+import { Role } from '../../Models/UserModel';
+import { TitleCasePipe } from '@angular/common';
 
 @Component({
   selector: 'app-recruit-component',
-  imports: [FormsModule],
+  imports: [FormsModule,TitleCasePipe],
   templateUrl: './recruit-component.html',
   styleUrl: './recruit-component.css',
 })
@@ -14,22 +16,46 @@ export class RecruitComponent {
   name:string = ""
   pwd:string = "";
   role:string = "staff";
+  roles:Role[] = [];
+  ErrorMsg:string = "";
 
-  constructor(private staffService: StaffService,@Inject(MatDialogRef) private dialog:MatDialogRef<RecruitComponent>, @Inject(MAT_DIALOG_DATA) public data:{message:string}){}
+  constructor(private staffService: StaffService,@Inject(MatDialogRef) private dialog:MatDialogRef<RecruitComponent>){}
+
+  ngOnInit(){
+    this.staffService.getRoles().subscribe({
+      next: (roles)=>{
+        this.roles = roles;
+        console.log(roles);
+        
+      },
+      error: (err)=>{
+        console.log(err);
+        this.roles = [];
+      }
+    });
+  }
 
   cancel(){
     this.dialog.close();
   }
 
   addEmployee(){
-    console.log(this.email, this.name, this.pwd, this.role);
-    
-      this.staffService.Recruit({
-        name: this.name,
-        email: this.email,
-        password: this.pwd,
-        role: this.role
-      }).subscribe(res=>{console.log(res);});
-      this.dialog.close();
+    this.staffService.Recruit({
+      name: this.name.trim(),
+      email: this.email.trim().toLowerCase(),
+      password: this.pwd,
+      role: this.role.split(';')[1]?.trim().toLowerCase()
+    }).subscribe({
+      next: (res) => {
+        console.log(this.role);
+        
+        this.dialog.close();
+      },
+      error: (err) => {
+        this.ErrorMsg = err.error.errors.name || err.error.errors.email || err.error.errors.password || "An error occurred while adding the employee.";
+        console.log(this.role);
+        
+      }
+    });
   }
 }

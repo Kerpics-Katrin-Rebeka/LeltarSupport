@@ -1,12 +1,12 @@
 @if (isLoggedIn) {
     <table class="w-full">
         <tr>
-            <td class="w-[10%]"><app-sidebar-component (logOut)="isLoggedIn=$event" (navigated)="currentPage=$event"></app-sidebar-component></td>
+            <td class="w-[10%] align-top"><app-sidebar-component (logOut)="isLoggedIn=$event" (navigated)="currentPage=$event"></app-sidebar-component></td>
             @if (currentPage == "inventory") {
-                        <td class="w-[60%]"><app-inventory-component class="h-[75%] block"></app-inventory-component></td> 
+                <td class="w-[60%]"><app-inventory-component class="h-[75%] block"></app-inventory-component></td> 
             }
             @if (currentPage == "staff") {
-                <td><app-staff-component></app-staff-component></td>
+                <td class="w-[60%]"><app-staff-component></app-staff-component></td>
             }
         </tr>
     </table> 

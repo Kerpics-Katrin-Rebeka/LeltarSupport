@@ -1,7 +1,10 @@
 export default interface UserModel {
+    id:number,
     name:string,
     email:string,
-    token:string
+    token:string|undefined,
+    pwd:string,
+    roles:Role[]
 }
 
 export interface response{
@@ -13,5 +16,10 @@ export interface newUser{
   name:string,
   email:string,
   password:string,
-  role:string
+  role:string,
+}
+
+export interface Role{
+  name:string
+  id:number
 }

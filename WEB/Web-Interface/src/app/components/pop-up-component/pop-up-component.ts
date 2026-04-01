@@ -11,7 +11,7 @@ export class PopUpComponent {
   
   constructor(@Inject(MatDialogRef) private dialog:MatDialogRef<PopUpComponent>, @Inject(MAT_DIALOG_DATA) public data:{message:string}){}
 
-  close(){
-    this.dialog.close();
+  close(confirmed: boolean = false){
+    this.dialog.close(confirmed);
   }
 }

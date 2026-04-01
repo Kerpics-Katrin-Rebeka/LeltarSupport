@@ -4,6 +4,8 @@ import UserModel from '../../Models/UserModel';
 import { StaffService } from '../../Services/staff-service';
 import { MatDialog } from '@angular/material/dialog';
 import { RecruitComponent } from '../recruit-component/recruit-component';
+import { EditComponent } from '../edit-component/edit-component';
+import { PopUpComponent } from '../pop-up-component/pop-up-component';
 
 @Component({
   selector: 'app-staff-component',
@@ -39,5 +41,44 @@ export class StaffComponent implements OnInit{
       disableClose: true,
     });
     this.dialog.afterAllClosed.subscribe(()=>{this.getEmployees()});
+  }
+
+  EditEmployee(employee:UserModel){
+    var dataToSend ={
+      name: employee.name,
+      email: employee.email,
+      role: employee.roles[0].name
+    }
+    
+    this.dialog.open(EditComponent,{
+      width: '500px',
+      height: '400px',
+      disableClose: true,
+      data: employee
+    });
+    this.dialog.afterAllClosed.subscribe(()=>{this.getEmployees()});
+  }
+
+  RemoveEmployee(employee:UserModel){
+    console.log(employee);
+    
+    this.dialog.open(PopUpComponent,{
+      width: '300px',
+      height: '200px',
+      data: {message:`Are you sure you want to remove ${employee.name}?`}
+    })
+    .afterClosed().subscribe((confirmed: boolean) => {
+      if(confirmed){
+        this.staffService.RemoveEmployee(employee.id).subscribe({
+          next:()=>{
+            this.getEmployees();
+          },
+          error:(err)=>{
+            const msg = err?.error?.message ?? "Failed to remove employee";
+            alert(msg);
+          }
+        });
+      }
+    });
   }
 }
