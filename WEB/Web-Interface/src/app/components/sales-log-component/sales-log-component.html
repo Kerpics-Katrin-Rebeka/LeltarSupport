@@ -1,18 +1,24 @@
-<button (click)="goBack()">Back</button>
-@if (salesLog.length == 0) {
-    @if (today == null) {<h1 class="text-center m-auto text-xl font-bold">No sales were made yesterday</h1>}
-    @else {<h1 class="text-center m-auto text-xl font-bold">No sales so far today</h1>}
+<button class="m-3 p-1 rounded-md bg-linear-to-t from-0% from-gray-500 to-blue-100" (click)="goBack()">Back</button>
+@if (isLoading) {
+<h1 class="text-center m-auto text-xl font-bold">Loading sales...</h1>
+}@else if (loadError) {
+<h1 class="text-center m-auto text-xl font-bold">Failed to load sales data</h1>
+}@else if (salesLog.length == 0) {
+@if (today == null) {<h1 class="text-center m-auto text-xl font-bold">No sales were made yesterday</h1>}
+@else {<h1 class="text-center m-auto text-xl font-bold">No sales so far today</h1>}
 }@else {
-    <table class="w-full">
-        <tr>
-            <td class="w-[50%]">Total ingredient cost: {{costTotal}} Ft</td>
-            <td class="w-[50%]">Total income: {{incomeTotal}} Ft</td>
+<table class="w-full m-3">
+    @for (s of salesLog; track $index) {
+        @for (item of s.items; track $index) {
+        <tr class="w-[90%]">
+            <td>{{item.product.name}}, {{item.quantity}}</td>
+            <td>{{item.product.price * item.quantity}} Ft</td>
         </tr>
-        @for (s of salesLog; track $index) {
-            <tr class="w-[90%]">
-                <td colspan="2">{{s}}</td>
-                <td colspan="2"></td>
-            </tr>
-            }
-    </table>
+        }
+    }
+    <tr>
+        <td class="w-[50%] border-t"></td>
+        <td class="w-[50%] border-t">Total income: {{incomeTotal}} Ft</td>
+    </tr>
+</table>
 }

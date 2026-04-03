@@ -28,6 +28,7 @@ export class LoginComponent {
         if (this.logger != undefined) {
           sessionStorage.setItem("loggedIn","true");
           sessionStorage.setItem("token", this.logger.token);
+          sessionStorage.setItem("userEmail", this.email);
           this.loginAttempted.emit()
         }    
       },
