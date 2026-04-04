@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { StorageComponent } from '../storage-component/storage-component';
 import IngredientModel from '../../Models/IngredientModel';
 import { SalesComponent } from "../sales-component/sales-component";
@@ -6,10 +6,13 @@ import { SalesLogComponent } from "../sales-log-component/sales-log-component";
 import { DataService } from '../../Services/data-service';
 import { MovementModel, RestockModel } from '../../Models/SalesModel';
 import { MovementComponent } from '../movement-component/movement-component';
+import { MovementLogComponent } from '../movement-log-component/movement-log-component';
+import { MatDialog } from '@angular/material/dialog';
+import { PlaceRestockOrderComponent } from '../place-restock-order-component/place-restock-order-component';
 
 @Component({
   selector: 'app-inventory-component',
-  imports: [StorageComponent, SalesComponent, SalesLogComponent, MovementComponent],
+  imports: [StorageComponent, SalesComponent, SalesLogComponent, MovementComponent, MovementLogComponent],
   templateUrl: './inventory-component.html',
   styleUrl: './inventory-component.css',
 })
@@ -19,14 +22,14 @@ export class InventoryComponent {
   goal:number=100;
   isInStorage:boolean=false;
   isViewingLog: boolean = sessionStorage.getItem("isViewingLog") == "true";
+  isViewingMLog:boolean=false;
   outOf:IngredientModel[] = [];
   underLimit:IngredientModel[] = [];
   ingredients:IngredientModel[] = [];
   restocks:RestockModel[] = [];
-  movementLog:MovementModel[] = [];
   recentMovements:MovementModel[] = [];
 
-  constructor(private dataService: DataService,private cdr: ChangeDetectorRef){}
+  constructor(private dataService: DataService,private cdr: ChangeDetectorRef, @Inject(MatDialog) private dialog:MatDialog){}
 
   ngOnInit(){
     this.dataService.getIngredients().subscribe(ingredients => {
@@ -45,7 +48,6 @@ export class InventoryComponent {
       next: (restocks)=>{
         this.restocks = restocks;
         this.cdr.detectChanges();
-        console.log(this.restocks[0].items);
       },
       error: (err)=>{
         console.log(err);
@@ -56,15 +58,27 @@ export class InventoryComponent {
   getMovements(){
     this.dataService.getStockMovements().subscribe({
       next: (movements)=>{
-        this.movementLog = movements;
         this.recentMovements = movements.slice(0,5);
-        console.log(this.movementLog);
         this.cdr.detectChanges();
       },
       error: (err)=>{
         console.log(err);
       }
     })
+  }
+
+  openMovementLog(){
+    this.isViewingMLog=true;
+  }
+
+  openOrderPopUp(){
+    this.dialog.open(PlaceRestockOrderComponent,{
+      width: '400px',
+      height: '300px',
+      disableClose: true,
+      data:this.ingredients,
+    });
+
   }
 
   outOfLog(){

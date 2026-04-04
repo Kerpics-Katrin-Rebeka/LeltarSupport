@@ -1,6 +1,11 @@
 import IngredientModel from "./IngredientModel";
 
-export default interface SalesModel {}
+export default interface SalesModel {
+    id:number;
+    quantity:number;
+    minimum_level:number;
+    ingredient:IngredientModel;
+}
 
 export interface ProductModel{
     id:number;

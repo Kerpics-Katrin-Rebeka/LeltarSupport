@@ -1,10 +1,10 @@
 @if (movement!.change_amount > 0) {
 <div class="bg-linear-0 from-0% to-90% from-gray-500 to-green-400 text-white text-xl text-center py-1 w-auto rounded-md mt-1">
-    <p>{{movement!.ingredient.name}} stock was increased by {{movement!.change_amount}} {{movement!.ingredient.unit}} because of {{movement!.reason}} at {{movement!.created_at.toString().split('T')[0]}} {{movement!.created_at.toString().split('T')[1].split(".")[0]}}.</p>
+    <p>{{movement!.ingredient.name}} stock was increased by {{movement!.change_amount}} {{movement!.ingredient.unit}} because of a(n) {{movement!.reason}} at {{movement!.created_at.toString().split('T')[0]}} {{movement!.created_at.toString().split('T')[1].split(".")[0]}}.</p>
 </div>
 }
 @else {
 <div class="bg-linear-0 from-0% to-90% from-gray-500 to-red-400 text-white text-xl text-center py-1 w-auto rounded-md mt-1">
-    <p>{{movement!.ingredient.name}} stock was decreased by {{movement!.change_amount}} {{movement!.ingredient.unit}} because of {{movement!.reason}} at {{movement!.created_at.toString().split('T')[0]}} {{movement!.created_at.toString().split('T')[1].split(".")[0]}}.</p>
+    <p>{{movement!.ingredient.name}} stock was decreased by {{movement!.change_amount}} {{movement!.ingredient.unit}} because of a(n) {{movement!.reason}} at {{movement!.created_at.toString().split('T')[0]}} {{movement!.created_at.toString().split('T')[1].split(".")[0]}}.</p>
 </div>
 }
