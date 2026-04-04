@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import IngredientModel from '../Models/IngredientModel';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { response } from '../Models/UserModel';
-import { InventoryComponent } from '../components/inventory-component/inventory-component';
+import { MovementModel, RestockModel } from '../Models/SalesModel';
 
 @Injectable({
   providedIn: 'root',
@@ -15,6 +15,22 @@ export class DataService {
     Authorization: sessionStorage.getItem("token")? `Bearer ${sessionStorage.getItem("token")}`:"",
     });
     var data = this.http.get<IngredientModel[]>("http://127.0.0.1:8000/api/inventory",{headers});
+    return data;
+  }
+
+  getRestock(){
+    const headers = new HttpHeaders({
+    Authorization: sessionStorage.getItem("token")? `Bearer ${sessionStorage.getItem("token")}`:"",
+    });
+    var data = this.http.get<RestockModel[]>("http://127.0.0.1:8000/api/purchase-orders",{headers});
+    return data;
+  }
+
+  getStockMovements(){
+    const headers = new HttpHeaders({
+    Authorization: sessionStorage.getItem("token")? `Bearer ${sessionStorage.getItem("token")}`:"",
+    });
+    var data = this.http.get<MovementModel[]>("http://127.0.0.1:8000/api/stock-movements",{headers});
     return data;
   }
 

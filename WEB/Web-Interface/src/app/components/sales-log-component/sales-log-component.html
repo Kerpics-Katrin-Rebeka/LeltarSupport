@@ -2,23 +2,27 @@
 @if (isLoading) {
 <h1 class="text-center m-auto text-xl font-bold">Loading sales...</h1>
 }@else if (loadError) {
-<h1 class="text-center m-auto text-xl font-bold">Failed to load sales data</h1>
+<h1 class="text-center m-auto text-xl font-bold">Failed to load sales data</h1><br><h2 class="text-center text-red-600 m-auto text-xl font-bold">{{errorString}}</h2>
 }@else if (salesLog.length == 0) {
-@if (today == null) {<h1 class="text-center m-auto text-xl font-bold">No sales were made yesterday</h1>}
-@else {<h1 class="text-center m-auto text-xl font-bold">No sales so far today</h1>}
+<h1 class="text-center m-auto text-xl font-bold">No sales for {{requestDate.toISOString().split('T')[0]}} were found</h1>
 }@else {
-<table class="w-full m-3">
+<table class="w-full m-3 table">
+    <tr>
+        <td class="border-b"></td>
+        <td class="border-b"></td>
+        <td class="border-b">Total income: {{incomeTotal}} Ft</td>
+    </tr>
     @for (s of salesLog; track $index) {
+        <tr class="bg-gray-400">
+            <td colspan="3" class="font-bold"><p class="ms-[5%]">{{s.created_at.toString().split('T')[1].split('.')[0]}}</p></td>
+        </tr>
         @for (item of s.items; track $index) {
         <tr class="w-[90%]">
+            <td class="w-[10%]"></td>
             <td>{{item.product.name}}, {{item.quantity}}</td>
             <td>{{item.product.price * item.quantity}} Ft</td>
         </tr>
         }
     }
-    <tr>
-        <td class="w-[50%] border-t"></td>
-        <td class="w-[50%] border-t">Total income: {{incomeTotal}} Ft</td>
-    </tr>
 </table>
 }

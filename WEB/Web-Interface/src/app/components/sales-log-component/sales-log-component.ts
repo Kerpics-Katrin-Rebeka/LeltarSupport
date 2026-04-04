@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, EventEmitter, Output } from '@angular/core';
-import SalesModel, { OrderModel } from '../../Models/SalesModel';
+import { OrderModel } from '../../Models/SalesModel';
 import { SalesService } from '../../Services/sales-service';
 import { timer } from 'rxjs';
 
@@ -15,6 +15,8 @@ export class SalesLogComponent {
   yesterday:string|null=null;
   isLoading = true;
   loadError = false;
+  errorString:string="";
+  requestDate:Date=new Date();
 
   incomeTotal:number=0;
   salesLog:OrderModel[]=[];
@@ -22,8 +24,17 @@ export class SalesLogComponent {
   constructor(private salesService: SalesService,private cdr: ChangeDetectorRef){}
 
   ngOnInit(){
-    this.checkDay();
-    this.salesService.getSales().subscribe({
+    this.getSales();    
+  }
+
+  getSales(){
+    if (sessionStorage.getItem("selectedDay") == "yesterday") {
+      this.requestDate.setDate(this.requestDate.getDate() - 1);
+    }
+    else{
+      this.requestDate = new Date(sessionStorage.getItem("selectedDay")??"");
+    }
+    this.salesService.getSales(this.requestDate).subscribe({
       next: (data) => {
         this.salesLog = data as OrderModel[];
         this.IncomeSum();
@@ -33,13 +44,17 @@ export class SalesLogComponent {
             this.cdr.detectChanges();
           }
         });
-        console.log(this.salesLog);
-        console.log(this.incomeTotal);
-        
       },
       error: (error) => {
+        if (error.status == 404) {
+          this.errorString = "No sales data found for the selected date.";
+        } else {
+          this.errorString = "An error occurred while fetching sales data.";
+        }
+
         this.loadError = true;
         this.isLoading = false;
+        this.cdr.detectChanges();
         console.error('Error fetching sales data:', error);
       }
     });
@@ -51,17 +66,6 @@ export class SalesLogComponent {
         this.incomeTotal += item.product.price * item.quantity;
       });
     });
-  }
-
-  checkDay(){
-
-    var day = sessionStorage.getItem("selectedDay");
-    if (day === "today") {
-      this.today = sessionStorage.getItem("selectedDay");
-    }
-    else if (day=== "yesterday") {
-      this.yesterday= sessionStorage.getItem("selectedDay")
-    }
   }
 
   goBack(){

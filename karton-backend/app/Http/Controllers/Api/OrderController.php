@@ -73,4 +73,11 @@ class OrderController extends Controller
     {
         return Order::with('items.product')->findOrFail($id);
     }
+
+    public function getByDate($date)
+    {
+        return Order::with('items.product')
+            ->whereDate('created_at', $date)
+            ->get();
+    }
 }

@@ -5,116 +5,29 @@
     <app-sales-component (openLog)="openLog($event)"></app-sales-component>
     <span class="align-top p-3 block">
         <h2 class="font-bold">Kiadások</h2>
+        <div>
+            @if (isOutOfIngredient){<button class="bg-linear-0 from-red-600 via-red-700 to-red-600 hover:via-red-500 hover:scale-101 rounded-xl p-1 border-gray-600 border-2 mt-5  w-[33%]" (click)="isInStorage = true">Details on current inventory</button>}
+            @else {<button class="bg-linear-0 from-blue-500 via-blue-600 to-blue-500 hover:via-blue-400 hover:scale-101 rounded-xl p-1 border-gray-600 border-2 mt-5 w-[33%]" (click)="isInStorage=true">Details on current inventory</button>}
+        </div>
+    </span>  
+    
+    <h2 class="text-2xl font-bold border-b w-fit">Ingredients recommended for restocking</h2>
+        <div class="flex flex-wrap">
+            @for (item of restocks; track $index) {
+                <div class="w-[20%] h-fit p-2 bg-linear-0 from-gray-700 to-gray-500 text-white rounded-md m-2">
+                    <h3>{{item.created_at.toString().split('T')[0]}} {{item.created_at.toString().split('T')[1].split(".")[0]}}</h3>
+                    @for (ing of item.items; track $index) {
+                        <h2 class="font-bold text-lg">{{ing.ingredient.name}}: {{ing.quantity}} {{ing.ingredient.unit}}</h2>
+                    }
+                </div>  
+            }                    
+        </div>
 
-        <table>
-            <tr>
-                <td>
-                    <!-- <table class="w-full block">
-                        <tr>
-                            <td>Details:</td>
-                            <td class="details"></td>
-                            <td class="details"></td>
-                            <td class="details"></td>
-                            <td class="details"></td>
-                            <td class="details"></td>
-                            <td class="details"></td>
-                            <td class="details"></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>Mon</td>
-                            <td>Tue</td>
-                            <td>Wed</td>
-                            <td>Thu</td>
-                            <td>Fri</td>
-                            <td>Sat</td>
-                            <td>Sun</td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td rowspan="4" class="w-3">
-                                <div class="bar">
-                                    <div class="fuller p-3 bg-linear-to-b from-blue-600 to-blue-400 block align-bottom w-full"></div>
-                                </div>
-                            </td>
-                            <td rowspan="4" class="pbar">
-                                <div class="bar">
-                                    <div class="fuller p-3 bg-linear-to-b from-blue-600 to-blue-400 block align-bottom w-full"></div>
-                                </div>
-                            </td>
-                            <td rowspan="4" class="pbar">
-                                <div class="bar">
-                                    <div class="fuller p-3 bg-linear-to-b from-blue-600 to-blue-400 block align-bottom w-full"></div>
-                                </div>
-                            </td>
-                            <td rowspan="4" class="pbar">
-                                <div class="bar">
-                                    <div class="fuller p-3 bg-linear-to-b from-blue-600 to-blue-400 block align-bottom w-full"></div>
-                                </div>
-                            </td>
-                            <td rowspan="4" class="pbar">
-                                <div class="bar">
-                                    <div class="fuller p-3 bg-linear-to-b from-blue-600 to-blue-400 block align-bottom w-full">
-                                    </div>
-                                </div>
-                            </td>
-                            <td rowspan="4" class="pbar">
-                                <div class="bar">
-                                    <div class="fuller p-3 bg-linear-to-b from-blue-600 to-blue-400 block align-bottom w-full"></div>
-                                </div>
-                            </td>
-                            <td rowspan="4" class="pbar">
-                                <div class="bar">
-                                    <div class="fuller p-3 bg-linear-to-b from-blue-600 to-blue-400 block align-bottom w-full"></div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                        </tr>
-                    </table> -->
-                </td>
-                <td>
-                    <table>
-                        <tr class="font-bold">
-                            <td>Ingredients currently out of stock</td>
-                        </tr>
-                        <tr class="bg-linear-to-b from-red-600 via-red-500 to-red-600 rounded-2xl block w-fit m-auto hover:cursor-pointer px-2" (click)="isInStorage=true">
-                            <td>{{outOf.length != 0 ? outOf.length == 1 ? "1 item is out of stock": `${outOf.length} items are out of stock` : "No item is out of stock"}}</td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-            <tr class="mx-auto">
-                <td>
-                    @if (isOutOfIngredient){<button class="bg-linear-to-t from-red-600 via-red-700 to-red-600 rounded-xl p-1 border-gray-600 border-2 mt-5  w-[33%]" (click)="isInStorage = true">Details on current inventory</button>}
-                    @else {<button class="bg-linear-to-r from-yellow-500 via-yellow-400 to-yellow-500 rounded-xl p-1 border-gray-600 border-2 mt-5 w-[33%]" (click)="isInStorage=true">Details on current inventory</button>}
-                </td>
-                <td>
-                    <table>
-                        <tr class="font-bold">
-                            <td>Ingredients under the order limit</td>
-                        </tr>
-                        @if (underLimit.length == 0 || underLimit == undefined) {<tr class="bg-linear-to-b from-orange-600 via-orange-500 to-orange-600 rounded-2xl block w-fit m-auto px-3 border border-white hover:cursor-pointer">
-                            <td>None of the items are close to running out</td>
-                        </tr>}
-                        @for (ing of underLimit; track $index) {
-                        <tr class="bg-linear-to-b from-orange-600 via-orange-500 to-orange-600 rounded-2xl block w-full m-auto border border-white hover:cursor-pointer">
-                            <td>{{ing.name}}</td>
-                            <td>{{ing.amount}} {{ing.unit}}</td>
-                        </tr>
-                        }
-                    </table>
-                </td>
-            </tr>
-        </table>
-    </span>
+    <h2 class="text-2xl font-bold border-b w-fit">Recent Stock Movements</h2>
+    @for (item of recentMovements; track $index) {
+        <app-movement-component [movement]="item"></app-movement-component>
+    }
+
     }@else {
     <app-storage-component class="w-full" (back)="isInStorage = $event" (ranOut)="isOutOfIngredient=$event" [ingredients]="ingredients"></app-storage-component>
     }

@@ -33,10 +33,12 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
     Route::apiResource('orders', OrderController::class);
+    Route::get("{date}/orders", [OrderController::class, 'getByDate']);
 
     Route::apiResource('suppliers', SupplierController::class);
     Route::apiResource('purchase-orders', PurchaseOrderController::class);
 
+    Route::get("stock-movements", [InventoryController::class, 'stockMovements']);
 
     Route::get('analytics/reorder', [AnalyticsController::class, 'reorderSuggestion']);
     Route::get('analytics/stock', [AnalyticsController::class, 'stockSummary']); 

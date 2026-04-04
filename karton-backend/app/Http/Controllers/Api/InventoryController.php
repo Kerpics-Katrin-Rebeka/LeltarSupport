@@ -33,4 +33,9 @@ class InventoryController extends Controller
 
         return response()->json($inventory->load('ingredient'));
     }
+
+    public function stockMovements()
+    {
+        return StockMovement::with('ingredient')->orderBy('created_at', 'desc')->get();
+    }
 }
