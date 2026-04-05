@@ -4,11 +4,12 @@ import IngredientModel from '../../Models/IngredientModel';
 import { SalesComponent } from "../sales-component/sales-component";
 import { SalesLogComponent } from "../sales-log-component/sales-log-component";
 import { DataService } from '../../Services/data-service';
-import { MovementModel, RestockModel } from '../../Models/SalesModel';
+import { MovementModel, RecommendationItemModel, RestockModel } from '../../Models/SalesModel';
 import { MovementComponent } from '../movement-component/movement-component';
 import { MovementLogComponent } from '../movement-log-component/movement-log-component';
-import { MatDialog } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { PlaceRestockOrderComponent } from '../place-restock-order-component/place-restock-order-component';
+import { interval } from 'rxjs';
 
 @Component({
   selector: 'app-inventory-component',
@@ -34,19 +35,28 @@ export class InventoryComponent {
   ngOnInit(){
     this.dataService.getIngredients().subscribe(ingredients => {
       this.ingredients = ingredients;
-      this.outOf= this.ingredients.filter((ing: IngredientModel) => ing.amount == 0);
-      this.underLimit= this.ingredients.filter((ing: IngredientModel) => ing.amount < ing.maxAmount*0.1 && ing.amount > 0);
     });
     this.getRestocks();
     this.getMovements();
     
     sessionStorage.setItem("isViewingLog","false");
+
+    interval(10000).subscribe(()=>{
+      this.dataService.getIngredients().subscribe(ingredients => {
+        this.ingredients = ingredients;
+        
+      });
+      this.getRestocks();
+      this.getMovements();
+
+      
+    });
   }
 
   getRestocks(){
     this.dataService.getRestock().subscribe({
       next: (restocks)=>{
-        this.restocks = restocks;
+        this.restocks = restocks.filter((r)=>r.status ==='recommended');
         this.cdr.detectChanges();
       },
       error: (err)=>{
@@ -68,15 +78,15 @@ export class InventoryComponent {
   }
 
   openMovementLog(){
-    this.isViewingMLog=true;
+    this.isViewingMLog=true;    
   }
 
   openOrderPopUp(){
+    
     this.dialog.open(PlaceRestockOrderComponent,{
       width: '400px',
       height: '300px',
       disableClose: true,
-      data:this.ingredients,
     });
 
   }
@@ -91,5 +101,8 @@ export class InventoryComponent {
     this.isViewingLog = isIt;
   }
 
-
+  placeOrder(restock:RestockModel){
+    this.dataService.updatePurchaseOrder(restock.id,"ordered").subscribe();
+     this.getRestocks();
+  }
 }

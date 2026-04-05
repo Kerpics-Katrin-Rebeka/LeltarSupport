@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import SalesModel, { OrderModel, RestockModel } from '../Models/SalesModel';
+import SalesModel, { OrderModel, RecommendationItemModel, RestockModel } from '../Models/SalesModel';
 
 @Injectable({
   providedIn: 'root',
@@ -22,6 +22,23 @@ export class SalesService {
     Authorization: sessionStorage.getItem("token")? `Bearer ${sessionStorage.getItem("token")}`:"",
     });
     var data = this.http.get<RestockModel[]>("http://127.0.0.1:8000/api/purchase-orders",{headers});
+    return data;
+  }
+
+  getSuppliers(){
+    const headers = new HttpHeaders({
+    Authorization: sessionStorage.getItem("token")? `Bearer ${sessionStorage.getItem("token")}`:"",
+    });
+    var data = this.http.get<RestockModel[]>("http://127.0.0.1:8000/api/suppliers",{headers});
+    return data;
+  }
+
+  placeRestockOrder(items:RecommendationItemModel[],supplier_id:number){
+    const status = "ordered";
+    const headers = new HttpHeaders({
+    Authorization: sessionStorage.getItem("token")? `Bearer ${sessionStorage.getItem("token")}`:"",
+    });
+    var data = this.http.post<RestockModel[]>("http://127.0.0.1:8000/api/purchase-orders",{items,supplier_id,status},{headers});
     return data;
   }
 

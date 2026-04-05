@@ -31,9 +31,7 @@ export class StaffService {
     return data;
   }
 
-  EditEmployee(employee:UserModel){
-    console.log(employee);
-    
+  EditEmployee(employee:UserModel){    
     const headers = new HttpHeaders({
     Authorization: sessionStorage.getItem("token")? `Bearer ${sessionStorage.getItem("token")}`:"",
     });

@@ -24,9 +24,7 @@ export class RecruitComponent {
   ngOnInit(){
     this.staffService.getRoles().subscribe({
       next: (roles)=>{
-        this.roles = roles;
-        console.log(roles);
-        
+        this.roles = roles;     
       },
       error: (err)=>{
         console.log(err);
@@ -47,14 +45,10 @@ export class RecruitComponent {
       role: this.role.split(';')[1]?.trim().toLowerCase()
     }).subscribe({
       next: (res) => {
-        console.log(this.role);
-        
         this.dialog.close();
       },
       error: (err) => {
-        this.ErrorMsg = err.error.errors.name || err.error.errors.email || err.error.errors.password || "An error occurred while adding the employee.";
-        console.log(this.role);
-        
+        this.ErrorMsg = err.error.errors.name || err.error.errors.email || err.error.errors.password || "An error occurred while adding the employee.";        
       }
     });
   }

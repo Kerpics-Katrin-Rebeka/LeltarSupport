@@ -34,9 +34,15 @@ export class DataService {
     return data;
   }
 
+  updatePurchaseOrder(id: number, status: string) {
+    const headers = new HttpHeaders({
+      Authorization: sessionStorage.getItem("token")? `Bearer ${sessionStorage.getItem("token")}`:"",
+    });
+    return this.http.put(`http://127.0.0.1:8000/api/purchase-orders/${id}`, { status }, { headers });
+  }
+
   Login(email:string, pwd:string){
     var data = this.http.post<response>("http://127.0.0.1:8000/api/login", {'email':email, 'password':pwd},);
-    console.log(data);
     return data;
   }
 }

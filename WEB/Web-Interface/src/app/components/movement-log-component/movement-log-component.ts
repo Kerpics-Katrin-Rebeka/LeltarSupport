@@ -22,7 +22,6 @@ export class MovementLogComponent {
           this.movements = movements;
           this.cdr.detectChanges();
           timer(1000).subscribe(() => {});
-          console.log(this.movements);
         },
         error: (err)=>{
           console.log(err);

@@ -27,8 +27,6 @@ export class EditComponent {
     this.staffService.getRoles().subscribe({
       next: (roles)=>{
         this.roles = roles;
-        console.log(roles);
-        
       },
       error: (err)=>{
         console.log(err);
@@ -47,7 +45,6 @@ export class EditComponent {
   }
 
   EditEmployee(){
-    console.log(this.email, this.name, this.pwd, this.role);
     var role = this.role.split(';'); 
     this.staffService.EditEmployee({id: this.data.id, token: this.data.token, email: this.email, name: this.name, pwd: this.pwd, roles: [{name:role[1], id:Number(role[0])}] }).subscribe();
     this.dialog.close();

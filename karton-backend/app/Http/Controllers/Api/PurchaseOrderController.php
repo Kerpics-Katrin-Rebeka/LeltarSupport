@@ -28,9 +28,11 @@ class PurchaseOrderController extends Controller
         ]);
 
         foreach($request->items as $item){
+            $ingredientId = ($item['ingredient']['id']);
+
             PurchaseOrderItem::create([
                 'purchase_order_id'=>$po->id,
-                'ingredient_id'=>$item['ingredient_id'],
+                'ingredient_id'=>$ingredientId,
                 'quantity'=>$item['quantity']
             ]);
         }
@@ -41,5 +43,16 @@ class PurchaseOrderController extends Controller
     public function show($id)
     {
         return PurchaseOrder::with('items.ingredient')->findOrFail($id);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'status'=>'required|string'
+        ]);
+
+        $po = PurchaseOrder::findOrFail($id);
+        $po->update($request->only(['status']));
+        return response()->json($po);
     }
 }

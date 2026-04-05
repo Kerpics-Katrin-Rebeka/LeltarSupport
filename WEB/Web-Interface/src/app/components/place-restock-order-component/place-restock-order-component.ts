@@ -1,9 +1,12 @@
-import { Component, Inject } from '@angular/core';
-import { MatDialog, MatDialogRef, } from '@angular/material/dialog';
+import { ChangeDetectorRef, Component, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef, } from '@angular/material/dialog';
 import { DataService } from '../../Services/data-service';
 import { FormsModule } from '@angular/forms';
 import IngredientModel from '../../Models/IngredientModel';
 import { TitleCasePipe } from '@angular/common';
+import { OrderModel, RecommendationItemModel, RestockModel } from '../../Models/SalesModel';
+import { min, timer } from 'rxjs';
+import { SalesService } from '../../Services/sales-service';
 
 
 
@@ -15,26 +18,70 @@ import { TitleCasePipe } from '@angular/common';
 })
 export class PlaceRestockOrderComponent {
   ingredients:any[] = [];
-  ingredientName:string|string[] = "";
-  quantity:number|number[] = 0;
-  numberOfIngredients:number = 1;
+  orderedIngredients:RecommendationItemModel[] = [];
+  ingredientName:string = "";
+  quantity:number = 0;
+  numberOfIngredients:number = 0;
 
-  constructor(private dataService: DataService, @Inject(MatDialogRef) private dialog: MatDialogRef<PlaceRestockOrderComponent>) {}
+  constructor(private dataService: DataService, private salesService: SalesService, private cdr: ChangeDetectorRef, @Inject(MatDialogRef) private dialog: MatDialogRef<PlaceRestockOrderComponent>,@Inject(MAT_DIALOG_DATA) private data:any) {}
 
-  ngOnInit(){
+  ngOnInit(){  
     this.dataService.getIngredients().subscribe({
       next: (ings)=>{
         this.ingredients = ings;
-        console.log(this.ingredients[0]);
+        this.cdr.detectChanges();
       },
       error: (err)=>{
         console.log(err);
         this.ingredients = [];
       }
     })
+    timer(500).subscribe(()=>{
+      this.addIngredient(this.data);
+      this.cdr.detectChanges();
+    })
+
   }
 
-  placeRestockOrder(){}
+  placeRestockOrder(){
+    this.salesService.placeRestockOrder(this.orderedIngredients, 1).subscribe();
+    timer(500).subscribe(()=>{this.dialog.close()});
+  }
+
+  addIngredient(ing:RecommendationItemModel|undefined = undefined){
+    if(this.numberOfIngredients < this.ingredients.length){      
+      this.numberOfIngredients++;
+      this.orderedIngredients.push({
+        id: this.numberOfIngredients-1,
+        ingredient: {
+          id: 0,
+          name: "",
+          minAmount: 0,
+          unit: ""
+        },
+        quantity: 0
+      });
+    }
+    if (ing != undefined) {
+      this.orderedIngredients[0].ingredient = ing.ingredient;
+      this.orderedIngredients[0].quantity = ing.quantity;      
+    }
+  }
+
+  switchIngredient(item:RecommendationItemModel){
+    let ingredient = this.ingredients.find(ing => ing.ingredient.name == item.ingredient.name);
+    if(ingredient){
+      item.ingredient = ingredient.ingredient;
+    }
+  }
+
+  removeIngredient(item:RecommendationItemModel){
+    if (this.numberOfIngredients == 1) {
+      this.dialog.close();
+    }
+    this.numberOfIngredients--;
+    this.orderedIngredients.splice(this.orderedIngredients.indexOf(item),1);
+  }
 
   cancel(){
     this.dialog.close();

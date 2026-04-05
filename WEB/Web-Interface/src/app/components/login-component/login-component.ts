@@ -23,7 +23,6 @@ export class LoginComponent {
   loginAttempt(){    
     this.dataService.Login(this.email, this.pwd).subscribe({
       next: (resp) =>{
-        console.log(resp, resp.token);
         this.logger = resp;
         if (this.logger != undefined) {
           sessionStorage.setItem("loggedIn","true");
@@ -40,6 +39,5 @@ export class LoginComponent {
         });
       }
     });
-    console.log(this.logger);
   }
 }

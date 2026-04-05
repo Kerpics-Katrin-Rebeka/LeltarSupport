@@ -13,13 +13,13 @@
         </div>
     </span>  
     
-    <h2 class="text-2xl font-bold border-b w-fit">Ingredients recommended for restocking</h2>
+    <h2 class="text-2xl font-bold border-b w-fit">Ingredients recommended for restocking <button class="font-normal bg-linear-0 from-blue-500 to-blue-500 via-blue-600 hover:via-blue-400 px-2 rounded-md hover:scale-101" (click)="openOrderPopUp()">Place order</button></h2>
         <div class="flex flex-wrap">
             @for (item of restocks; track $index) {
                 <div class="w-fit h-fit p-2 bg-linear-0 from-gray-700 to-gray-500 text-white rounded-md m-2">
-                    <h3>{{item.created_at.toString().split('T')[0]}} {{item.created_at.toString().split('T')[1].split(".")[0]}}</h3>
+                    <h3>{{item.created_at.toString().split('T')[0]}} {{item.created_at.toString().split('T')[1].split(".")[0]}} <button class="bg-gray-600 px-2 rounded-md hover:scale-101 hover:bg-gray-400" type="button" (click)="placeOrder(item)">Order all</button></h3>
                     @for (ing of item.items; track $index) {
-                        <h2 class="font-bold text-lg mt-1">{{ing.ingredient.name}}: {{ing.quantity}} {{ing.ingredient.unit}} <button class="bg-gray-500 rounded-md px-1 hover:scale-101 hover:bg-gray-400" (click)="openOrderPopUp()">Place order</button></h2>
+                        <h2 class="font-bold text-lg mt-1">{{ing.ingredient.name}}: {{ing.quantity}} {{ing.ingredient.unit}}</h2>
                     }
                 </div>  
             }                    

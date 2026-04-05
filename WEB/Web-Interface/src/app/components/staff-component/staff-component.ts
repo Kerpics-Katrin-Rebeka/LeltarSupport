@@ -60,8 +60,6 @@ export class StaffComponent implements OnInit{
   }
 
   RemoveEmployee(employee:UserModel){
-    console.log(employee);
-
     if (employee.email == sessionStorage.getItem("userEmail")) {
       alert("You cannot remove yourself.");
       return;

@@ -17,8 +17,7 @@ export class StorageComponent {
   constructor(private dataService:DataService){}
 
   ngOnInit(){
-    this.dataService.getIngredients().subscribe(data=>{this.ingredients = data;console.log(data);
-    });
+    this.dataService.getIngredients().subscribe(data=>{this.ingredients = data;});
   }
 
   differential(current:number, max:number){
