@@ -20,11 +20,6 @@ export class StorageComponent {
     this.dataService.getIngredients().subscribe(data=>{this.ingredients = data;});
   }
 
-  differential(current:number, max:number){
-    if (max == current) return 0;
-    return (max-current) < 0 ? `+${-(max-current)}` : `-${(max-current)}`;
-  }
-
   goBack(){
     this.back.emit(false);
   }

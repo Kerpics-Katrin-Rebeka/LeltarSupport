@@ -1,10 +1,10 @@
-<span class="m-5 block">
-    <div class="flex flex-col gap-4 lg:flex-row lg:items-start p-1">
-        <table class="h-[80%] w-full0.75 lg:w-3/4">
+<span class="w-[130%] mx-[5%] my-3">
+    <div class="p-1">
+        <table class="h-[80%] w-full lg:w-3/4">
+            <tr><button (click)="getEmployees()" class="my-[2%] hover:bg-linear-to-b hover:scale-101 hover:cursor-pointer rounded-sm bg-linear-to-t from-0% from-gray-700 to-blue-100 py-1 px-2">Refresh</button></tr>
             <tr class="text-slate-800">
                 <td>
-                    <p class="p-1">Currently contracted employees <button class="hover:cursor-pointer rounded-sm bg-linear-to-t from-0%  from-gray-700 to-blue-100 py-1 px-2" (click)="openRecruitForm()">Record new hires</button></p>
-                    <table class="w-[75%] overflow-hidden rounded-md border border-slate-200 bg-white shadow-sm">
+                    <table class="w-[95%] overflow-hidden rounded-md border border-slate-200 bg-white shadow-sm">
                         <tr class="border-b">
                             <td class="p-1 border-r">Name</td>
                             <td class="p-1">Email address</td>
@@ -20,6 +20,9 @@
                         
                     </table>
                 </td>
+            </tr>
+            <tr>
+                <button class="mt-[2%] hover:bg-linear-to-b hover:scale-101 hover:cursor-pointer rounded-sm bg-linear-to-t from-0% from-gray-700 to-blue-100 py-1 px-2" (click)="openRecruitForm()">Record new hires</button>
             </tr>
         </table>
     </div>

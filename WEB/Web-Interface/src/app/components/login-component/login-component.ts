@@ -22,7 +22,26 @@ export class LoginComponent {
 
   loginAttempt(){    
     this.dataService.Login(this.email, this.pwd).subscribe({
-      next: (resp) =>{
+      next: (resp) =>{    
+        this.dataService.getLoggedInUser(`${resp.user.id}`).subscribe({
+          next:(user)=>{
+            var storageString = "";
+            user.roles.forEach(r => {
+              storageString+=r.name+";";
+            });
+            sessionStorage.setItem("userRoles", storageString);
+            console.log(sessionStorage.getItem("userRoles"));
+          },
+          error:(err)=>{
+            this.dialog.open(PopUpComponent, {
+          width: '250px',
+          height: '150px',
+          data: {message: `Failed to retrieve user roles!\n${err.message}`}
+        });
+          }
+        });    
+        console.log(resp);
+        
         this.logger = resp;
         if (this.logger != undefined) {
           sessionStorage.setItem("loggedIn","true");

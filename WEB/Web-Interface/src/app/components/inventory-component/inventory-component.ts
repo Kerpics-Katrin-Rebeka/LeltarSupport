@@ -9,7 +9,10 @@ import { MovementComponent } from '../movement-component/movement-component';
 import { MovementLogComponent } from '../movement-log-component/movement-log-component';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { PlaceRestockOrderComponent } from '../place-restock-order-component/place-restock-order-component';
-import { interval } from 'rxjs';
+import { interval, timeout, timer } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { PopUpComponent } from '../pop-up-component/pop-up-component';
+import { StaffComponent } from '../staff-component/staff-component';
 
 @Component({
   selector: 'app-inventory-component',
@@ -24,13 +27,13 @@ export class InventoryComponent {
   isInStorage:boolean=false;
   isViewingLog: boolean = sessionStorage.getItem("isViewingLog") == "true";
   isViewingMLog:boolean=false;
-  outOf:IngredientModel[] = [];
   underLimit:IngredientModel[] = [];
   ingredients:IngredientModel[] = [];
   restocks:RestockModel[] = [];
   recentMovements:MovementModel[] = [];
+  roles:string[] = [];
 
-  constructor(private dataService: DataService,private cdr: ChangeDetectorRef, @Inject(MatDialog) private dialog:MatDialog){}
+  constructor(private http: HttpClient,private dataService: DataService,private cdr: ChangeDetectorRef, @Inject(MatDialog) private dialog:MatDialog){}
 
   ngOnInit(){
     this.dataService.getIngredients().subscribe(ingredients => {
@@ -39,6 +42,11 @@ export class InventoryComponent {
     this.getRestocks();
     this.getMovements();
     
+    timer(500).subscribe(()=>{
+      this.roles = sessionStorage.getItem("userRoles")?.split(";")||[];
+      this.cdr.detectChanges();
+    });
+
     sessionStorage.setItem("isViewingLog","false");
 
     interval(10000).subscribe(()=>{
@@ -48,9 +56,8 @@ export class InventoryComponent {
       });
       this.getRestocks();
       this.getMovements();
-
-      
     });
+    sessionStorage.removeItem("userRoles");
   }
 
   getRestocks(){
@@ -82,13 +89,35 @@ export class InventoryComponent {
   }
 
   openOrderPopUp(){
+    console.log(this.roles);
     
-    this.dialog.open(PlaceRestockOrderComponent,{
+    if (this.roles.length!=0 && this.roles.includes("manager")){
+      this.dialog.open(PlaceRestockOrderComponent,{
       width: '400px',
       height: '300px',
       disableClose: true,
-    });
+      });
+    }
+    else{
+      this.dialog.open(PopUpComponent, {
+        width: '250px',
+        height: '150px',
+        data: {message: "You don't have permission to place orders!"},
+      });
+    }
+  }
 
+  openStaffManager(){
+    this.dialog.open(StaffComponent,{
+      width: '90%',
+      height: '80%',
+    });
+  }
+
+  logout(){      
+    sessionStorage.setItem("loggedIn","false")
+    this.dataService.LogOut().subscribe();
+    location.reload();
   }
 
   outOfLog(){
@@ -102,7 +131,16 @@ export class InventoryComponent {
   }
 
   placeOrder(restock:RestockModel){
-    this.dataService.updatePurchaseOrder(restock.id,"ordered").subscribe();
-     this.getRestocks();
+    if (this.roles.length!=0 && this.roles.includes("manager")){
+      this.dataService.updatePurchaseOrder(restock.id,"ordered").subscribe();
+      this.getRestocks();
+    }
+    else{
+      this.dialog.open(PopUpComponent, {
+        width: '250px',
+        height: '150px',
+        data: {message: "You don't have permission to place orders!"},
+      });
+    }
   }
 }

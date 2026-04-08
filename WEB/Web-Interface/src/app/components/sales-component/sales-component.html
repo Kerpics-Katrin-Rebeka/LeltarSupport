@@ -1,4 +1,3 @@
-<h1 class="font-bold text-xl">Yesterday's statistics</h1>
 <div class="w-full shadow-md rounded-md pt-5 pb-2 relative">
     <table class="w-full">
         <tr>
@@ -12,20 +11,19 @@
             <td>
                 <div class="ml-5">
                     <h2>Top sellers:</h2>
-                    <table class="shadow-xl h-[10%] w-[40%]">
-                        <tr>
-                            <td>BEANS</td>
-                            <td>150 units sold</td>
-                        </tr>
-                        <tr>
-                            <td>BEESE CHURGER</td>
-                            <td>140 units sold</td>
-                        </tr>
-                        <tr>
-                            <td>ONION</td>
-                            <td>1 units sold</td>
-                        </tr>
-                    </table>
+                    @if (topSellers.length>0) {
+                        <table class="shadow-xl h-[10%] w-[40%]">
+                            @for (item of topSellers; track $index) {
+                                <tr>
+                                    <td>{{ item.product.name }}</td>
+                                    <td>{{ item.quantity }} units sold</td>
+                                </tr>
+                            }
+                        </table>
+                    }
+                    @else {
+                        <h1 class="text-red-500">No sales were made yesterday</h1>
+                    }
                 </div>
             </td>
         </tr>
