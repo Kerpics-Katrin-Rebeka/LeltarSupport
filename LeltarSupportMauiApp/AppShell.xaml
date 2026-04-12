@@ -8,8 +8,8 @@
     Title="LeltarSupportMauiApp">
 
     <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate views:LoginView}"
+        Title="Menu"
+        ContentTemplate="{DataTemplate views:ProductListView}"
         Route="MainPage" />
 
 </Shell>

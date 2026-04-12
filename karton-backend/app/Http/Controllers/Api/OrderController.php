@@ -14,19 +14,32 @@ class OrderController extends Controller
 {
     public function index()
     {
-        return Order::with('items.product')->get();
+        return (Order::with('items.product')->get())->map(function($order){
+            return [
+                'id'=>$order->id,
+                'total_price'=>$order->total_price,
+                'created_at'=>$order->created_at,
+                'items'=>$order->items->map(function($item){
+                    return [
+                        'product_id'=>$item->product_id,
+                        'product_name'=>$item->product->name,
+                        'quantity'=>$item->quantity,
+                        'price'=>$item->product->price
+                    ];
+                })
+            ];
+        });
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'user_id'=>'required|exists:users,id',
             'items'=>'required|array'
         ]);
 
         DB::transaction(function() use ($request, &$order){
             $order = Order::create([
-                'user_id'=>$request->user_id,
+                'user_id'=>$request->user()->id,
                 'total_price'=>0
             ]);
 

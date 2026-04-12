@@ -1,60 +1,99 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using LeltarSupportMauiApp.Models;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.ComponentModel;
 using System.Linq;
 using System.Windows.Input;
+using LeltarSupportMauiApp.Models;
+using LeltarSupportMauiApp.Services;
 
-namespace LeltarSupportMauiApp.ViewModels
+namespace LeltarSupportMauiApp.ViewModels;
+
+public partial class CartViewModel : ObservableObject
 {
-    public partial class CartViewModel : ObservableObject
+    [ObservableProperty]
+    public ObservableCollection<OrderItem> orderItems = new ObservableCollection<OrderItem>();
+
+    [ObservableProperty]
+    private decimal sumPrice;
+
+    public ICommand AddToCartCommand { get; }
+    public ICommand RemoveFromCartCommand { get; }
+    public ICommand PurchaseCommand { get; }
+    public ICommand ClearCartCommand { get; }
+
+    OrderService orderService = new OrderService();
+
+    public CartViewModel()
     {
-        [ObservableProperty]
-        private ObservableCollection<CartItem> cartItems = new ObservableCollection<CartItem>();
+        AddToCartCommand = new Command<Product>(AddToCart);
+        RemoveFromCartCommand = new Command<OrderItem>(RemoveFromCart);
+        PurchaseCommand = new Command(Purchase);
+        ClearCartCommand = new Command(CleanCart);
+    }
 
-        public ICommand AddToCartCommand { get; }
-        public ICommand RemoveFromCartCommand { get; }
+    private void AddToCart(Product product)
+    {
+        if (product == null) return;
 
-        public CartViewModel()
+        var existingItem = OrderItems.FirstOrDefault(i => i.Product?.Id == product.Id || i.ProductId == product.Id);
+
+        if (existingItem != null)
         {
-            AddToCartCommand = new Command<Product>(AddToCart);
-            RemoveFromCartCommand = new Command<CartItem>(RemoveFromCart);
-
+            existingItem.Quantity++;
+        }
+        else
+        {
+            OrderItems.Add(new OrderItem
+            {
+                Product = product,
+                ProductId = product.Id,
+                Quantity = 1
+            });
         }
 
-        private void AddToCart(Product product)
+        RecalculateTotal();
+    }
+
+    private void RemoveFromCart(OrderItem item)
+    {
+        if (item == null) return;
+
+        var itemProductId = item.ProductId ?? item.Product?.Id;
+        if (!itemProductId.HasValue) return;
+
+        var existingItem = OrderItems.FirstOrDefault(i => (i.ProductId ?? i.Product?.Id) == itemProductId.Value);
+
+        if (existingItem != null)
         {
-            if (product == null) return;
+            existingItem.Quantity--;
 
-            var existingItem = CartItems.FirstOrDefault(i => i.Product.Name == product.Name);
-
-            if (existingItem != null)
-            {
-                existingItem.Quantity++;
-            }
-            else
-            {
-                CartItems.Add(new CartItem
-                {
-                    Product = product,
-                    Quantity = 1
-                });
-            }
+            if (existingItem.Quantity <= 0)
+                OrderItems.Remove(existingItem);
         }
 
-        private void RemoveFromCart(CartItem item)
+        RecalculateTotal();
+    }
+
+    private async void Purchase()
+    {
+        try
         {
-            if (item == null) return;
-            var existingItem = CartItems.FirstOrDefault(i => i.Product.Name == item.Product.Name);
-            if (existingItem != null)
-            {
-                existingItem.Quantity--;
-                if (existingItem.Quantity <= 0)
-                {
-                    CartItems.Remove(existingItem);
-                }
-            }
+            await orderService.Order(OrderItems.ToArray());
+            CleanCart();
         }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Purchase error: {ex.Message}");
+        }
+    }
+
+    private void RecalculateTotal()
+    {
+        SumPrice = OrderItems.Sum(i => (i.Product?.Price ?? 0m) * i.Quantity);
+    }
+
+    private void CleanCart()
+    {
+        OrderItems.Clear();
+        RecalculateTotal();
     }
 }

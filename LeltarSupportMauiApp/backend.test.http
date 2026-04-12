@@ -1,14 +1,15 @@
-@token = 1|sScRePG1xqmPbNidV0guoou5c7UP3mcNvVFpmtgBe117808c
-
 ### Login
+# @name login
 POST http://127.0.0.1:8000/api/login
-Accept: application/json
 Content-Type: application/json
 
 {
-    "email": "admin@example.com",
+    "email": "buyer@example.com",
     "password": "password"
 }
+
+###
+@token = {{login.response.body.access_token}}
 
 ###
 
@@ -53,6 +54,27 @@ Content-Type: application/json
 GET http://127.0.0.1:8000/api/orders
 Accept: application/json
 Authorization: Bearer {{token}}
+
+###
+
+### Post Orders
+POST http://127.0.0.1:8000/api/orders
+Accept: application/json
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "items":[
+        {
+            "product_id": 1,
+            "quantity": 2
+        },
+        {
+            "product_id": 2,
+            "quantity": 1
+        }
+    ]
+}
 
 ###
 

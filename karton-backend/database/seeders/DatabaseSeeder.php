@@ -14,7 +14,8 @@ class DatabaseSeeder extends Seeder
         DB::table('roles')->insertOrIgnore([
             ['id' => 1, 'name' => 'admin'],
             ['id' => 2, 'name' => 'manager'],
-            ['id' => 3, 'name' => 'cashier']
+            ['id' => 3, 'name' => 'cashier'],
+            ['id' => 4, 'name' => 'buyer']
         ]);
 
         // Users  (password: "password" for every user)
@@ -35,12 +36,21 @@ class DatabaseSeeder extends Seeder
                 'created_at' => '2026-03-05',
                 'updated_at' => '2026-03-05',
             ],
+            [
+                'id' => 3,
+                'name' => 'Buyer User',
+                'email' => 'buyer@example.com',
+                'password' => Hash::make('password'),
+                'created_at' => '2026-03-05',
+                'updated_at' => '2026-03-05',
+            ]
         ]);
 
         // User ↔ Role mapping
         DB::table('user_roles')->insertOrIgnore([
             ['user_id' => 1, 'role_id' => 1],
             ['user_id' => 2, 'role_id' => 3],
+            ['user_id' => 3, 'role_id' => 4],
         ]);
 
         // Products
