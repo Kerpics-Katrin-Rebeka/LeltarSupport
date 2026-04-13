@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('stock_movements', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('ingredient_id')->constrained()->cascadeOnDelete();
+            $table->decimal('change_amount', 10, 3);
+            $table->string('reason'); // pl.: 'used in product', 'restocked', etc.
             $table->timestamps();
         });
     }

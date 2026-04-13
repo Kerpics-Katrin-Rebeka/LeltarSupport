@@ -10,36 +10,73 @@ class IngredientController extends Controller
 {
     public function index()
     {
-        return Ingredient::all();
+        $ingredients = Ingredient::all();
+
+        return response()->json([
+            'success' => true,
+            'data' => $ingredients
+        ]);
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'name'=>'required|string',
-            'unit'=>'required|string'
+            'name' => 'required|string|unique:ingredients,name',
+            'unit' => 'required|string'
         ]);
 
-        $ingredient = Ingredient::create($request->only('name','unit'));
-        return response()->json($ingredient,201);
+        $ingredient = Ingredient::create([
+            'name' => $request->name,
+            'unit' => $request->unit
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Ingredient created',
+            'data' => $ingredient
+        ], 201);
     }
 
     public function show($id)
     {
-        return Ingredient::findOrFail($id);
+        $ingredient = Ingredient::findOrFail($id);
+
+        return response()->json([
+            'success' => true,
+            'data' => $ingredient
+        ]);
     }
 
     public function update(Request $request, $id)
     {
         $ingredient = Ingredient::findOrFail($id);
-        $ingredient->update($request->only('name','unit'));
-        return response()->json($ingredient);
-    }
 
+        $request->validate([
+            'name' => 'required|string|unique:ingredients,name,' . $id,
+            'unit' => 'required|string'
+        ]);
+
+        $ingredient->update([
+            'name' => $request->name,
+            'unit' => $request->unit
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Ingredient updated',
+            'data' => $ingredient
+        ]);
+    }
+    
     public function destroy($id)
     {
         $ingredient = Ingredient::findOrFail($id);
+
         $ingredient->delete();
-        return response()->json(['message'=>'Deleted']);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Ingredient deleted'
+        ]);
     }
 }
