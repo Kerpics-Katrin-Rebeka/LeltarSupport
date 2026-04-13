@@ -21,6 +21,7 @@ Route::prefix('auth')->group(function () {
 });
 Route::post('/register', [AuthController::class, 'register']); 
 
+Route::get('/test-ingredients', [IngredientController::class, 'index']);
 
 Route::middleware('auth:sanctum')->group(function () {
 
