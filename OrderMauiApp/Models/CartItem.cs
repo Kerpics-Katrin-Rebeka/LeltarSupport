@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace LeltarSupportMauiApp.Models
+namespace OrderMauiApp.Models
 { 
     public class CartItem : PurchaseOrderItem, INotifyPropertyChanged
     {

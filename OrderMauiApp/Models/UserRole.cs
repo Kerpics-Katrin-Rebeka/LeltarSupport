@@ -1,4 +1,4 @@
-namespace LeltarSupportMauiApp.Models
+namespace OrderMauiApp.Models
 {
     // Junction table between users and roles
     public class UserRole

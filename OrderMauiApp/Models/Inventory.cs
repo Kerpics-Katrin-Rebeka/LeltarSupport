@@ -1,15 +1,38 @@
 using System;
 using System.Collections.Generic;
+using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace LeltarSupportMauiApp.Models
+namespace OrderMauiApp.Models
 {
-    public class Inventory
+    public partial class Inventory : ObservableObject
     {
-        public int IngredientId { get; set; }
-        public decimal Quantity { get; set; }
-        public decimal MinimumLevel { get; set; }
+        [ObservableProperty]
+        private int ingredientId;
+
+        [ObservableProperty]
+        private decimal quantity;
+
+        [ObservableProperty]
+        private decimal minimumLevel;
+
+        [ObservableProperty]
+        private decimal changeQuantity = 1m;
+
+        [ObservableProperty]
+        private decimal pendingAdjustment;
+
         public Ingredient? Ingredient { get; set; }
 
         public bool IsLowStock => Quantity <= MinimumLevel;
+
+        partial void OnQuantityChanged(decimal value)
+        {
+            OnPropertyChanged(nameof(IsLowStock));
+        }
+
+        partial void OnMinimumLevelChanged(decimal value)
+        {
+            OnPropertyChanged(nameof(IsLowStock));
+        }
     }
 }

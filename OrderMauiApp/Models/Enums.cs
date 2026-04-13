@@ -1,7 +1,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace LeltarSupportMauiApp.Models
+namespace OrderMauiApp.Models
 {
     [JsonConverter(typeof(StringEnumConverter))]
     public enum StockMovementReason

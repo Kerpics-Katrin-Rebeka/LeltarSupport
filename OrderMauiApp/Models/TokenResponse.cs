@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LeltarSupportMauiApp.Models
+namespace OrderMauiApp.Models
 {
     internal class TokenResponse
     {

@@ -1,4 +1,4 @@
-namespace LeltarSupportMauiApp.Models
+namespace OrderMauiApp.Models
 {
     // Junction table between products and ingredients
     public class ProductIngredient

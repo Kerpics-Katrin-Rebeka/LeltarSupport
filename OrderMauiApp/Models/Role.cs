@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace LeltarSupportMauiApp.Models
+namespace OrderMauiApp.Models
 {
     public class Role
     {

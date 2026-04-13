@@ -1,4 +1,4 @@
-namespace LeltarSupportMauiApp.Models
+namespace OrderMauiApp.Models
 {
     public class OrderItem
     {

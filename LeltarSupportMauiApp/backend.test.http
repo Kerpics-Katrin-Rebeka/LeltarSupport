@@ -47,7 +47,7 @@ Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-    "quantity": 0
+    "quantity": 1
 }
 
 ### Get Orders
@@ -82,6 +82,14 @@ Content-Type: application/json
 GET http://127.0.0.1:8000/api/suppliers
 Accept: application/json
 Authorization: Bearer {{token}}
+
+###
+
+### Put new quantity in inventory
+POST http://127.0.0.1:8000/api/inventory/3/adjust
+Accept: application/json
+Authorization: Bearer {{token}}
+Content-Type: application/json
 
 ###
 
