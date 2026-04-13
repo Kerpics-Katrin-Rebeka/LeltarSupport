@@ -16,38 +16,50 @@
 
     <Grid x:Name="MainGrid">
         <CollectionView ItemsSource="{Binding ProductList}"
-                        SelectionMode="None">
+                SelectionMode="None">
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Orientation="Vertical"
+                         Span="2"
+                         HorizontalItemSpacing="10"
+                         VerticalItemSpacing="10"/>
+            </CollectionView.ItemsLayout>
+
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:Product">
-                    <Grid Padding="10"
-                          ColumnDefinitions="*,Auto"
-                          RowDefinitions="Auto,Auto,Auto">
-                        <Label Grid.Row="0"
-                               Grid.Column="0"
-                               Text="{Binding Name}"
-                               FontSize="18"
-                               FontAttributes="Bold" />
 
-                        <Label Grid.Row="0"
-                               Grid.Column="1"
-                               Text="{Binding Price, StringFormat='{0:C}'}"
-                               FontSize="18"
-                               HorizontalOptions="End" />
+                    <Border Margin="10"
+                            Padding="12"
+                            Stroke="#DDDDDD"
+                            StrokeThickness="2"
+                            StrokeShape="RoundRectangle 15"
+                            BackgroundColor="White">    
 
-                        <Label Grid.Row="1"
-                               Grid.Column="0"
-                               Grid.ColumnSpan="2"
-                               Text="{Binding Active, StringFormat='Active: {0}'}"
-                               FontSize="14"
-                               TextColor="Gray" />
+                        <Border.Shadow>
+                            <Shadow Brush="#80000F3F"
+                            Offset="0,3"
+                            Radius="8"
+                            Opacity="0.25"/>
+                        </Border.Shadow>
 
-                        <Button Grid.Row="2"
-                                Grid.Column="0"
-                                Grid.ColumnSpan="2"
-                                Text="Add to cart"
-                                Clicked="OnAddToCartClicked"
-                                HorizontalOptions="End" />
-                    </Grid>
+                        <VerticalStackLayout Spacing="8">
+                            <Label Text="{Binding Name}"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           LineBreakMode="TailTruncation"/>
+
+                            <Label Text="{Binding Price, StringFormat='{0:C}'}"
+                           FontSize="14"
+                           TextColor="#2E7D32"/>
+
+                            <Button Text="Add"
+                            Clicked="OnAddToCartClicked"
+                            FontSize="14"
+                            CornerRadius="10"
+                            BackgroundColor="#2196F3"
+                            TextColor="White"/>
+                        </VerticalStackLayout>
+                    </Border>
+
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
