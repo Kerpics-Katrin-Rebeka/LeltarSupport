@@ -10,14 +10,12 @@ using System.Windows.Input;
 
 namespace OrderMauiApp.ViewModels
 {
-    public partial class InventoryModel : ObservableObject
+    public partial class InventoryViewModel : ObservableObject
     {
         private readonly InventoryService _inventoryService = new InventoryService();
 
         [ObservableProperty]
-        private Inventory inventoryList = new Inventory();
-
-        public InventoryModel() { }
+        private ObservableCollection<Inventory> inventoryList = new ObservableCollection<Inventory>();
 
         [RelayCommand]
         private async Task LoadInventoryAsync()
@@ -25,7 +23,7 @@ namespace OrderMauiApp.ViewModels
             try
             {
                 InventoryList.Clear();
-                var list = await _inventoryService.StartOrderAsync();
+                var list = await _inventoryService.LoadInventory();
 
                 foreach (var item in list)
                 {

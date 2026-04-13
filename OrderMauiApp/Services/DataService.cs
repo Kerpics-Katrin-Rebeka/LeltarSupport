@@ -11,14 +11,14 @@ namespace OrderMauiApp.Services
     internal static class DataService
     {
         private static readonly ApiClient _client = new ApiClient();
-        private const string BuyerSessionKey = nameof(BuyerSessionKey);
+        private const string AdministratorSessionKey = nameof(AdministratorSessionKey);
         private const string AccessTokenKey = "access_token";
         private const string RefreshTokenKey = "refresh_token";
         private const string LoginRoute = "api/login";
 
         public static void SetBaseAddress(string baseAddress) => _client.SetBaseAddress(baseAddress);
 
-        public static async Task<BuyerLoginResponse?> AuthenticateBuyerAsync(string email, string password)
+        public static async Task<AdministratorLoginResponse?> AuthenticateAdministratorAsync(string email, string password)
         {
             if (string.IsNullOrWhiteSpace(email))
                 throw new ArgumentException("Email is required.", nameof(email));
@@ -26,24 +26,24 @@ namespace OrderMauiApp.Services
             if (string.IsNullOrWhiteSpace(password))
                 throw new ArgumentException("Password is required.", nameof(password));
 
-            var request = new BuyerLoginRequest
+            var request = new AdministratorLoginRequest
             {
                 Email = email,
                 Password = password
             };
 
-            var response = await _client.PostAsync<BuyerLoginRequest, BuyerLoginResponse>(
+            var response = await _client.PostAsync<AdministratorLoginRequest, AdministratorLoginResponse>(
                 Normalize(LoginRoute),
                 request);
 
             if (response is null || string.IsNullOrWhiteSpace(response.AccessToken))
                 return null;
 
-            await LoginBuyerAsync(response.AccessToken, response.RefreshToken);
+            await LoginAdministratorAsync(response.AccessToken, response.RefreshToken);
             return response;
         }
 
-        public static async Task LoginBuyerAsync(string accessToken, string? refreshToken = null)
+        public static async Task LoginAdministratorAsync(string accessToken, string? refreshToken = null)
         {
             if (string.IsNullOrWhiteSpace(accessToken))
                 throw new ArgumentException("Access token is required.", nameof(accessToken));
@@ -53,17 +53,17 @@ namespace OrderMauiApp.Services
             if (!string.IsNullOrWhiteSpace(refreshToken))
                 await SetRefreshToken(refreshToken);
 
-            Preferences.Default.Set(BuyerSessionKey, true);
+            Preferences.Default.Set(AdministratorSessionKey, true);
         }
 
-        public static bool IsBuyerLoggedIn()
+        public static bool IsAdministratorLoggedIn()
         {
-            return Preferences.Default.Get(BuyerSessionKey, false);
+            return Preferences.Default.Get(AdministratorSessionKey, false);
         }
 
-        public static void LogoutBuyer()
+        public static void LogoutAdministrator()
         {
-            Preferences.Default.Remove(BuyerSessionKey);
+            Preferences.Default.Remove(AdministratorSessionKey);
             ClearAuthorization();
             RemoveAccessToken();
             RemoveRefreshToken();
@@ -131,7 +131,7 @@ namespace OrderMauiApp.Services
             return route.TrimStart('/');
         }
 
-        internal sealed class BuyerLoginRequest
+        internal sealed class AdministratorLoginRequest
         {
             [JsonProperty("email")]
             public string Email { get; set; } = string.Empty;
@@ -140,10 +140,10 @@ namespace OrderMauiApp.Services
             public string Password { get; set; } = string.Empty;
         }
 
-        internal sealed class BuyerLoginResponse
+        internal sealed class AdministratorLoginResponse
         {
             [JsonProperty("user")]
-            public BuyerUser? User { get; set; }
+            public AdministratorUser? User { get; set; }
 
             [JsonProperty("access_token")]
             public string? AccessToken { get; set; }
@@ -155,7 +155,7 @@ namespace OrderMauiApp.Services
             public string? TokenType { get; set; }
         }
 
-        internal sealed class BuyerUser
+        internal sealed class AdministratorUser
         {
             [JsonProperty("id")]
             public int Id { get; set; }

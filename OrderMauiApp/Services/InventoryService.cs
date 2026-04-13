@@ -9,10 +9,10 @@ namespace OrderMauiApp.Services
 {
     internal class InventoryService
     {
-        public async Task<IEnumerable<Inventory>> StartOrderAsync()
+        public async Task<IEnumerable<Inventory>> LoadInventory()
         {
             var inventory = await DataService.SelectAsync<Inventory>("api/inventory").ConfigureAwait(false);
-            return inventory?.ToList() ?? [];
+            return inventory?.ToList() ?? Enumerable.Empty<Inventory>();
         }
     }
 }

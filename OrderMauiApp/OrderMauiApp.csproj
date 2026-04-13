@@ -68,12 +68,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="Views\InventoryView.xaml.cs">
-	    <DependentUpon>InventoryView.xaml</DependentUpon>
-	  </Compile>
-	</ItemGroup>
-
-	<ItemGroup>
 	  <MauiXaml Update="Views\InventoryView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

@@ -1,7 +1,8 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:models="clr-namespace:OrderMauiApp.ViewModels"
-             x:Class="OrderMauiAppp.Views.InventoryView"
+             xmlns:vm="clr-namespace:OrderMauiApp.ViewModels"
+             xmlns:models="clr-namespace:LeltarSupportMauiApp.Models"
+             x:Class="OrderMauiApp.Views.InventoryView"
              Title="Inventory">
 
     <CollectionView ItemsSource="{Binding InventoryList}"
@@ -12,9 +13,8 @@
                              HorizontalItemSpacing="12"
                              VerticalItemSpacing="12"/>
         </CollectionView.ItemsLayout>
-
         <CollectionView.ItemTemplate>
-            <DataTemplate x:DataType="models:InventoryModel">
+            <DataTemplate x:DataType="models:Inventory">
 
                 <Border Margin="10"
                         Padding="12"
@@ -46,9 +46,10 @@
                         <Label FontSize="13"
                                FontAttributes="Bold">
                             <Label.Triggers>
+                                <!-- Compare IsLowStock boolean to literal True -->
                                 <DataTrigger TargetType="Label"
-                                             Binding="{Binding Quantity}"
-                                             Value="{Binding MinimumLevel}">
+                                             Binding="{Binding IsLowStock}"
+                                             Value="True">
                                     <Setter Property="Text" Value="LOW STOCK"/>
                                     <Setter Property="TextColor" Value="Red"/>
                                 </DataTrigger>
