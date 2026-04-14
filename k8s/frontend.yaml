@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: ghcr.io/kerpics-katrin-rebek/angular-frontend:latest
+          image: ghcr.io/kerpics-katrin-rebeka/angular-frontend:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 80

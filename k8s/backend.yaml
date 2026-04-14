@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: ghcr.io/kerpics-katrin-rebek/laravel-backend:latest
+          image: ghcr.io/kerpics-katrin-rebeka/laravel-backend:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8000
