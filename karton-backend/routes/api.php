@@ -2,44 +2,66 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\IngredientController;
 use App\Http\Controllers\Api\InventoryController;
 use App\Http\Controllers\Api\OrderController;
-use App\Http\Controllers\Api\AnalyticsController;
-use App\Http\Controllers\Api\PurchaseOrderController;
-use App\Http\Controllers\Api\StaffController;
 use App\Http\Controllers\Api\SupplierController;
+use App\Http\Controllers\Api\PurchaseOrderController;
+use App\Http\Controllers\Api\AnalyticsController;
 
-Route::post('/login', [AuthController::class, 'login']);
+Route::options('{any}', function () {
+    return response('', 204);
+})->where('any', '.*');
+
+Route::prefix('auth')->group(function () {
+    Route::post('/login', [AuthController::class, 'login']);
+});
 Route::post('/register', [AuthController::class, 'register']); 
 
+Route::get('/test-ingredients', [IngredientController::class, 'index']);
 
 Route::middleware('auth:sanctum')->group(function () {
 
-    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::post('/auth/logout', [AuthController::class, 'logout']);
+    Route::get('/auth/me', [AuthController::class, 'me']);
 
+    // Products
     Route::apiResource('products', ProductController::class);
 
-    Route::apiResource('users', StaffController::class);
-    Route::get("roles", [StaffController::class, 'getRoles']);
-
+    // Ingredients
     Route::apiResource('ingredients', IngredientController::class);
 
-    Route::get('inventory', [InventoryController::class, 'index']); 
-    Route::get('inventory/{ingredient}', [InventoryController::class, 'show']); 
-    Route::post('inventory/{ingredient}/adjust', [InventoryController::class, 'adjust']); 
+    // Inventory
+    Route::prefix('inventory')->group(function () {
+        Route::get('/', [InventoryController::class, 'index']);
+        Route::put('/{ingredient_id}', [InventoryController::class, 'update']);
+        Route::get('/low-stock', [InventoryController::class, 'lowStock']);
+        Route::post('/restock', [InventoryController::class, 'restock']);
+    });
 
+    // Orders
+    Route::apiResource('orders', OrderController::class)->only([
+        'index', 'store', 'show'
+    ]);
+    Route::patch('orders/{id}/status', [OrderController::class, 'updateStatus']);
 
-    Route::apiResource('orders', OrderController::class);
-    Route::get("{date}/orders", [OrderController::class, 'getByDate']);
-
+    // Suppliers
     Route::apiResource('suppliers', SupplierController::class);
-    Route::apiResource('purchase-orders', PurchaseOrderController::class);
 
-    Route::get("stock-movements", [InventoryController::class, 'stockMovements']);
+    // Purchase Orders
+    Route::apiResource('purchase-orders', PurchaseOrderController::class)->only([
+        'index', 'store', 'show'
+    ]);
+    Route::post('purchase-orders/{id}/receive', [PurchaseOrderController::class, 'receive']);
 
-    Route::get('analytics/reorder', [AnalyticsController::class, 'reorderSuggestion']);
-    Route::get('analytics/stock', [AnalyticsController::class, 'stockSummary']); 
+    // Analytics
+    Route::prefix('analytics')->group(function () {
+        Route::get('reorder-suggestions', [AnalyticsController::class, 'reorderSuggestion']);
+        Route::get('low-stock-summary', [AnalyticsController::class, 'lowStockSummary']);
+        Route::get('top-products', [AnalyticsController::class, 'topProducts']);
+        Route::get('ingredient-usage', [AnalyticsController::class, 'ingredientUsage']);
+    });
 });

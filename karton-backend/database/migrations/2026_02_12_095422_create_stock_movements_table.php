@@ -13,11 +13,10 @@ return new class extends Migration
     {
         Schema::create('stock_movements', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('ingredient_id');
-            $table->decimal('change_amount', 10, 2)->nullable();
-            $table->enum('reason', ['order', 'restock', 'manual', 'correction']);
-            $table->timestamp('created_at')->useCurrent();
-            $table->foreign('ingredient_id')->references('id')->on('ingredients');
+            $table->foreignId('ingredient_id')->constrained()->cascadeOnDelete();
+            $table->decimal('change_amount', 10, 3);
+            $table->string('reason'); // pl.: 'used in product', 'restocked', etc.
+            $table->timestamps();
         });
     }
 

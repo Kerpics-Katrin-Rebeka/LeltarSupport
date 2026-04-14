@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('product_ingredients', function (Blueprint $table) {
-            $table->unsignedBigInteger('product_id');
-            $table->unsignedBigInteger('ingredient_id');
-            $table->decimal('quantity', 10, 2);
-            $table->primary(['product_id', 'ingredient_id']);
-            $table->foreign('product_id')->references('id')->on('products');
-            $table->foreign('ingredient_id')->references('id')->on('ingredients');
+        Schema::create('product_ingredient', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('product_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('ingredient_id')->constrained()->cascadeOnDelete();
+            $table->decimal('quantity', 10, 3); 
         });
     }
 

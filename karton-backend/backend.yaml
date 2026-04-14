@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vizsgaremek-inventory-backend
+  namespace: kerpics-katrin-rebek
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vizsgaremek-inventory-backend
+  template:
+    metadata:
+      labels:
+        app: vizsgaremek-inventory-backend
+    spec:
+      containers:
+        - name: backend
+          image: ghcr.io/kerpics-katrin-rebeka/laravel-backend:latest
+          ports:
+            - containerPort: 8000
+          env:
+            - name: APP_ENV
+              value: production
+            - name: APP_KEY
+              value: base64:6HXtu5X7x+Ra7IQiJlDSsNtwPqLS5asvBOaj6ESiKyc=
+            - name: DB_CONNECTION
+              value: mysql
+            - name: DB_HOST
+              value: vizsgaremek-inventory-db
+            - name: DB_PORT
+              value: "3306"
+            - name: DB_DATABASE
+              value: inventory
+            - name: DB_USERNAME
+              value: laravel
+            - name: DB_PASSWORD
+              value: secret
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: vizsgaremek-inventory-backend
+  namespace: kerpics-katrin-rebek
+spec:
+  selector:
+    app: vizsgaremek-inventory-backend
+  ports:
+    - port: 8000
+      targetPort: 8000
+  type: ClusterIP
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: vizsgaremek-inventory-backend-ingress
+  namespace: kerpics-katrin-rebek
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: vizsgaremek-inventory-backend.jcloud.jedlik.cloud
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: vizsgaremek-inventory-backend
+                port:
+                  number: 8000

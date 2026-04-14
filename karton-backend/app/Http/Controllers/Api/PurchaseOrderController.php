@@ -6,53 +6,123 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\PurchaseOrder;
 use App\Models\PurchaseOrderItem;
+use App\Models\Inventory;
+use App\Models\StockMovement;
+use Illuminate\Support\Facades\DB;
 
 class PurchaseOrderController extends Controller
 {
     public function index()
     {
-        return PurchaseOrder::with('items.ingredient')->get();
+        $orders = PurchaseOrder::with('items.ingredient', 'supplier')
+            ->latest()
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'data' => $orders
+        ]);
+    }
+
+    public function show($id)
+    {
+        $order = PurchaseOrder::with('items.ingredient', 'supplier')
+            ->findOrFail($id);
+
+        return response()->json([
+            'success' => true,
+            'data' => $order
+        ]);
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'supplier_id'=>'required|exists:suppliers,id',
-            'status'=>'required|string',
-            'items'=>'required|array'
+            'supplier_id' => 'required|exists:suppliers,id',
+            'items' => 'required|array|min:1',
+            'items.*.ingredient_id' => 'required|exists:ingredients,id',
+            'items.*.quantity' => 'required|numeric|min:1'
         ]);
 
-        $po = PurchaseOrder::create([
-            'supplier_id'=>$request->supplier_id,
-            'status'=>$request->status
-        ]);
+        DB::beginTransaction();
 
-        foreach($request->items as $item){
-            $ingredientId = ($item['ingredient']['id']);
-
-            PurchaseOrderItem::create([
-                'purchase_order_id'=>$po->id,
-                'ingredient_id'=>$ingredientId,
-                'quantity'=>$item['quantity']
+        try {
+            $order = PurchaseOrder::create([
+                'supplier_id' => $request->supplier_id,
+                'status' => 'pending'
             ]);
+
+            foreach ($request->items as $item) {
+                PurchaseOrderItem::create([
+                    'purchase_order_id' => $order->id,
+                    'ingredient_id' => $item['ingredient_id'],
+                    'quantity' => $item['quantity']
+                ]);
+            }
+
+            DB::commit();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Purchase order created',
+                'data' => $order->load('items.ingredient')
+            ], 201);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 400);
+        }
+    }
+
+    public function receive($id)
+    {
+        $order = PurchaseOrder::with('items')->findOrFail($id);
+
+        if ($order->status === 'received') {
+            return response()->json([
+                'success' => false,
+                'message' => 'Already received'
+            ], 400);
         }
 
-        return response()->json($po->load('items.ingredient'),201);
-    }
+        DB::beginTransaction();
 
-    public function show($id)
-    {
-        return PurchaseOrder::with('items.ingredient')->findOrFail($id);
-    }
+        try {
+            foreach ($order->items as $item) {
 
-    public function update(Request $request, $id)
-    {
-        $validated = $request->validate([
-            'status'=>'required|string'
-        ]);
+                $inventory = Inventory::where('ingredient_id', $item->ingredient_id)->firstOrFail();
 
-        $po = PurchaseOrder::findOrFail($id);
-        $po->update($request->only(['status']));
-        return response()->json($po);
+                $inventory->increment('quantity', $item->quantity);
+
+                StockMovement::create([
+                    'ingredient_id' => $item->ingredient_id,
+                    'change_amount' => $item->quantity,
+                    'reason' => 'purchase'
+                ]);
+            }
+
+            $order->status = 'received';
+            $order->save();
+
+            DB::commit();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Order received and stock updated',
+                'data' => $order->load('items.ingredient')
+            ]);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 400);
+        }
     }
 }

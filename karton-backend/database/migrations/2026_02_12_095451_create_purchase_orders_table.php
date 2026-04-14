@@ -13,10 +13,9 @@ return new class extends Migration
     {
         Schema::create('purchase_orders', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('supplier_id');
-            $table->enum('status', ['recommended', 'ordered', 'received']);
-            $table->timestamp('created_at')->useCurrent();
-            $table->foreign('supplier_id')->references('id')->on('suppliers');
+            $table->foreignId('supplier_id')->constrained()->cascadeOnDelete();
+            $table->string('status')->default('pending');
+            $table->timestamps();
         });
     }
 
