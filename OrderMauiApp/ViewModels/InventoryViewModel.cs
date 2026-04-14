@@ -83,12 +83,22 @@ namespace OrderMauiApp.ViewModels
                 {
                     if (item.PendingAdjustment == 0)
                         continue;
-
-                    await DataService.PostAsync<decimal, object>(
-                        $"api/inventory/{item.IngredientId}/adjust",
-                        item.PendingAdjustment);
-
-                    item.PendingAdjustment = 0;
+                    var id = (item.Ingredient?.Id > 0) ? item.Ingredient.Id : item.IngredientId;
+                    if (id <= 0)
+                    {
+                        Console.WriteLine($"Skipping inventory save: invalid IngredientId for item (IngredientId={item.IngredientId}).");
+                        continue;
+                    }
+                    var payload = new { quantity = item.Quantity };
+                    try
+                    {
+                        await DataService.PostAsync<object, object>($"api/inventory/{id}/adjust", payload);
+                        item.PendingAdjustment = 0;
+                    }
+                    catch (Exception exPerItem)
+                    {
+                        Console.WriteLine($"SaveInventoryAsync error for IngredientId={id}: {exPerItem.Message}");
+                    }
                 }
             }
             catch (Exception ex)

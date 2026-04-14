@@ -22,8 +22,11 @@ class InventoryController extends Controller
     public function update(Request $request, $ingredient_id)
     {
         $request->validate([
-            'quantity'=>'required|numeric'
+            'quantity'=>'required|numeric|min:0'
         ]);
+
+
+        $request->getContent();
 
         $inventory = Inventory::where('ingredient_id', $ingredient_id)->firstOrFail();
         $change = $request->quantity - $inventory->quantity;

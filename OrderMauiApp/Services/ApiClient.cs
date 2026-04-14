@@ -69,13 +69,22 @@ namespace LeltarSupportMauiApp.Services
         public async Task<TResponse?> PostAsync<TRequest, TResponse>(string route, TRequest item)
         {
             var jsonReq = JsonConvert.SerializeObject(item);
+            // Log request so you can compare with Postman
+            Console.WriteLine($"API POST -> {route}");
+            Console.WriteLine($"Request JSON: {jsonReq}");
+            Console.WriteLine($"Authorization header: {_httpClient.DefaultRequestHeaders.Authorization?.ToString() ?? "<none>"}");
+
             using var content = new StringContent(jsonReq, Encoding.UTF8, "application/json");
 
             var resp = await _httpClient.PostAsync(route, content).ConfigureAwait(false);
             var body = await resp.Content.ReadAsStringAsync().ConfigureAwait(false);
 
+            Console.WriteLine($"API POST <- {route}");
+            Console.WriteLine($"Status: {resp.StatusCode}");
+            Console.WriteLine($"Response Body: {body}");
+
             if (!resp.IsSuccessStatusCode)
-                throw new Exception($"API Error: {resp.StatusCode} - {body}");
+                throw new Exception($"API Error: {resp.StatusCode} - {body}\nRequest: {jsonReq}");
 
             if (string.IsNullOrWhiteSpace(body)) return default;
             return JsonConvert.DeserializeObject<TResponse>(body);
