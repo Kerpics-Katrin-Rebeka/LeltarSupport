@@ -13,7 +13,6 @@ namespace LeltarSupportMauiApp.Services
         private const string LoginRoute = "api/auth/login";
 
         public static void SetBaseAddress(string baseAddress) => _client.SetBaseAddress(baseAddress);
-
         public static async Task<BuyerLoginResponse?> AuthenticateBuyerAsync(string email, string password)
         {
             if (string.IsNullOrWhiteSpace(email))
@@ -55,9 +54,9 @@ namespace LeltarSupportMauiApp.Services
             Preferences.Default.Set(BuyerSessionKey, true);
         }
 
-        public static bool IsBuyerLoggedIn()
+        public static Task<bool> IsBuyerLoggedIn()
         {
-            return Preferences.Default.Get(BuyerSessionKey, false);
+            return Task.FromResult(false);
         }
 
         public static void LogoutBuyer()
@@ -99,7 +98,6 @@ namespace LeltarSupportMauiApp.Services
         public static Task<IEnumerable<T>> SelectAsync<T>(string route)
             => _client.GetListAsync<T>(Normalize(route));
 
-        // New helper: use when the API wraps collection in { success, message, data: [...] }
         public static async Task<IEnumerable<T>> SelectWrappedListAsync<T>(string route)
         {
             var wrapper = await _client.GetAsync<ServerResponse<List<T>>>(Normalize(route)).ConfigureAwait(false);

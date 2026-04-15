@@ -20,7 +20,6 @@ class AuthController extends Controller
 
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json([
-                'success' => false,
                 'message' => 'Invalid credentials'
             ], 401);
         }
@@ -30,8 +29,6 @@ class AuthController extends Controller
         $token = $user->createToken('api-token')->plainTextToken;
 
         return response()->json([
-            'success' => true,
-            'message' => 'Login successful',
             'data' => [
                 'user' => $user,
                 'token' => $token
@@ -44,16 +41,12 @@ class AuthController extends Controller
         $request->user()->currentAccessToken()->delete();
 
         return response()->json([
-            'success' => true,
             'message' => 'Logged out successfully'
         ]);
     }
 
     public function me(Request $request)
     {
-        return response()->json([
-            'success' => true,
-            'data' => $request->user()->load('roles')
-        ]);
+        return response()->json($request->user()->load('roles'));
     }
 }

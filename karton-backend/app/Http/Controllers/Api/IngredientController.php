@@ -12,10 +12,7 @@ class IngredientController extends Controller
     {
         $ingredients = Ingredient::all();
 
-        return response()->json([
-            'success' => true,
-            'data' => $ingredients
-        ]);
+        return response()->json($ingredients);
     }
 
     public function store(Request $request)
@@ -30,21 +27,14 @@ class IngredientController extends Controller
             'unit' => $request->unit
         ]);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Ingredient created',
-            'data' => $ingredient
-        ], 201);
+        return response()->json($ingredient, 201);
     }
 
     public function show($id)
     {
         $ingredient = Ingredient::findOrFail($id);
 
-        return response()->json([
-            'success' => true,
-            'data' => $ingredient
-        ]);
+        return response()->json($ingredient);
     }
 
     public function update(Request $request, $id)
@@ -61,11 +51,7 @@ class IngredientController extends Controller
             'unit' => $request->unit
         ]);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Ingredient updated',
-            'data' => $ingredient
-        ]);
+        return response()->json($ingredient);
     }
     
     public function destroy($id)
@@ -75,7 +61,6 @@ class IngredientController extends Controller
         $ingredient->delete();
 
         return response()->json([
-            'success' => true,
             'message' => 'Ingredient deleted'
         ]);
     }

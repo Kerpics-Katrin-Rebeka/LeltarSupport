@@ -12,10 +12,7 @@ class SupplierController extends Controller
     {
         $suppliers = Supplier::all();
 
-        return response()->json([
-            'success' => true,
-            'data' => $suppliers
-        ]);
+        return response()->json($suppliers);
     }
 
     public function store(Request $request)
@@ -32,21 +29,14 @@ class SupplierController extends Controller
             'phone' => $request->phone
         ]);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Supplier created',
-            'data' => $supplier
-        ], 201);
+        return response()->json($supplier, 201);
     }
 
     public function show($id)
     {
         $supplier = Supplier::with('purchaseOrders')->findOrFail($id);
 
-        return response()->json([
-            'success' => true,
-            'data' => $supplier
-        ]);
+        return response()->json($supplier);
     }
 
  public function update(Request $request, $id)
@@ -66,8 +56,6 @@ class SupplierController extends Controller
         ]);
 
         return response()->json([
-            'success' => true,
-            'message' => 'Supplier updated',
             'data' => $supplier
         ]);
     }
@@ -78,7 +66,6 @@ class SupplierController extends Controller
 
         if ($supplier->purchaseOrders()->exists()) {
             return response()->json([
-                'success' => false,
                 'message' => 'Supplier has purchase orders and cannot be deleted'
             ], 400);
         }
@@ -86,7 +73,6 @@ class SupplierController extends Controller
         $supplier->delete();
 
         return response()->json([
-            'success' => true,
             'message' => 'Supplier deleted'
         ]);
     }

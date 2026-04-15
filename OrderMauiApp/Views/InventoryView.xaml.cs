@@ -6,8 +6,8 @@ namespace OrderMauiApp.Views;
 
 public partial class InventoryView : ContentPage
 {
-    private const string KioskAdminEmail = "admin@example.com";
-    private const string KioskAdminPassword = "password";
+    private const string KioskAdminEmail = "admin@test.com";
+    private const string KioskAdminPassword = "123456";
     private readonly InventoryViewModel _vm;
 
     public InventoryView(InventoryViewModel vm)
@@ -18,7 +18,7 @@ public partial class InventoryView : ContentPage
 
     private async Task LoginAdministrator()
     {
-        var result = await DataService.AuthenticateAdministratorAsync(KioskAdminEmail, KioskAdminPassword);
+        var result = await DataService.AuthenticateAdminAsync(KioskAdminEmail, KioskAdminPassword);
 
         if (result == null)
         {
@@ -41,7 +41,7 @@ public partial class InventoryView : ContentPage
         var token = await DataService.GetBearerTokenAsync();
         if (string.IsNullOrWhiteSpace(token))
         {
-            DataService.LogoutAdministrator();
+            DataService.LogoutAdmin();
             return;
         }
 

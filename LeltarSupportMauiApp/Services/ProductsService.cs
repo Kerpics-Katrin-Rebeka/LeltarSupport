@@ -7,7 +7,7 @@ namespace LeltarSupportMauiApp.Services
 {
     internal class ProductsService
     {
-        public async Task<IEnumerable<Product>> StartOrderAsync()
+        public async Task<IEnumerable<Product>> LoadProductsAsync()
         {
             var products = await DataService.SelectWrappedListAsync<Product>("api/products").ConfigureAwait(false);
             return products?.ToList() ?? new List<Product>();

@@ -15,8 +15,6 @@ namespace LeltarSupportMauiApp.Views
         private System.Timers.Timer _graceTimer;
         private int TimeoutMinutes = 1;
 
-        
-
         public ProductListView(ProductListViewModel vm)
         {
             InitializeComponent();
@@ -36,35 +34,9 @@ namespace LeltarSupportMauiApp.Views
                 _gestureAdded = true;
             }
 
-            if (!DataService.IsBuyerLoggedIn())
-            {
-                StartOverlay.IsVisible = true;
-                return;
-            }
+            StartOverlay.IsVisible = true;
+            return;
 
-            await DataService.RestoreAuthorizationAsync();
-
-            var token = await DataService.GetBearerTokenAsync();
-            if (string.IsNullOrWhiteSpace(token))
-            {
-
-                DataService.LogoutBuyer();
-                StartOverlay.IsVisible = true;
-                return;
-            }
-
-            StartOverlay.IsVisible = false;
-
-            var stored = await DataService.GetBearerTokenAsync();
-            Console.WriteLine($"[Debug] Stored token: {(string.IsNullOrWhiteSpace(stored) ? "<null/empty>" : stored.Substring(0, Math.Min(8, stored.Length)) + "...")}");
-            var authHeader = DataService.GetAuthorizationHeader();
-            Console.WriteLine($"[Debug] Authorization header: {(string.IsNullOrWhiteSpace(authHeader) ? "<null/empty>" : authHeader)}");
-
-            if (BindingContext is ProductListViewModel vm)
-            {
-                await vm.LoadProductsCommand.ExecuteAsync(null);
-                SetupTimer();
-            }
         }
 
         private async void OnStartOrderClicked(object? sender, EventArgs e)
@@ -74,6 +46,8 @@ namespace LeltarSupportMauiApp.Views
 
             if (loginResult is null)
                 throw new InvalidOperationException("Buyer authentication failed.");
+
+            await DataService.RestoreAuthorizationAsync();
 
             StartOverlay.IsVisible = false;
 

@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace LeltarSupportMauiApp.Services
+namespace OrderMauiApp.Services
 {
     internal sealed class ApiClient : IDisposable
     {
@@ -69,22 +69,13 @@ namespace LeltarSupportMauiApp.Services
         public async Task<TResponse?> PostAsync<TRequest, TResponse>(string route, TRequest item)
         {
             var jsonReq = JsonConvert.SerializeObject(item);
-            // Log request so you can compare with Postman
-            Console.WriteLine($"API POST -> {route}");
-            Console.WriteLine($"Request JSON: {jsonReq}");
-            Console.WriteLine($"Authorization header: {_httpClient.DefaultRequestHeaders.Authorization?.ToString() ?? "<none>"}");
-
             using var content = new StringContent(jsonReq, Encoding.UTF8, "application/json");
 
             var resp = await _httpClient.PostAsync(route, content).ConfigureAwait(false);
             var body = await resp.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-            Console.WriteLine($"API POST <- {route}");
-            Console.WriteLine($"Status: {resp.StatusCode}");
-            Console.WriteLine($"Response Body: {body}");
-
             if (!resp.IsSuccessStatusCode)
-                throw new Exception($"API Error: {resp.StatusCode} - {body}\nRequest: {jsonReq}");
+                throw new Exception($"API Error: {resp.StatusCode} - {body}");
 
             if (string.IsNullOrWhiteSpace(body)) return default;
             return JsonConvert.DeserializeObject<TResponse>(body);
@@ -113,6 +104,9 @@ namespace LeltarSupportMauiApp.Services
             if (!resp.IsSuccessStatusCode)
                 throw new Exception($"API Error: {resp.StatusCode} - {body}");
         }
+
+        public string? GetAuthorizationHeader() =>
+            _httpClient.DefaultRequestHeaders.Authorization?.ToString();
 
         public void Dispose()
         {

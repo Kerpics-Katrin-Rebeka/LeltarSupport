@@ -17,20 +17,14 @@ class OrderController extends Controller
     {
         $orders = Order::with('items.product')->latest()->get();
 
-        return response()->json([
-            'success' => true,
-            'data' => $orders
-        ]);
+        return response()->json($orders);
     }
 
     public function show($id)
     {
         $order = Order::with('items.product')->findOrFail($id);
 
-        return response()->json([
-            'success' => true,
-            'data' => $order
-        ]);
+        return response()->json($order);
     }
 
     public function store(Request $request)
@@ -46,7 +40,6 @@ class OrderController extends Controller
         try {
             $order = Order::create([
                 'user_id' => $request->user()->id,
-                'status' => 'completed'
             ]);
 
             foreach ($request->items as $item) {
@@ -81,18 +74,13 @@ class OrderController extends Controller
 
             DB::commit();
 
-            return response()->json([
-                'success' => true,
-                'message' => 'Order created successfully',
-                'data' => $order->load('items.product')
-            ], 201);
+            return response()->json($order->load('items.product'), 201);
 
         } catch (\Exception $e) {
 
             DB::rollBack();
 
             return response()->json([
-                'success' => false,
                 'message' => $e->getMessage()
             ], 400);
         }
@@ -108,10 +96,6 @@ class OrderController extends Controller
         $order->status = $request->status;
         $order->save();
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Status updated',
-            'data' => $order
-        ]);
+        return response()->json($order);
     }
 }

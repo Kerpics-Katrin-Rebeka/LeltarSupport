@@ -12,11 +12,8 @@ class InventoryController extends Controller
     public function index()
     {
         $inventory = Inventory::with('ingredient')->get();
-
-        return response()->json([
-            'success' => true,
-            'data' => $inventory
-        ]);
+        // return plain array so clients expecting a JSON array can deserialize directly
+        return response()->json($inventory);
     }
 
     public function update(Request $request, $ingredient_id)
@@ -39,11 +36,7 @@ class InventoryController extends Controller
             'reason' => 'manual_adjustment'
         ]);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Stock updated',
-            'data' => $inventory->load('ingredient')
-        ]);
+        return response()->json($inventory->load('ingredient'));
     }
 
     public function lowStock()
@@ -52,10 +45,8 @@ class InventoryController extends Controller
             ->whereColumn('quantity', '<', 'minimum_level')
             ->get();
 
-        return response()->json([
-            'success' => true,
-            'data' => $items
-        ]);
+        // return plain array for consistency with index()
+        return response()->json($items);
     }
 
     public function restock(Request $request)
@@ -75,10 +66,6 @@ class InventoryController extends Controller
             'reason' => 'restock'
         ]);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Stock increased',
-            'data' => $inventory->load('ingredient')
-        ]);
+        return response()->json($inventory->load('ingredient'));
     }
 }

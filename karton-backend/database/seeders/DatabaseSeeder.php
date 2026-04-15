@@ -12,17 +12,28 @@ use App\Models\Product;
 use App\Models\Supplier;
 use App\Models\PurchaseOrder;
 use App\Models\PurchaseOrderItem;
+use App\Models\Role;
 
 class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // admin user
-        $user = User::create([
-            'name' => 'Admin',
-            'email' => 'admin@test.com',
-            'password' => Hash::make('123456')
+        // roles
+        $role = Role::firstOrCreate([
+            'name' => 'Admin'
         ]);
+
+        // admin user
+        $user = User::firstOrCreate(
+            ['email' => 'admin@test.com'],
+            [
+                'name' => 'Admin',
+                'password' => Hash::make('123456')
+            ]
+        );
+
+        // attach role via pivot (user_roles)
+        $user->roles()->syncWithoutDetaching([$role->id]);
 
         // ingredients
         $bun = Ingredient::create(['name' => 'Bun', 'unit' => 'db']);

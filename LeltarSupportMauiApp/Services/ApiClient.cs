@@ -105,7 +105,6 @@ namespace LeltarSupportMauiApp.Services
                 throw new Exception($"API Error: {resp.StatusCode} - {body}");
         }
 
-        // debug helper
         public string? GetAuthorizationHeader() =>
             _httpClient.DefaultRequestHeaders.Authorization?.ToString();
 

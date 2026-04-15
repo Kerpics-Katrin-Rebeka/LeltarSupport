@@ -18,10 +18,7 @@ class PurchaseOrderController extends Controller
             ->latest()
             ->get();
 
-        return response()->json([
-            'success' => true,
-            'data' => $orders
-        ]);
+        return response()->json($orders);
     }
 
     public function show($id)
@@ -29,10 +26,7 @@ class PurchaseOrderController extends Controller
         $order = PurchaseOrder::with('items.ingredient', 'supplier')
             ->findOrFail($id);
 
-        return response()->json([
-            'success' => true,
-            'data' => $order
-        ]);
+        return response()->json($order);
     }
 
     public function store(Request $request)
@@ -62,17 +56,12 @@ class PurchaseOrderController extends Controller
 
             DB::commit();
 
-            return response()->json([
-                'success' => true,
-                'message' => 'Purchase order created',
-                'data' => $order->load('items.ingredient')
-            ], 201);
+            return response()->json($order->load('items.ingredient'), 201);
 
         } catch (\Exception $e) {
             DB::rollBack();
 
             return response()->json([
-                'success' => false,
                 'message' => $e->getMessage()
             ], 400);
         }
@@ -84,7 +73,6 @@ class PurchaseOrderController extends Controller
 
         if ($order->status === 'received') {
             return response()->json([
-                'success' => false,
                 'message' => 'Already received'
             ], 400);
         }
@@ -110,17 +98,12 @@ class PurchaseOrderController extends Controller
 
             DB::commit();
 
-            return response()->json([
-                'success' => true,
-                'message' => 'Order received and stock updated',
-                'data' => $order->load('items.ingredient')
-            ]);
+            return response()->json($order->load('items.ingredient'));
 
         } catch (\Exception $e) {
             DB::rollBack();
 
             return response()->json([
-                'success' => false,
                 'message' => $e->getMessage()
             ], 400);
         }

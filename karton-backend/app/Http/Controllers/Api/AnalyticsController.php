@@ -27,10 +27,7 @@ class AnalyticsController extends Controller
                 ];
             });
 
-        return response()->json([
-            'success' => true,
-            'data' => $items
-        ]);
+        return response()->json($items);
     }
 
     public function lowStockSummary()
@@ -38,7 +35,6 @@ class AnalyticsController extends Controller
         $lowStock = Inventory::whereColumn('quantity', '<', 'minimum_level')->count();
 
         return response()->json([
-            'success' => true,
             'low_stock_count' => $lowStock
         ]);
     }
@@ -62,10 +58,7 @@ class AnalyticsController extends Controller
                 ];
             });
 
-        return response()->json([
-            'success' => true,
-            'data' => $products
-        ]);
+        return response()->json($products);
     }
 
     public function ingredientUsage()
@@ -83,9 +76,6 @@ class AnalyticsController extends Controller
             ->orderByDesc('total_used')
             ->get();
 
-        return response()->json([
-            'success' => true,
-            'data' => $usage
-        ]);
+        return response()->json($usage);
     }
 }

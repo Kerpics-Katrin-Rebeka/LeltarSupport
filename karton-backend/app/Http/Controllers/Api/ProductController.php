@@ -12,10 +12,7 @@ class ProductController extends Controller
     {
         $products = Product::with('ingredients')->get();
 
-        return response()->json([
-            'success' => true,
-            'data' => $products
-        ]);
+        return response()->json($products);
     }
 
     public function store(Request $request)
@@ -41,11 +38,7 @@ class ProductController extends Controller
             ]);
         }
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Product created',
-            'data' => $product->load('ingredients')
-        ], 201);
+        return response()->json($product->load('ingredients'), 201);
     }
 
 
@@ -53,10 +46,7 @@ class ProductController extends Controller
     {
         $product = Product::with('ingredients')->findOrFail($id);
 
-        return response()->json([
-            'success' => true,
-            'data' => $product
-        ]);
+        return response()->json($product);
     }
 
     public function update(Request $request, $id)
@@ -90,11 +80,7 @@ class ProductController extends Controller
             $product->ingredients()->sync($syncData);
         }
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Product updated',
-            'data' => $product->load('ingredients')
-        ]);
+        return response()->json($product->load('ingredients'));
     }
 
     public function destroy($id)
@@ -106,7 +92,6 @@ class ProductController extends Controller
         $product->delete();
 
         return response()->json([
-            'success' => true,
             'message' => 'Product deleted'
         ]);
     }

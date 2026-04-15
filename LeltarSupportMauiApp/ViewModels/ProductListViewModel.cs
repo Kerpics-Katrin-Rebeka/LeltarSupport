@@ -31,8 +31,12 @@ namespace LeltarSupportMauiApp.ViewModels
         {
             try
             {
+                var stored = await DataService.GetBearerTokenAsync();
+                Console.WriteLine($"[Debug] Stored token: {(string.IsNullOrWhiteSpace(stored) ? "(none)" : stored)}");
+                Console.WriteLine($"[Debug] Authorization header: {DataService.GetAuthorizationHeader()}");
+
                 ProductList.Clear();
-                var list = await _productservice.StartOrderAsync();
+                var list = await _productservice.LoadProductsAsync();
 
                 foreach (var item in list)
                 {

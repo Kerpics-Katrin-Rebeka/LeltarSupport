@@ -1,5 +1,4 @@
-﻿using LeltarSupportMauiApp.Services;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -9,19 +8,12 @@ namespace OrderMauiApp.Services
     internal static class DataService
     {
         private static readonly ApiClient _client = new ApiClient();
+        private const string AdminSessionKey = nameof(AdminSessionKey);
         private const string AccessTokenKey = "access_token";
-        private const string RefreshTokenKey = "refresh_token";
-        private const string LoginRoute = "api/login";
+        private const string LoginRoute = "api/auth/login";
 
-        public static void SetBaseAddress(string baseAddress)
-        {
-            if (string.IsNullOrWhiteSpace(baseAddress))
-                throw new ArgumentException("Base address is required.", nameof(baseAddress));
-
-            _client.SetBaseAddress(baseAddress);
-        }
-
-        public static async Task<AdministratorLoginResponse> AuthenticateAdministratorAsync(string email, string password)
+        public static void SetBaseAddress(string baseAddress) => _client.SetBaseAddress(baseAddress);
+        public static async Task<AdminLoginResponse?> AuthenticateAdminAsync(string email, string password)
         {
             if (string.IsNullOrWhiteSpace(email))
                 throw new ArgumentException("Email is required.", nameof(email));
@@ -29,81 +21,60 @@ namespace OrderMauiApp.Services
             if (string.IsNullOrWhiteSpace(password))
                 throw new ArgumentException("Password is required.", nameof(password));
 
-            var request = new AdministratorLoginRequest
+            var request = new AdminLoginRequest
             {
                 Email = email,
                 Password = password
             };
-            var response = default(AdministratorLoginResponse);
-            try
-            {
-                response = await _client.PostAsync<AdministratorLoginRequest, AdministratorLoginResponse>(
+
+            var serverResponse = await _client.PostAsync<AdminLoginRequest, ServerResponse<LoginData>>(
                 Normalize(LoginRoute),
                 request);
 
-            }
-            catch (Exception ex)
+            if (serverResponse is null || serverResponse.Data is null || string.IsNullOrWhiteSpace(serverResponse.Data.Token))
+                return null;
+
+            var result = new AdminLoginResponse
             {
-                Console.WriteLine(ex.ToString());
-                throw;
-            }
+                User = serverResponse.Data.User,
+                AccessToken = serverResponse.Data.Token,
+                TokenType = serverResponse.Data.TokenType
+            };
 
-            if (response is null)
-                throw new InvalidOperationException("Login failed: no response was returned by the server.");
-
-            if (string.IsNullOrWhiteSpace(response.AccessToken))
-                throw new InvalidOperationException("Login failed: the server did not return an access token.");
-
-            await LoginAdministratorAsync(response.AccessToken, response.RefreshToken);
-            return response;
+            await LoginAdminAsync(result.AccessToken);
+            return result;
         }
 
-        public static async Task LoginAdministratorAsync(string accessToken, string? refreshToken = null)
+        public static async Task LoginAdminAsync(string accessToken)
         {
             if (string.IsNullOrWhiteSpace(accessToken))
                 throw new ArgumentException("Access token is required.", nameof(accessToken));
 
             await SetBearerTokenAsync(accessToken);
-
-            if (string.IsNullOrWhiteSpace(refreshToken))
-                RemoveRefreshToken();
-            else
-                await SetRefreshToken(refreshToken);
+            Preferences.Default.Set(AdminSessionKey, true);
         }
 
-        public static async Task<bool> IsAdministratorLoggedInAsync()
+        public static Task<bool> IsAdminLoggedIn()
         {
-            var token = await GetBearerTokenAsync();
-
-            if (string.IsNullOrWhiteSpace(token))
-            {
-                ClearAuthorization();
-                return false;
-            }
-
-            _client.SetBearerToken(token);
-            return true;
+            return Task.FromResult(false);
         }
 
-        public static void LogoutAdministrator()
+        public static void LogoutAdmin()
         {
+            Preferences.Default.Remove(AdminSessionKey);
             ClearAuthorization();
             RemoveAccessToken();
-            RemoveRefreshToken();
         }
 
         public static async Task SetBearerTokenAsync(string token)
         {
-            if (string.IsNullOrWhiteSpace(token))
-                throw new ArgumentException("Access token is required.", nameof(token));
-
             _client.SetBearerToken(token);
             await SecureStorage.Default.SetAsync(AccessTokenKey, token);
         }
 
-        public static Task<string?> GetBearerTokenAsync()
+        public static async Task<string?> GetBearerTokenAsync()
         {
-            return SecureStorage.Default.GetAsync(AccessTokenKey);
+            return await SecureStorage.Default.GetAsync(AccessTokenKey);
         }
 
         public static void RemoveAccessToken()
@@ -111,36 +82,12 @@ namespace OrderMauiApp.Services
             SecureStorage.Default.Remove(AccessTokenKey);
         }
 
-        public static async Task<bool> RestoreAuthorizationAsync()
+        public static async Task RestoreAuthorizationAsync()
         {
             var token = await GetBearerTokenAsync();
 
-            if (string.IsNullOrWhiteSpace(token))
-            {
-                ClearAuthorization();
-                return false;
-            }
-
-            _client.SetBearerToken(token);
-            return true;
-        }
-
-        public static async Task SetRefreshToken(string token)
-        {
-            if (string.IsNullOrWhiteSpace(token))
-                throw new ArgumentException("Refresh token is required.", nameof(token));
-
-            await SecureStorage.Default.SetAsync(RefreshTokenKey, token);
-        }
-
-        public static Task<string?> GetRefreshToken()
-        {
-            return SecureStorage.Default.GetAsync(RefreshTokenKey);
-        }
-
-        public static void RemoveRefreshToken()
-        {
-            SecureStorage.Default.Remove(RefreshTokenKey);
+            if (!string.IsNullOrWhiteSpace(token))
+                _client.SetBearerToken(token);
         }
 
         public static void ClearAuthorization() => _client.ClearAuthorization();
@@ -150,6 +97,13 @@ namespace OrderMauiApp.Services
 
         public static Task<IEnumerable<T>> SelectAsync<T>(string route)
             => _client.GetListAsync<T>(Normalize(route));
+
+        public static async Task<IEnumerable<T>> SelectWrappedListAsync<T>(string route)
+        {
+            var wrapper = await _client.GetAsync<ServerResponse<List<T>>>(Normalize(route)).ConfigureAwait(false);
+            if (wrapper is null || wrapper.Data is null) return Array.Empty<T>();
+            return wrapper.Data;
+        }
 
         public static Task<TResponse?> PostAsync<TRequest, TResponse>(string route, TRequest item)
             => _client.PostAsync<TRequest, TResponse>(Normalize(route), item);
@@ -162,13 +116,11 @@ namespace OrderMauiApp.Services
 
         private static string Normalize(string route)
         {
-            if (string.IsNullOrWhiteSpace(route))
-                throw new ArgumentException("Route is required.", nameof(route));
-
-            return route.Trim().TrimStart('/');
+            if (string.IsNullOrWhiteSpace(route)) return string.Empty;
+            return route.TrimStart('/');
         }
 
-        internal sealed class AdministratorLoginRequest
+        internal sealed class AdminLoginRequest
         {
             [JsonProperty("email")]
             public string Email { get; set; } = string.Empty;
@@ -177,22 +129,19 @@ namespace OrderMauiApp.Services
             public string Password { get; set; } = string.Empty;
         }
 
-        internal sealed class AdministratorLoginResponse
+        internal sealed class AdminLoginResponse
         {
             [JsonProperty("user")]
-            public AdministratorUser? User { get; set; }
+            public AdminUser? User { get; set; }
 
             [JsonProperty("access_token")]
             public string? AccessToken { get; set; }
-
-            [JsonProperty("refresh_token")]
-            public string? RefreshToken { get; set; }
 
             [JsonProperty("token_type")]
             public string? TokenType { get; set; }
         }
 
-        internal sealed class AdministratorUser
+        internal sealed class AdminUser
         {
             [JsonProperty("id")]
             public int Id { get; set; }
@@ -203,5 +152,31 @@ namespace OrderMauiApp.Services
             [JsonProperty("email")]
             public string? Email { get; set; }
         }
+
+        internal sealed class ServerResponse<T>
+        {
+            [JsonProperty("success")]
+            public bool Success { get; set; }
+
+            [JsonProperty("message")]
+            public string? Message { get; set; }
+
+            [JsonProperty("data")]
+            public T? Data { get; set; }
+        }
+
+        internal sealed class LoginData
+        {
+            [JsonProperty("user")]
+            public AdminUser? User { get; set; }
+
+            [JsonProperty("token")]
+            public string? Token { get; set; }
+
+            [JsonProperty("token_type")]
+            public string? TokenType { get; set; }
+        }
+
+        public static string? GetAuthorizationHeader() => _client.GetAuthorizationHeader();
     }
 }
