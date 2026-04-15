@@ -81,4 +81,9 @@ class InventoryController extends Controller
             'data' => $inventory->load('ingredient')
         ]);
     }
+    
+    public function stockMovements()
+    {
+        return StockMovement::with('ingredient')->orderBy('created_at', 'desc')->get();
+    }
 }

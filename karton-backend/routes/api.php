@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\SupplierController;
 use App\Http\Controllers\Api\PurchaseOrderController;
 use App\Http\Controllers\Api\AnalyticsController;
+use App\Http\Controllers\Api\StaffController;
 
 Route::options('{any}', function () {
     return response('', 204);
@@ -47,15 +48,21 @@ Route::middleware('auth:sanctum')->group(function () {
         'index', 'store', 'show'
     ]);
     Route::patch('orders/{id}/status', [OrderController::class, 'updateStatus']);
+    Route::get("{date}/orders", [OrderController::class, 'getByDate']);
 
     // Suppliers
     Route::apiResource('suppliers', SupplierController::class);
+
+    Route::apiResource('users', StaffController::class);
+    Route::get("roles", [StaffController::class, 'getRoles']);
 
     // Purchase Orders
     Route::apiResource('purchase-orders', PurchaseOrderController::class)->only([
         'index', 'store', 'show'
     ]);
     Route::post('purchase-orders/{id}/receive', [PurchaseOrderController::class, 'receive']);
+
+    Route::get("stock-movements", [InventoryController::class, 'stockMovements']);
 
     // Analytics
     Route::prefix('analytics')->group(function () {

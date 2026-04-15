@@ -42,7 +42,7 @@ export class DataService {
   }
 
   Login(email:string, pwd:string){
-    var data = this.http.post<response>("http://127.0.0.1:8000/api/login", {'email':email, 'password':pwd},);
+    var data = this.http.post<response>("http://127.0.0.1:8000/api/auth/login", {'email':email, 'password':pwd},);
     return data;
   }
 

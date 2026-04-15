@@ -8,8 +8,12 @@ export default interface UserModel {
 }
 
 export interface response{
-  user:UserModel,
-  token:string
+  data:{
+    user:UserModel,
+    token:string
+  },
+  message:string,
+  success:boolean
 }
 
 export interface newUser{

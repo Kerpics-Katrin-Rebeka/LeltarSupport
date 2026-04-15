@@ -114,4 +114,11 @@ class OrderController extends Controller
             'data' => $order
         ]);
     }
+
+    public function getByDate($date)
+    {
+        return Order::with('items.product')
+            ->whereDate('created_at', $date)
+            ->get();
+    }
 }

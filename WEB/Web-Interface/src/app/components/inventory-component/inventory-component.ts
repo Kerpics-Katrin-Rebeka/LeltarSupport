@@ -63,7 +63,8 @@ export class InventoryComponent {
   getRestocks(){
     this.dataService.getRestock().subscribe({
       next: (restocks)=>{
-        this.restocks = restocks.filter((r)=>r.status ==='recommended');
+        console.log(typeof restocks);
+        this.restocks =restocks.data.filter((r)=> r.data.status=="pending");
         this.cdr.detectChanges();
       },
       error: (err)=>{
@@ -132,7 +133,7 @@ export class InventoryComponent {
 
   placeOrder(restock:RestockModel){
     if (this.roles.length!=0 && this.roles.includes("manager")){
-      this.dataService.updatePurchaseOrder(restock.id,"ordered").subscribe();
+      this.dataService.updatePurchaseOrder(restock.data.id,"ordered").subscribe();
       this.getRestocks();
     }
     else{

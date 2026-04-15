@@ -23,7 +23,14 @@ export class LoginComponent {
   loginAttempt(){    
     this.dataService.Login(this.email, this.pwd).subscribe({
       next: (resp) =>{    
-        this.dataService.getLoggedInUser(`${resp.user.id}`).subscribe({
+        this.logger = resp;
+        if (this.logger != undefined) {
+          sessionStorage.setItem("loggedIn","true");
+          sessionStorage.setItem("token", this.logger.data.token);
+          sessionStorage.setItem("userEmail", this.email);
+        }
+
+        this.dataService.getLoggedInUser(`${resp.data.user.id}`).subscribe({
           next:(user)=>{
             var storageString = "";
             user.roles.forEach(r => {
@@ -41,12 +48,8 @@ export class LoginComponent {
           }
         });    
         console.log(resp);
-        
-        this.logger = resp;
+
         if (this.logger != undefined) {
-          sessionStorage.setItem("loggedIn","true");
-          sessionStorage.setItem("token", this.logger.token);
-          sessionStorage.setItem("userEmail", this.email);
           this.loginAttempted.emit()
         }    
       },

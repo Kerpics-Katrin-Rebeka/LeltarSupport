@@ -41,11 +41,14 @@ export interface SupplierModel{
 }
 
 export interface RestockModel{
-    id:number;
-    supplier_id:number;
-    status:string;
-    created_at:string|Date;
-    items:RecommendationItemModel[];
+    data:{
+        id:number;
+        supplier_id:number;
+        status:string;
+        created_at:string|Date;
+        items:RecommendationItemModel[];
+    }
+    success:boolean;
 }
 
 export interface MovementModel{
