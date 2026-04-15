@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import IngredientModel, { IngredientResponseModel } from '../Models/IngredientModel';
+import IngredientModel, { IngredientResponseModel, UnderLimitResponseModel } from '../Models/IngredientModel';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import UserModel, { response } from '../Models/UserModel';
 import { MovementModel, RestockModel } from '../Models/SalesModel';
@@ -22,7 +22,7 @@ export class DataService {
     const headers = new HttpHeaders({
       Authorization: sessionStorage.getItem("token")? `Bearer ${sessionStorage.getItem("token")}`:"",
     });
-    var data = this.http.get<IngredientResponseModel>("http://127.0.0.1:8000/api/analytics/reorder-suggestions",{headers});
+    var data = this.http.get<UnderLimitResponseModel>("http://127.0.0.1:8000/api/analytics/reorder-suggestions",{headers});
     return data;
   }
 
