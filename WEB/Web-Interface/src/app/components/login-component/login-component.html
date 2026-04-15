@@ -14,16 +14,7 @@
             <td><input type="password" name="loginPassword" placeholder="Password" class="border-gray-500 border rounded-md p-1" [(ngModel)]="pwd"/></td>
         </tr>
         <tr>
-            <td><a class="loginBTN bg-blue-500 p-3" (click)="loginAttempt('coordinator')">Log in as Coordinator</a></td>
-        </tr>
-        <tr>
-            <td><button class="loginBTN bg-blue-500 p-3" (click)="loginAttempt('manager')">Log in as Manager</button></td>
-        </tr>
-        <tr>
-            <td><button class="loginBTN bg-blue-500 p-3" (click)="loginAttempt('genManager')">Log in as General Manager</button></td>
-        </tr>
-        <tr>
-            <td><a href="" class="text-blue-400">Forgot Password</a></td>
+            <td><a class="loginBTN bg-blue-500 p-3 hover:cursor-pointer" (click)="loginAttempt()">Log in</a></td>
         </tr>
     </table>
 </span>

@@ -1,0 +1,34 @@
+<section class="m-5 max-w-3xl rounded-xl border border-slate-200 bg-gray-200 p-3 shadow-sm">
+
+	<form class="grid grid-cols-1 gap-4 md:grid-cols-2" autocomplete="on" (ngSubmit)="placeRestockOrder()">
+		@for (item of orderedIngredients; track item.id) {
+		<div class="bg-white px-1 rounded-md">
+			<div class="md:col-span-1">
+				<label [attr.for]="'ingredientName_' + item.id" class="mb-1 block text-sm font-medium text-slate-700">Ingredient</label>
+				<select (change)="switchIngredient(item)" [id]="'ingredientName_' + item.id" [name]="'ingredientName_' + item.id" required [(ngModel)]="item.ingredient.name" class="w-full rounded-md border border-slate-300 px-3 bg-gray-50 py-2 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
+					@for (ing of ingredients; track ing.ingredient.id) {
+					<option [value]="ing.ingredient.name">{{ing.ingredient.name|titlecase}}</option>
+					}
+				</select>
+			</div>
+			<div class="md:col-span-1">
+				<label [attr.for]="'ingredientQty_' + item.id" class="mb-1 block text-sm font-medium  text-slate-700">Quantity</label>
+				<input [id]="'ingredientQty_' + item.id" [name]="'ingredientQty_' + item.id" type="number" required [(ngModel)]="item.quantity" class="w-full rounded-md border border-slate-300 bg-gray-50 px-3 py-2 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200" />
+			</div>
+			<button type="button" class="ms-[40%] bg-radial from-red-600 w-5 text-center text-white rounded-xl" (click)="removeIngredient(item)">-</button>
+		</div>
+
+		}
+		<button type="button" class="bg-radial from-gray-600 size-8 text-center text-white rounded-xl" (click)="addIngredient()">+</button>
+
+
+		<div class="mt-2 flex items-center gap-3 md:col-span-2">
+			<button type="submit" class="rounded-md bg-blue-600 px-4 py-2 font-semibold text-white transition hover:bg-blue-700">
+				Place order
+			</button>
+			<button type="button" (click)="cancel()" class="rounded-md border border-slate-300 bg-white px-4 py-2 font-semibold text-slate-700 transition hover:bg-slate-50">
+				Cancel
+			</button>
+		</div>
+	</form>
+</section>

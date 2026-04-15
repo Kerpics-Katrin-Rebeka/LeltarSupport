@@ -7,7 +7,7 @@ import { StaffComponent } from './components/staff-component/staff-component';
 
 @Component({
   selector: 'app-root',
-  imports: [LoginComponent, InventoryComponent, SidebarComponent, StaffComponent],
+  imports: [LoginComponent, InventoryComponent],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
