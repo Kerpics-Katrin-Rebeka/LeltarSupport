@@ -1,47 +1,30 @@
-<span class="h-[full] m-5">
-    <table class="h-[80%]">
-        <tr class="border border-green-500">
-            <td>
-                <p class="p-1">Currently on shift</p>
-                <table class="border border-yellow-500">
-                    <tr>
-                        <td class="p-1 border-r">Name</td>
-                        <td class="p-1">Role</td>
-                    </tr>
-                    <tr>
-                        <td class="p-1 border-r">John Doe</td>
-                        <td class="p-1">Manager</td>
-                    </tr>
-                    <tr>
-                        <td class="p-1 border-r">Jane Smith</td>
-                        <td class="p-1">Developer</td>
-                    </tr>
-                </table>
-            </td>
-            <td>
-                <p class="p-1">Other shifts today</p>
-                <table class="border border-blue-500 w-full ">
-                    <tr>
-                        <td class="p-1 text-center">
-                            <button class="bg-blue-400 p-1 my-1 rounded">
-                                Next
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="p-1 text-center">
-                            <button class="bg-blue-400 p-1 my-1 rounded">
-                                Previous
-                            </button>
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-        <tr class="border border-red-500">
-            <td></td>
-            <td></td>
-        </tr>
-    </table>
+<span class="w-[130%] mx-[5%] my-3">
+    <div class="p-1">
+        <table class="h-[80%] w-full lg:w-3/4">
+            <tr><button (click)="getEmployees()" class="my-[2%] hover:bg-linear-to-b hover:scale-101 hover:cursor-pointer rounded-sm bg-linear-to-t from-0% from-gray-700 to-blue-100 py-1 px-2">Refresh</button></tr>
+            <tr class="text-slate-800">
+                <td>
+                    <table class="w-[95%] overflow-hidden rounded-md border border-slate-200 bg-white shadow-sm">
+                        <tr class="border-b">
+                            <td class="p-1 border-r">Name</td>
+                            <td class="p-1">Email address</td>
+                        </tr>
+                        @for (item of employees; track $index) {
+                            <tr class="m-2">
+                                <td class="p-1 border-r w-[30%]">{{ item.name }}</td>
+                                <td class="p-1 w-[30%]">{{ item.email }}</td>
+                                <td class="w-[15%]"><button class="bg-yellow-500 text-white px-2 font-bold my-1 rounded hover:cursor-pointer" (click)="EditEmployee(item)">Edit</button></td>
+                                <td class="w-[15%]"><button class="bg-red-500 text-white px-2 font-bold my-1 rounded hover:cursor-pointer" (click)="RemoveEmployee(item)">Remove</button></td>
+                            </tr>
+                        }
+                        
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <button class="mt-[2%] hover:bg-linear-to-b hover:scale-101 hover:cursor-pointer rounded-sm bg-linear-to-t from-0% from-gray-700 to-blue-100 py-1 px-2" (click)="openRecruitForm()">Record new hires</button>
+            </tr>
+        </table>
+    </div>
 
 </span>

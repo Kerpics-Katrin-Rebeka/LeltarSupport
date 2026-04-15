@@ -1,0 +1,4 @@
+<p (click)="goBack()" class="hover:cursor-pointer"><-</p>
+@for (item of movements; track $index) {
+    <app-movement-component [movement]="item"></app-movement-component>
+}

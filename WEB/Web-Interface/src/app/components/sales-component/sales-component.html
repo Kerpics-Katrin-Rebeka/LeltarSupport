@@ -1,16 +1,9 @@
-<h1 class="font-bold text-xl">Yesterday's statistics</h1>
-<div class="w-full shadow-md rounded-md pt-5 pb-2">
+<div class="w-full shadow-md rounded-md pt-5 pb-2 relative">
     <table class="w-full">
         <tr>
             <td class="w-[50%]">
-                <div (click)="openSalesLogs('yesterday')" class="total mr-5 border-2 border-gray-400 w-[15%] h-auto ml-3 rounded-3xl text-white bg-linear-to-r from-blue-500 via-blue-700 to-blue-500 hover:cursor-pointer hover:scale-101">
+                <div (click)="openSalesLogs('yesterday')" class="total mr-5 border-2 border-gray-400 min-w-auto w-[15%] h-auto ml-3 rounded-3xl text-white bg-linear-to-r from-blue-500 via-blue-700 to-blue-500 hover:cursor-pointer hover:scale-101">
                     <h2>Details</h2>
-                </div>
-            </td>
-            <td class="text-left">
-                <div>
-                    <h2>Total influx</h2>
-                    <h3>1 Ft</h3>
                 </div>
             </td>
         </tr>
@@ -18,27 +11,32 @@
             <td>
                 <div class="ml-5">
                     <h2>Top sellers:</h2>
-                    <table class="shadow-xl h-[10%] w-[80%]">
-                        <tr>
-                            <td>BEANS</td>
-                            <td>150 units sold</td>
-                        </tr>
-                        <tr>
-                            <td>BEESE CHURGER</td>
-                            <td>140 units sold</td>
-                        </tr>
-                        <tr>
-                            <td>ONION</td>
-                            <td>1 units sold</td>
-                        </tr>
-                    </table>
+                    @if (topSellers.length>0) {
+                        <table class="shadow-xl h-[10%] w-[40%]">
+                            @for (item of topSellers; track $index) {
+                                <tr>
+                                    <td>{{ item.product.name }}</td>
+                                    <td>{{ item.quantity }} units sold</td>
+                                </tr>
+                            }
+                        </table>
+                    }
+                    @else {
+                        <h1 class="text-red-500">No sales were made yesterday</h1>
+                    }
                 </div>
-            </td>
-            <td>
-                <h2>Expenses</h2>
-                <h3>1 Ft</h3>
             </td>
         </tr>
     </table>
+    <table class="absolute top-[10%] right-0 h-[75%] w-[20%]">
+        <tr>
+            <td colspan="2" class="h-[60%]">
+                <input type="date" [(ngModel)]="selectedDate" class="rounded-md border-2 border-gray-400 py-1 px-2">
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td class="h-[30%]"><button (click)="openSalesLogs(selectedDate)" class="bg-linear-0 from-blue-500 via-blue-700 to-blue-500 hover:via-blue-400 hover:scale-101 rounded-md px-2 py-1 text-white hover:text-gray-900">Request sales log of {{selectedDate}}</button></td>
+        </tr>
+    </table>
 </div>
-<button class="bg-linear-90 from-blue-500 via-blue-600 to-blue-500 px-3 text-xl font-medium border-2 border-green-900 rounded-xl hover:cursor-pointer" (click)="openSalesLogs('today')">Check today's sales</button>
