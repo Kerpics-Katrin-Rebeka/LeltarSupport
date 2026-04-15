@@ -1,10 +1,10 @@
 import { ChangeDetectorRef, Component, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { StorageComponent } from '../storage-component/storage-component';
-import IngredientModel from '../../Models/IngredientModel';
+import IngredientModel, { ResponseModel, UnderLimitResponseModel } from '../../Models/IngredientModel';
 import { SalesComponent } from "../sales-component/sales-component";
 import { SalesLogComponent } from "../sales-log-component/sales-log-component";
 import { DataService } from '../../Services/data-service';
-import { MovementModel, RecommendationItemModel, RestockModel } from '../../Models/SalesModel';
+import { MovementModel, OrderModel, RecommendationItemModel, RestockModel } from '../../Models/SalesModel';
 import { MovementComponent } from '../movement-component/movement-component';
 import { MovementLogComponent } from '../movement-log-component/movement-log-component';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
@@ -27,9 +27,8 @@ export class InventoryComponent {
   isInStorage:boolean=false;
   isViewingLog: boolean = sessionStorage.getItem("isViewingLog") == "true";
   isViewingMLog:boolean=false;
-  underLimit:IngredientModel[] = [];
   ingredients:IngredientModel[] = [];
-  restocks:RestockModel[] = [];
+  recommendations:ResponseModel[] = [];
   recentMovements:MovementModel[] = [];
   roles:string[] = [];
 
@@ -37,9 +36,9 @@ export class InventoryComponent {
 
   ngOnInit(){
     this.dataService.getIngredients().subscribe(ingredients => {
-      this.ingredients = ingredients;
+      this.ingredients = ingredients.data;
     });
-    this.getRestocks();
+    this.getRecommendations();
     this.getMovements();
     
     timer(500).subscribe(()=>{
@@ -51,19 +50,20 @@ export class InventoryComponent {
 
     interval(10000).subscribe(()=>{
       this.dataService.getIngredients().subscribe(ingredients => {
-        this.ingredients = ingredients;
+        this.ingredients = ingredients.data;
         
       });
-      this.getRestocks();
+      this.getRecommendations();
       this.getMovements();
+      console.log(this.recommendations);
     });
     sessionStorage.removeItem("userRoles");
   }
 
-  getRestocks(){
-    this.dataService.getRestock().subscribe({
-      next: (restocks)=>{
-        this.restocks = restocks.filter((r)=>r.status ==='recommended');
+  getRecommendations(){
+    this.dataService.getRecommendations().subscribe({      
+      next: (restocks: UnderLimitResponseModel)=>{
+        this.recommendations = (restocks?.data ?? [])
         this.cdr.detectChanges();
       },
       error: (err)=>{
@@ -130,10 +130,12 @@ export class InventoryComponent {
     this.isViewingLog = isIt;
   }
 
-  placeOrder(restock:RestockModel){
+  placeOrder(data:ResponseModel){
+    console.log(data);
+    
     if (this.roles.length!=0 && this.roles.includes("manager")){
-      this.dataService.updatePurchaseOrder(restock.id,"ordered").subscribe();
-      this.getRestocks();
+      //this.dataService.updatePurchaseOrder(restock.data.id,"ordered").subscribe();
+      this.getRecommendations();
     }
     else{
       this.dialog.open(PopUpComponent, {

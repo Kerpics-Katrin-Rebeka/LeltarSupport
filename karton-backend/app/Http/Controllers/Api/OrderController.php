@@ -98,4 +98,11 @@ class OrderController extends Controller
 
         return response()->json($order);
     }
+
+    public function getByDate($date)
+    {
+        return Order::with('items.product')
+            ->whereDate('created_at', $date)
+            ->get();
+    }
 }

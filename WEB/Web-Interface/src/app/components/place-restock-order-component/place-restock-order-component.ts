@@ -27,8 +27,10 @@ export class PlaceRestockOrderComponent {
 
   ngOnInit(){  
     this.dataService.getIngredients().subscribe({
-      next: (ings)=>{
-        this.ingredients = ings;
+      next: (ings)=>{      
+        this.ingredients = ings.data;
+        console.log(this.ingredients);
+        
         this.cdr.detectChanges();
       },
       error: (err)=>{
@@ -49,11 +51,13 @@ export class PlaceRestockOrderComponent {
   }
 
   addIngredient(ing:RecommendationItemModel|undefined = undefined){
+    console.log(this.numberOfIngredients);
+    
     if(this.numberOfIngredients < this.ingredients.length){      
       this.numberOfIngredients++;
       this.orderedIngredients.push({
-        id: this.numberOfIngredients-1,
-        ingredient: {
+          id: this.numberOfIngredients-1,
+          ingredient: {
           id: 0,
           name: "",
           minAmount: 0,

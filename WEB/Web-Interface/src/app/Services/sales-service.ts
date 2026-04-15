@@ -34,11 +34,14 @@ export class SalesService {
   }
 
   placeRestockOrder(items:RecommendationItemModel[],supplier_id:number){
-    const status = "ordered";
     const headers = new HttpHeaders({
     Authorization: sessionStorage.getItem("token")? `Bearer ${sessionStorage.getItem("token")}`:"",
     });
-    var data = this.http.post<RestockModel[]>("http://127.0.0.1:8000/api/purchase-orders",{items,supplier_id,status},{headers});
+    const mappedItems = items.map(item => ({
+      ingredient_id: item.ingredient.id,
+      quantity: item.quantity
+    }));
+    var data = this.http.post<RestockModel[]>("http://127.0.0.1:8000/api/purchase-orders",{items: mappedItems,supplier_id},{headers});
     return data;
   }
 

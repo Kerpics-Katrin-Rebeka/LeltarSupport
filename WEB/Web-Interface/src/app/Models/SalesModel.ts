@@ -27,6 +27,11 @@ export interface RecommendationItemModel{
     quantity:number;
 }
 
+export interface RecommendationResponseModel{
+    data:RecommendationItemModel;
+    success:boolean;
+}
+
 export interface OrderModel{
     id:number;
     price:number;
@@ -41,11 +46,14 @@ export interface SupplierModel{
 }
 
 export interface RestockModel{
-    id:number;
-    supplier_id:number;
-    status:string;
-    created_at:string|Date;
-    items:RecommendationItemModel[];
+    data:{
+        id:number;
+        supplier_id:number;
+        status:string;
+        created_at:string|Date;
+        items:RecommendationItemModel[];
+    }
+    success:boolean;
 }
 
 export interface MovementModel{
@@ -55,4 +63,9 @@ export interface MovementModel{
     reason:string;
     created_at:string|Date;
     ingredient:IngredientModel;
+}
+
+export interface MovementResponseModel{
+    data:MovementModel[];
+    success:boolean;
 }
