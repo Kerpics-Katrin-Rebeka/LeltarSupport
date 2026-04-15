@@ -1,47 +1,66 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using LeltarSupportMauiApp.Services;
 using LeltarSupportMauiApp.Models;
+using LeltarSupportMauiApp.Services;
+using Microsoft.Maui.Controls;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace LeltarSupportMauiApp.ViewModels
 {
-    public partial class ProductListViewModel: ObservableObject
+    public partial class ProductListViewModel : ObservableObject
     {
-        [ObservableProperty]
-        private ObservableCollection<ProductsModel> productList = new ObservableCollection<ProductsModel>();
+        private readonly ProductsService _productservice = new();
+        private readonly CartViewModel _cartViewModel;
+
+        public ICommand CartCommand { get; }
 
         [ObservableProperty]
-        private ProductsModel selectedProduct;
+        private ObservableCollection<Product> productList = new();
+
+        public ProductListViewModel(CartViewModel cartViewModel)
+        {
+            _cartViewModel = cartViewModel;
+            CartCommand = new Command(OpenCart);
+        }
 
         [RelayCommand]
-        private async Task ProductDetails()
+        private async Task LoadProductsAsync()
         {
-            var navigationParameters = new Dictionary<string, object>() {
-                { "products", SelectedProduct  }
-            };
-            await Shell.Current.GoToAsync("details", navigationParameters);
-        }
-
-        public ProductListViewModel()
-        {
-            getProducts();
-        }
-
-        public async void getProducts()
-        {
-            ProductList.Clear();
-            IEnumerable<ProductsModel> list = await DataService.SelectAsync<ProductsModel>("/products");
-            var reversedList = list.Reverse();
-            foreach (var item in reversedList)
+            try
             {
-                ProductList.Add(item);
+                ProductList.Clear();
+                var list = await _productservice.StartOrderAsync();
+
+                foreach (var item in list)
+                {
+                    ProductList.Add(item);
+                }
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"LoadProductsAsync error: {ex.Message}");
+            }
+        }
+
+        [RelayCommand]
+        private async void OpenCart()
+        {
+            await Shell.Current.GoToAsync("cart");
+        }
+
+        public void AddToCartExecute(Product product)
+        {
+            if (product == null) return;
+            _cartViewModel.AddToCartCommand.Execute(product);
+        }
+
+        public void CleanCart()
+        {
+            _cartViewModel.ClearCartCommand.Execute(null);
+
         }
     }
 }

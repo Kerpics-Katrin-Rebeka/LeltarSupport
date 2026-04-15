@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LeltarSupportMauiApp.Views.CartView"
+             Title="CartView">
+
+    <Grid RowDefinitions="*,Auto">
+        <ListView x:Name="CartListView"
+                  Grid.Row="0"
+                  CachingStrategy="RecycleElement"
+                  ItemsSource="{Binding OrderItems}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid ColumnDefinitions="*, Auto">
+                            <VerticalStackLayout>
+                                <Label Text="{Binding Product.Name}"
+                                       FontSize="18"
+                                       FontAttributes="Bold"
+                                       Padding="10, 0, 0, 0"/>
+                                <HorizontalStackLayout Spacing="5">
+                                    <Label Text="{Binding Quantity}"
+                                           FontAttributes="Bold"
+                                           Padding="10, 0, 0, 0"/>
+                                    <Label Text="x" FontAttributes="Bold"/>
+                                    <Label Text="{Binding Product.Price, StringFormat='{}{0:C}'}"
+                                           FontAttributes="Bold"/>
+                                </HorizontalStackLayout>
+                            </VerticalStackLayout>
+                            <ImageButton
+                                Padding="0, 0, 10, 0"
+                                Source="bin.png"
+                                BackgroundColor="Transparent"
+                                Grid.Column="1"
+                                WidthRequest="20"
+                                Command="{Binding BindingContext.RemoveFromCartCommand, Source={x:Reference CartListView}}"
+                                CommandParameter="{Binding .}"/>
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <Grid Grid.Row="1"
+              Padding="10"
+              BackgroundColor="LightGray"
+              ColumnDefinitions="*,Auto">
+            <Label Text="{Binding SumPrice, StringFormat='Total: {0:C}'}"
+                   VerticalOptions="Center"
+                   FontAttributes="Bold"
+                   FontSize="16"/>
+            <Button x:Name="PurchaseButton"
+                    Grid.Column="1"
+                    Text="Purchase"
+                    Clicked="PurchaseButton_Clicked" />
+        </Grid>
+        <Grid x:Name="PurchasedPopUpOverlay" IsVisible="False" BackgroundColor="#80000000">
+            <Border BackgroundColor="White" Padding="20" VerticalOptions="Center" HorizontalOptions="Center" WidthRequest="250">
+                <VerticalStackLayout Spacing="15" HorizontalOptions="Center">
+
+                    <Label Text="Purchase Successful!"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"/>
+
+                    <Label Text="Thank you for your order"
+                           FontSize="14"
+                           HorizontalOptions="Center"/>
+
+                    <Button x:Name="ClosePopUpButton"
+                            Text="OK"
+                            Clicked="ClosePopUpButton_Clicked"/>
+
+                </VerticalStackLayout>
+            </Border>
+        </Grid>
+    </Grid>
+</ContentPage>

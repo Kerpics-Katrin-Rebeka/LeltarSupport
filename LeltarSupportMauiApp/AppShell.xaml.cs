@@ -7,7 +7,8 @@ namespace LeltarSupportMauiApp
         public AppShell()
         {
             InitializeComponent();
-            Routing.RegisterRoute("details", typeof(ProductDetailsView));
+            Routing.RegisterRoute("products", typeof(ProductListView));
+            Routing.RegisterRoute("cart", typeof(CartView));
         }
     }
 }

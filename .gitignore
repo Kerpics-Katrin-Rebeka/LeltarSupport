@@ -1,4 +1,6 @@
 /LeltarSupportMauiApp/bin
 /LeltarSupportMauiApp/obj
-startupLocalBackend.bat
-startupLocalWeb.bat
+**/.vs
+/OrderMauiApp/bin
+/OrderMauiApp/obj
+

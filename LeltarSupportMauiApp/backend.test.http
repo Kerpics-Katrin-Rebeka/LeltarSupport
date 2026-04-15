@@ -1,0 +1,113 @@
+### Login
+# @name login
+POST http://127.0.0.1:8000/api/login
+Content-Type: application/json
+
+{
+    "email": "admin@example.com",
+    "password": "password"
+}
+
+###
+@token = {{login.response.body.access_token}}
+
+###
+
+### Logout
+POST http://127.0.0.1:8000/api/logout
+Accept: application/json
+Authorization: Bearer {{token}}
+
+###
+
+### Get Products
+GET http://127.0.0.1:8000/api/products
+Accept: application/json
+Authorization: Bearer {{token}}
+
+###
+
+### Get Ingredients
+GET http://127.0.0.1:8000/api/ingredients
+Accept: application/json
+Authorization: Bearer {{token}}
+
+###
+
+### Get Inventory
+GET http://127.0.0.1:8000/api/inventory
+Accept: application/json
+Authorization: Bearer {{token}}
+
+###
+
+POST http://127.0.0.1:8000/api/inventory/3/adjust
+Accept: application/json
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "quantity": 30
+}
+
+### Get Orders
+GET http://127.0.0.1:8000/api/orders
+Accept: application/json
+Authorization: Bearer {{token}}
+
+###
+
+### Post Orders
+POST http://127.0.0.1:8000/api/orders
+Accept: application/json
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "items":[
+        {
+            "product_id": 1,
+            "quantity": 2
+        },
+        {
+            "product_id": 2,
+            "quantity": 1
+        }
+    ]
+}
+
+###
+
+### Get Suppliers
+GET http://127.0.0.1:8000/api/suppliers
+Accept: application/json
+Authorization: Bearer {{token}}
+
+###
+
+### Put new quantity in inventory
+POST http://127.0.0.1:8000/api/inventory/3/adjust
+Accept: application/json
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+###
+
+### Get Purchase Orders
+GET http://127.0.0.1:8000/api/purchase-orders
+Accept: application/json
+Authorization: Bearer {{token}}
+
+###
+
+### Stock Summary (Analytics)
+GET http://127.0.0.1:8000/api/analytics/stock
+Accept: application/json
+Authorization: Bearer {{token}}
+
+###
+
+### Reorder Suggestions (Analytics)
+GET http://127.0.0.1:8000/api/analytics/reorder
+Accept: application/json
+Authorization: Bearer {{token}}

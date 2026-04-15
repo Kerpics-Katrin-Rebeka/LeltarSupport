@@ -18,8 +18,8 @@ namespace LeltarSupportMauiApp
                 });
             builder.Services.AddSingleton<ProductListView>();
             builder.Services.AddSingleton<ProductListViewModel>();
-            builder.Services.AddSingleton<ProductDetailsView>();
-            builder.Services.AddSingleton<ProductDetailsViewModel>();
+            builder.Services.AddSingleton<CartView>();
+            builder.Services.AddSingleton<CartViewModel>();
 
 #if DEBUG
             builder.Logging.AddDebug();
