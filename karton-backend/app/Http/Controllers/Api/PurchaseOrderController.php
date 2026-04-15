@@ -67,6 +67,19 @@ class PurchaseOrderController extends Controller
         }
     }
 
+    public function update(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'status' => 'required|string|in:pending,ordered,received'
+        ]);
+
+        $order = PurchaseOrder::findOrFail($id);
+        $order->status = $validated['status'];
+        $order->save();
+
+        return response()->json($order->load('items.ingredient', 'supplier'));
+    }
+
     public function receive($id)
     {
         $order = PurchaseOrder::with('items')->findOrFail($id);

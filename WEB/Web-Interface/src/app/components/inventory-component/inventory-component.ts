@@ -13,22 +13,23 @@ import { interval, timeout, timer } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { PopUpComponent } from '../pop-up-component/pop-up-component';
 import { StaffComponent } from '../staff-component/staff-component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-inventory-component',
-  imports: [StorageComponent, SalesComponent, SalesLogComponent, MovementComponent, MovementLogComponent],
+  imports: [FormsModule,StorageComponent, SalesComponent, SalesLogComponent, MovementComponent, MovementLogComponent],
   templateUrl: './inventory-component.html',
   styleUrl: './inventory-component.css',
 })
 export class InventoryComponent {
   @Output() outOfIngredient = new EventEmitter;
   isOutOfIngredient:boolean=false;
-  goal:number=100;
+  orderAmount:number=10;
   isInStorage:boolean=false;
   isViewingLog: boolean = sessionStorage.getItem("isViewingLog") == "true";
   isViewingMLog:boolean=false;
   ingredients:IngredientModel[] = [];
-  recommendations:ResponseModel[] = [];
+  recommendations:RecommendationItemModel[] = [];
   recentMovements:MovementModel[] = [];
   roles:string[] = [];
 
@@ -36,7 +37,7 @@ export class InventoryComponent {
 
   ngOnInit(){
     this.dataService.getIngredients().subscribe(ingredients => {
-      this.ingredients = ingredients.data;
+      this.ingredients = ingredients;
     });
     this.getRecommendations();
     this.getMovements();
@@ -50,20 +51,20 @@ export class InventoryComponent {
 
     interval(10000).subscribe(()=>{
       this.dataService.getIngredients().subscribe(ingredients => {
-        this.ingredients = ingredients.data;
+        this.ingredients = ingredients;
         
       });
       this.getRecommendations();
       this.getMovements();
-      console.log(this.recommendations);
     });
-    sessionStorage.removeItem("userRoles");
   }
 
   getRecommendations(){
     this.dataService.getRecommendations().subscribe({      
-      next: (restocks: UnderLimitResponseModel)=>{
-        this.recommendations = (restocks?.data ?? [])
+      next: (restocks: any)=>{
+        console.log(restocks);
+        
+        this.recommendations = restocks;
         this.cdr.detectChanges();
       },
       error: (err)=>{
@@ -130,12 +131,14 @@ export class InventoryComponent {
     this.isViewingLog = isIt;
   }
 
-  placeOrder(data:ResponseModel){
+  placeOrder(data:RecommendationItemModel){
     console.log(data);
+    data.quantity=this.orderAmount;
     
     if (this.roles.length!=0 && this.roles.includes("manager")){
-      //this.dataService.updatePurchaseOrder(restock.data.id,"ordered").subscribe();
+      this.dataService.createPurchaseOrder([data], 1).subscribe();
       this.getRecommendations();
+      alert("Order placed!");
     }
     else{
       this.dialog.open(PopUpComponent, {

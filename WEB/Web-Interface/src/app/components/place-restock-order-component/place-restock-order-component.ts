@@ -17,18 +17,18 @@ import { SalesService } from '../../Services/sales-service';
   styleUrl: './place-restock-order-component.css',
 })
 export class PlaceRestockOrderComponent {
-  ingredients:any[] = [];
-  orderedIngredients:RecommendationItemModel[] = [];
+  ingredients:IngredientModel[] = [];
   ingredientName:string = "";
   quantity:number = 0;
   numberOfIngredients:number = 0;
+  orderedIngredients:RecommendationItemModel[] = [];
 
   constructor(private dataService: DataService, private salesService: SalesService, private cdr: ChangeDetectorRef, @Inject(MatDialogRef) private dialog: MatDialogRef<PlaceRestockOrderComponent>,@Inject(MAT_DIALOG_DATA) private data:any) {}
 
   ngOnInit(){  
     this.dataService.getIngredients().subscribe({
-      next: (ings)=>{      
-        this.ingredients = ings.data;
+      next: (ings)=>{        
+        this.ingredients = ings.map((ing: any) => ing.ingredient);
         console.log(this.ingredients);
         
         this.cdr.detectChanges();
@@ -39,6 +39,8 @@ export class PlaceRestockOrderComponent {
       }
     })
     timer(500).subscribe(()=>{
+      console.log(this.ingredients);
+      
       this.addIngredient(this.data);
       this.cdr.detectChanges();
     })
@@ -46,7 +48,7 @@ export class PlaceRestockOrderComponent {
   }
 
   placeRestockOrder(){
-    this.salesService.placeRestockOrder(this.orderedIngredients, 1).subscribe();
+    this.dataService.createPurchaseOrder(this.orderedIngredients, 1).subscribe();
     timer(500).subscribe(()=>{this.dialog.close()});
   }
 
@@ -55,27 +57,28 @@ export class PlaceRestockOrderComponent {
     
     if(this.numberOfIngredients < this.ingredients.length){      
       this.numberOfIngredients++;
+      const defaultIngredient = this.ingredients[0] ?? {
+        id: 0,
+        name: "",
+        minAmount: 0,
+        unit: ""
+      };
       this.orderedIngredients.push({
           id: this.numberOfIngredients-1,
-          ingredient: {
-          id: 0,
-          name: "",
-          minAmount: 0,
-          unit: ""
-        },
+          ingredient: { ...defaultIngredient },
         quantity: 0
       });
     }
     if (ing != undefined) {
-      this.orderedIngredients[0].ingredient = ing.ingredient;
+      this.orderedIngredients[0].ingredient = { ...ing.ingredient };
       this.orderedIngredients[0].quantity = ing.quantity;      
     }
   }
 
   switchIngredient(item:RecommendationItemModel){
-    let ingredient = this.ingredients.find(ing => ing.ingredient.name == item.ingredient.name);
+    let ingredient = this.ingredients.find(ing => ing.name == item.ingredient.name);
     if(ingredient){
-      item.ingredient = ingredient.ingredient;
+      item.ingredient = { ...ingredient };
     }
   }
 

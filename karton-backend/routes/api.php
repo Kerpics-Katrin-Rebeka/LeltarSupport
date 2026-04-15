@@ -60,6 +60,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('purchase-orders', PurchaseOrderController::class)->only([
         'index', 'store', 'show'
     ]);
+    Route::post('purchase-orders/{id}', [PurchaseOrderController::class, 'store']);
     Route::post('purchase-orders/{id}/receive', [PurchaseOrderController::class, 'receive']);
 
     Route::get("stock-movements", [InventoryController::class, 'stockMovements']);
