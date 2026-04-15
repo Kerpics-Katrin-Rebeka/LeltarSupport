@@ -4,3 +4,8 @@ export default interface IngredientModel{
     minAmount:number,
     unit:string
 }
+
+export interface IngredientResponseModel{
+    data:IngredientModel[];
+    success:boolean;
+}

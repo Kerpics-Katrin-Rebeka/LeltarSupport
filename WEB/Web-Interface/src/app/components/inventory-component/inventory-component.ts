@@ -37,7 +37,7 @@ export class InventoryComponent {
 
   ngOnInit(){
     this.dataService.getIngredients().subscribe(ingredients => {
-      this.ingredients = ingredients;
+      this.ingredients = ingredients.data;
     });
     this.getRestocks();
     this.getMovements();
@@ -51,20 +51,24 @@ export class InventoryComponent {
 
     interval(10000).subscribe(()=>{
       this.dataService.getIngredients().subscribe(ingredients => {
-        this.ingredients = ingredients;
+        this.ingredients = ingredients.data;
         
       });
       this.getRestocks();
       this.getMovements();
+      console.log(this.restocks);
     });
     sessionStorage.removeItem("userRoles");
   }
 
   getRestocks(){
-    this.dataService.getRestock().subscribe({
-      next: (restocks)=>{
-        console.log(typeof restocks);
-        this.restocks =restocks.data.filter((r)=> r.data.status=="pending");
+    this.dataService.getRecommendations().subscribe({      
+      next: (restocks: any)=>{
+        this.restocks = (restocks?.data ?? [])
+          .map((order: any) => ({
+            success: !!restocks?.success,
+            data: order,
+          }))
         this.cdr.detectChanges();
       },
       error: (err)=>{

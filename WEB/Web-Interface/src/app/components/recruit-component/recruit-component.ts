@@ -48,7 +48,10 @@ export class RecruitComponent {
         this.dialog.close();
       },
       error: (err) => {
-        this.ErrorMsg = err.error.errors.name || err.error.errors.email || err.error.errors.password || "An error occurred while adding the employee.";        
+        if (err != undefined && err.error != undefined && err.error.errors != undefined) {
+          this.ErrorMsg = err.error.errors.name || err.error.errors.email || err.error.errors.password;
+        }
+        else {this.ErrorMsg = "An error occurred while adding the employee.";}        
       }
     });
   }

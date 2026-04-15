@@ -37,7 +37,7 @@ class StaffController extends Controller
         $newGuy = User::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
-            'password_hash' => Hash::make($validated['password']),
+            'password' => Hash::make($validated['password']),
         ]);
 
         $newGuy->roles()->attach($role->id);
@@ -66,7 +66,7 @@ class StaffController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $toUpdate->id,
-            'pwd' => 'required|nullable|string|min:8',
+            'pwd' => 'nullable|string|min:8',
             'roles' => 'required|array|min:1',
             'roles.*.id' => 'required_with:roles|integer|exists:roles,id',
             'roles.*.name' => 'string|exists:roles,name',
@@ -84,7 +84,7 @@ class StaffController extends Controller
 
         $plainPassword = ($validated['pwd'] ?? null);
         if (!empty($plainPassword)) {
-            $modData['password_hash'] = Hash::make($plainPassword);
+            $modData['password'] = Hash::make($plainPassword);
         }
 
         if (!empty($modData)) {
