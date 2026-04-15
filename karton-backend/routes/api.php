@@ -31,6 +31,9 @@ Route::middleware('auth:sanctum')->group(function () {
     // Products
     Route::apiResource('products', ProductController::class);
 
+    Route::apiResource('users', StaffController::class);
+    Route::get("roles", [StaffController::class, 'getRoles']);
+
     // Ingredients
     Route::apiResource('ingredients', IngredientController::class);
 
@@ -56,6 +59,9 @@ Route::middleware('auth:sanctum')->group(function () {
         'index', 'store', 'show'
     ]);
     Route::post('purchase-orders/{id}/receive', [PurchaseOrderController::class, 'receive']);
+
+    Route::get("stock-movements", [InventoryController::class, 'stockMovements']);
+
 
     // Analytics
     Route::prefix('analytics')->group(function () {
