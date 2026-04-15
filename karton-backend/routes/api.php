@@ -40,7 +40,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // Inventory
     Route::prefix('inventory')->group(function () {
         Route::get('/', [InventoryController::class, 'index']);
-        Route::put('/{ingredient_id}', [InventoryController::class, 'update']);
+        Route::put('/{ingredient_id}/adjust', [InventoryController::class, 'update']);
         Route::get('/low-stock', [InventoryController::class, 'lowStock']);
         Route::post('/restock', [InventoryController::class, 'restock']);
     });
