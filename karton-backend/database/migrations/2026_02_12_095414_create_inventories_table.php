@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('inventory', function (Blueprint $table) {
-            $table->foreignId('ingredient_id')->constrained('ingredients')->cascadeOnDelete();
-            $table->decimal('quantity', 10, 4)->default(0);
-            $table->decimal('minimum_level', 10, 4)->default(0);
-            $table->primary('ingredient_id');
+        Schema::create('inventories', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('ingredient_id')->constrained()->cascadeOnDelete();
+            $table->decimal('quantity', 10, 3)->default(0);
+            $table->decimal('minimum_level', 10, 3)->default(0);
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('inventory');
+        Schema::dropIfExists('inventories');
     }
 };

@@ -9,12 +9,6 @@ class Inventory extends Model
 {
     use HasFactory;
 
-    protected $table = 'inventory';
-
-    protected $primaryKey = 'ingredient_id';
-    public $incrementing = false;
-    protected $keyType = 'int';
-
     protected $fillable = [
         'ingredient_id',
         'quantity',

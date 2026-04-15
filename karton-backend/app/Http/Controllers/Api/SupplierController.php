@@ -8,38 +8,86 @@ use App\Models\Supplier;
 
 class SupplierController extends Controller
 {
-    public function index()
+   public function index()
     {
-        return Supplier::all();
+        $suppliers = Supplier::all();
+
+        return response()->json([
+            'success' => true,
+            'data' => $suppliers
+        ]);
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'name'=>'required|string',
-            'contact'=>'nullable|string'
+            'name' => 'required|string|unique:suppliers,name',
+            'email' => 'nullable|email',
+            'phone' => 'nullable|string'
         ]);
 
-        $supplier = Supplier::create($request->only('name','contact'));
-        return response()->json($supplier,201);
+        $supplier = Supplier::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Supplier created',
+            'data' => $supplier
+        ], 201);
     }
 
     public function show($id)
     {
-        return Supplier::findOrFail($id);
+        $supplier = Supplier::with('purchaseOrders')->findOrFail($id);
+
+        return response()->json([
+            'success' => true,
+            'data' => $supplier
+        ]);
     }
 
-    public function update(Request $request, $id)
+ public function update(Request $request, $id)
     {
         $supplier = Supplier::findOrFail($id);
-        $supplier->update($request->only('name','contact'));
-        return response()->json($supplier);
+
+        $request->validate([
+            'name' => 'required|string|unique:suppliers,name,' . $id,
+            'email' => 'nullable|email',
+            'phone' => 'nullable|string'
+        ]);
+
+        $supplier->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Supplier updated',
+            'data' => $supplier
+        ]);
     }
 
     public function destroy($id)
     {
         $supplier = Supplier::findOrFail($id);
+
+        if ($supplier->purchaseOrders()->exists()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Supplier has purchase orders and cannot be deleted'
+            ], 400);
+        }
+
         $supplier->delete();
-        return response()->json(['message'=>'Deleted']);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Supplier deleted'
+        ]);
     }
 }

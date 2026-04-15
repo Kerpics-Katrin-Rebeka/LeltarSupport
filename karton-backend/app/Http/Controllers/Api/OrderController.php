@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
+use App\Models\Inventory;
 use App\Models\StockMovement;
 use Illuminate\Support\Facades\DB;
 
@@ -14,76 +15,103 @@ class OrderController extends Controller
 {
     public function index()
     {
-        return (Order::with('items.product')->get())->map(function($order){
-            return [
-                'id'=>$order->id,
-                'total_price'=>$order->total_price,
-                'created_at'=>$order->created_at,
-                'items'=>$order->items->map(function($item){
-                    return [
-                        'product_id'=>$item->product_id,
-                        'product_name'=>$item->product->name,
-                        'quantity'=>$item->quantity,
-                        'price'=>$item->product->price
-                    ];
-                })
-            ];
-        });
+        $orders = Order::with('items.product')->latest()->get();
+
+        return response()->json([
+            'success' => true,
+            'data' => $orders
+        ]);
+    }
+
+    public function show($id)
+    {
+        $order = Order::with('items.product')->findOrFail($id);
+
+        return response()->json([
+            'success' => true,
+            'data' => $order
+        ]);
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'items'=>'required|array'
+            'items' => 'required|array|min:1',
+            'items.*.product_id' => 'required|exists:products,id',
+            'items.*.quantity' => 'required|numeric|min:1'
         ]);
 
-        DB::transaction(function() use ($request, &$order){
+        DB::beginTransaction();
+
+        try {
             $order = Order::create([
-                'user_id'=>$request->user()->id,
-                'total_price'=>0
+                'user_id' => $request->user()->id,
+                'status' => 'completed'
             ]);
 
-            $total = 0;
+            foreach ($request->items as $item) {
 
-            foreach($request->items as $item){
                 $product = Product::with('ingredients')->findOrFail($item['product_id']);
-                $quantity = $item['quantity'];
 
                 OrderItem::create([
-                    'order_id'=>$order->id,
-                    'product_id'=>$product->id,
-                    'quantity'=>$quantity
+                    'order_id' => $order->id,
+                    'product_id' => $product->id,
+                    'quantity' => $item['quantity'],
+                    'price' => $product->price
                 ]);
 
-                $total += $product->price * $quantity;
+                foreach ($product->ingredients as $ingredient) {
 
-                foreach($product->ingredients as $ingredient){
-                    $used = $ingredient->pivot->quantity * $quantity;
-                    $inventory = $ingredient->inventory;
+                    $neededAmount = $ingredient->pivot->quantity * $item['quantity'];
 
-                    if(!$inventory || $inventory->quantity < $used){
-                        throw new \Exception("Not enough {$ingredient->name} in stock");
+                    $inventory = Inventory::where('ingredient_id', $ingredient->id)->firstOrFail();
+                    if ($inventory->quantity < $neededAmount) {
+                        throw new \Exception("Not enough stock for " . $ingredient->name);
                     }
 
-                    $inventory->decrement('quantity', $used);
+                    $inventory->decrement('quantity', $neededAmount);
 
                     StockMovement::create([
-                        'ingredient_id'=>$ingredient->id,
-                        'change_amount'=>-$used,
-                        'reason'=>'order'
+                        'ingredient_id' => $ingredient->id,
+                        'change_amount' => -$neededAmount,
+                        'reason' => 'sale'
                     ]);
                 }
             }
 
-            $order->total_price = $total;
-            $order->save();
-        });
+            DB::commit();
 
-        return response()->json($order->load('items.product'),201);
+            return response()->json([
+                'success' => true,
+                'message' => 'Order created successfully',
+                'data' => $order->load('items.product')
+            ], 201);
+
+        } catch (\Exception $e) {
+
+            DB::rollBack();
+
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 400);
+        }
     }
 
-    public function show($id)
+    public function updateStatus(Request $request, $id)
     {
-        return Order::with('items.product')->findOrFail($id);
+        $request->validate([
+            'status' => 'required|string'
+        ]);
+
+        $order = Order::findOrFail($id);
+        $order->status = $request->status;
+        $order->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Status updated',
+            'data' => $order
+        ]);
     }
 }

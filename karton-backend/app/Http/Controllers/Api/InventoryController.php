@@ -11,34 +11,74 @@ class InventoryController extends Controller
 {
     public function index()
     {
-        return Inventory::with('ingredient')->get();
-    }
+        $inventory = Inventory::with('ingredient')->get();
 
-    public function show($ingredient_id)
-    {
-        return Inventory::with('ingredient')->where('ingredient_id', $ingredient_id)->firstOrFail();
+        return response()->json([
+            'success' => true,
+            'data' => $inventory
+        ]);
     }
 
     public function update(Request $request, $ingredient_id)
     {
         $request->validate([
-            'quantity'=>'required|numeric|min:0'
+            'quantity' => 'required|numeric|min:0'
         ]);
-
-
-        $request->getContent();
 
         $inventory = Inventory::where('ingredient_id', $ingredient_id)->firstOrFail();
-        $change = $request->quantity - $inventory->quantity;
-        $inventory->quantity = $request->quantity;
-        $inventory->save();
 
-        StockMovement::create([
-            'ingredient_id'=>$ingredient_id,
-            'change_amount'=>$change,
-            'reason'=>'manual'
+        $difference = $request->quantity - $inventory->quantity;
+
+        $inventory->update([
+            'quantity' => $request->quantity
         ]);
 
-        return response()->json($inventory->load('ingredient'));
+        StockMovement::create([
+            'ingredient_id' => $ingredient_id,
+            'change_amount' => $difference,
+            'reason' => 'manual_adjustment'
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Stock updated',
+            'data' => $inventory->load('ingredient')
+        ]);
+    }
+
+    public function lowStock()
+    {
+        $items = Inventory::with('ingredient')
+            ->whereColumn('quantity', '<', 'minimum_level')
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'data' => $items
+        ]);
+    }
+
+    public function restock(Request $request)
+    {
+        $request->validate([
+            'ingredient_id' => 'required|exists:ingredients,id',
+            'quantity' => 'required|numeric|min:1'
+        ]);
+
+        $inventory = Inventory::where('ingredient_id', $request->ingredient_id)->firstOrFail();
+
+        $inventory->increment('quantity', $request->quantity);
+
+        StockMovement::create([
+            'ingredient_id' => $request->ingredient_id,
+            'change_amount' => $request->quantity,
+            'reason' => 'restock'
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Stock increased',
+            'data' => $inventory->load('ingredient')
+        ]);
     }
 }
