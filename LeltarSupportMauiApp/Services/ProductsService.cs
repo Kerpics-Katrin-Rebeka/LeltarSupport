@@ -9,8 +9,8 @@ namespace LeltarSupportMauiApp.Services
     {
         public async Task<IEnumerable<Product>> StartOrderAsync()
         {
-            var products = await DataService.SelectAsync<Product>("api/products").ConfigureAwait(false);
-            return products?.ToList() ?? [];
+            var products = await DataService.SelectWrappedListAsync<Product>("api/products").ConfigureAwait(false);
+            return products?.ToList() ?? new List<Product>();
         }
     }
 }

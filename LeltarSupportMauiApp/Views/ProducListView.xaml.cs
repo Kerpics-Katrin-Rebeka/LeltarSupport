@@ -7,8 +7,8 @@ namespace LeltarSupportMauiApp.Views
 {
     public partial class ProductListView : ContentPage
     {
-        private const string KioskBuyerEmail = "buyer@example.com";
-        private const string KioskBuyerPassword = "password";
+        private const string KioskBuyerEmail = "admin@test.com";
+        private const string KioskBuyerPassword = "123456";
         private bool _gestureAdded = false;
 
         private System.Timers.Timer _timer;
@@ -54,6 +54,11 @@ namespace LeltarSupportMauiApp.Views
             }
 
             StartOverlay.IsVisible = false;
+
+            var stored = await DataService.GetBearerTokenAsync();
+            Console.WriteLine($"[Debug] Stored token: {(string.IsNullOrWhiteSpace(stored) ? "<null/empty>" : stored.Substring(0, Math.Min(8, stored.Length)) + "...")}");
+            var authHeader = DataService.GetAuthorizationHeader();
+            Console.WriteLine($"[Debug] Authorization header: {(string.IsNullOrWhiteSpace(authHeader) ? "<null/empty>" : authHeader)}");
 
             if (BindingContext is ProductListViewModel vm)
             {
