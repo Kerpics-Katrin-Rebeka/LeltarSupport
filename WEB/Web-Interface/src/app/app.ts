@@ -16,7 +16,13 @@ export class App {
   currentPage="inventory";
 
   ngOnInit(){
-    sessionStorage.setItem("loggedIn","false");
+    if (this.isLoggedIn) {
+      console.log(sessionStorage.getItem("isLoggedIn"));
+    }
+    console.log(sessionStorage.setItem("isLoggedIn", "true"));
+    console.log(sessionStorage);
+    
+    
   }
   
   isLoggedIn?:boolean = sessionStorage.getItem("loggedIn")==="true";

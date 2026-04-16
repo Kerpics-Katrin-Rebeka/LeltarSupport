@@ -6,8 +6,8 @@
 			<div class="md:col-span-1">
 				<label [attr.for]="'ingredientName_' + item.id" class="mb-1 block text-sm font-medium text-slate-700">Ingredient</label>
 				<select (change)="switchIngredient(item)" [id]="'ingredientName_' + item.id" [name]="'ingredientName_' + item.id" required [(ngModel)]="item.ingredient.name" class="w-full rounded-md border border-slate-300 px-3 bg-gray-50 py-2 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
-					@for (ing of ingredients; track ing.ingredient.id) {
-					<option [value]="ing.ingredient.name">{{ing.ingredient.name|titlecase}}</option>
+					@for (ing of ingredients; track ing.id) {
+					<option [value]="ing.name">{{ing.name|titlecase}}</option>
 					}
 				</select>
 			</div>

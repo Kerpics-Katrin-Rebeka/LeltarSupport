@@ -17,8 +17,3 @@ export interface UnderLimitResponseModel{
     data:ResponseModel[];
     success:boolean;
 }
-
-export interface IngredientResponseModel{
-    data:IngredientModel[];
-    success:boolean;
-}
