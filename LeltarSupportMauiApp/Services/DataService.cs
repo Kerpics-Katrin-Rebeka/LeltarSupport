@@ -1,7 +1,9 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using LeltarSupportMauiApp.Models;
 
 namespace LeltarSupportMauiApp.Services
 {
@@ -27,18 +29,39 @@ namespace LeltarSupportMauiApp.Services
                 Password = password
             };
 
+            // Try wrapped response first (ServerResponse<LoginData>)
             var serverResponse = await _client.PostAsync<BuyerLoginRequest, ServerResponse<LoginData>>(
                 Normalize(LoginRoute),
                 request);
 
-            if (serverResponse is null || serverResponse.Data is null || string.IsNullOrWhiteSpace(serverResponse.Data.Token))
+            LoginData? loginData = null;
+
+            if (serverResponse?.Data != null)
+            {
+                loginData = serverResponse.Data;
+            }
+            else
+            {
+                // Fallback: some endpoints now return the payload directly (LoginData)
+                try
+                {
+                    loginData = await _client.PostAsync<BuyerLoginRequest, LoginData>(Normalize(LoginRoute), request)
+                                              .ConfigureAwait(false);
+                }
+                catch
+                {
+                    // ignore fallback exception - keep loginData null
+                }
+            }
+
+            if (loginData is null || string.IsNullOrWhiteSpace(loginData.Token))
                 return null;
 
             var result = new BuyerLoginResponse
             {
-                User = serverResponse.Data.User,
-                AccessToken = serverResponse.Data.Token,
-                TokenType = serverResponse.Data.TokenType
+                User = loginData.User,
+                AccessToken = loginData.Token,
+                TokenType = loginData.TokenType
             };
 
             await LoginBuyerAsync(result.AccessToken);
@@ -54,9 +77,28 @@ namespace LeltarSupportMauiApp.Services
             Preferences.Default.Set(BuyerSessionKey, true);
         }
 
-        public static Task<bool> IsBuyerLoggedIn()
+        // Now verifies stored token and product list: if products empty -> not logged in
+        public static async Task<bool> IsBuyerLoggedIn()
         {
-            return Task.FromResult(false);
+            try
+            {
+                // Check for stored token first
+                var token = await SecureStorage.Default.GetAsync(AccessTokenKey);
+                if (string.IsNullOrWhiteSpace(token))
+                    return false;
+
+                // Ensure the ApiClient uses the token for the product request
+                _client.SetBearerToken(token);
+
+                // Query products; if the list is empty treat as not logged in
+                var products = await SelectWrappedListAsync<Product>("api/products").ConfigureAwait(false);
+                return products != null && products.Any();
+            }
+            catch
+            {
+                // Any error -> treat as not logged in
+                return false;
+            }
         }
 
         public static void LogoutBuyer()
@@ -100,9 +142,37 @@ namespace LeltarSupportMauiApp.Services
 
         public static async Task<IEnumerable<T>> SelectWrappedListAsync<T>(string route)
         {
-            var wrapper = await _client.GetAsync<ServerResponse<List<T>>>(Normalize(route)).ConfigureAwait(false);
-            if (wrapper is null || wrapper.Data is null) return Array.Empty<T>();
-            return wrapper.Data;
+            // Try wrapped response first (ServerResponse<List<T>>)
+            try
+            {
+                var wrapper = await _client.GetAsync<ServerResponse<List<T>>>(Normalize(route)).ConfigureAwait(false);
+                if (wrapper?.Data != null) return wrapper.Data;
+            }
+            catch
+            {
+                // ignore and try fallback
+            }
+
+            // Fallback: try to get a plain list directly
+            try
+            {
+                var list = await _client.GetListAsync<T>(Normalize(route)).ConfigureAwait(false);
+                return list ?? Array.Empty<T>();
+            }
+            catch
+            {
+                // As last resort try to deserialize as a single JSON array object to List<T>
+                try
+                {
+                    var listDirect = await _client.GetAsync<List<T>>(Normalize(route)).ConfigureAwait(false);
+                    if(listDirect != null) return listDirect;
+                    return Array.Empty<T>();
+                }
+                catch
+                {
+                    return Array.Empty<T>();
+                }
+            }
         }
 
         public static Task<TResponse?> PostAsync<TRequest, TResponse>(string route, TRequest item)

@@ -33,7 +33,15 @@ namespace LeltarSupportMauiApp.Views
 
                 _gestureAdded = true;
             }
-
+            if(await DataService.IsBuyerLoggedIn())
+            {
+                if (BindingContext is ProductListViewModel vm)
+                {
+                    await vm.LoadProductsCommand.ExecuteAsync(null);
+                    SetupTimer();
+                }
+                return;
+            }
             StartOverlay.IsVisible = true;
             return;
 
