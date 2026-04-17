@@ -24,6 +24,7 @@ namespace LeltarSupportMauiApp.Views
         protected override async void OnAppearing()
         {
             base.OnAppearing();
+            cbProductList.IsVisible = false;
             if (!_gestureAdded)
             {
                 MainGrid.GestureRecognizers.Add(new TapGestureRecognizer
@@ -33,15 +34,7 @@ namespace LeltarSupportMauiApp.Views
 
                 _gestureAdded = true;
             }
-            if(await DataService.IsBuyerLoggedIn())
-            {
-                if (BindingContext is ProductListViewModel vm)
-                {
-                    await vm.LoadProductsCommand.ExecuteAsync(null);
-                    SetupTimer();
-                }
-                return;
-            }
+
             StartOverlay.IsVisible = true;
             return;
 
@@ -58,12 +51,13 @@ namespace LeltarSupportMauiApp.Views
             await DataService.RestoreAuthorizationAsync();
 
             StartOverlay.IsVisible = false;
-
+            cbProductList.IsVisible = true;
             if (BindingContext is ProductListViewModel vm)
             {
                 await vm.LoadProductsCommand.ExecuteAsync(null);
                 SetupTimer();
             }
+
         }
 
         private void OnAddToCartClicked(object? sender, EventArgs e)

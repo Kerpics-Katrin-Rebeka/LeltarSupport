@@ -15,7 +15,7 @@
     </ContentPage.ToolbarItems>
 
     <Grid x:Name="MainGrid">
-        <CollectionView ItemsSource="{Binding ProductList}"
+        <CollectionView x:Name="cbProductList" IsVisible="False" ItemsSource="{Binding ProductList}"
                 SelectionMode="None">
             <CollectionView.ItemsLayout>
                 <GridItemsLayout Orientation="Vertical"
