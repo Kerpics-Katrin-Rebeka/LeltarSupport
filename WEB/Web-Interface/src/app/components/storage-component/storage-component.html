@@ -2,28 +2,28 @@
 
 <table class="border border-gray-300 w-[75%]">
 <tr>
-    <td>Name</td>
-    <td>Current amount</td>
-    <td>Preset minimum amount before restock needed</td>
+    <td class="w-[20%] px-2">Name</td>
+    <td class="w-[20%] px-2">Current amount</td>
+    <td class="w-[20%] px-2">Preset minimum amount before restock needed</td>
 </tr>
 @for (ing of ingredients; track $index) {
     @if (ing.quantity == 0) {
         <tr class="bg-red-700 text-white border-2 border-white m-1">
             <td>{{ing.ingredient.name}}</td>
             <td>Out</td>
-            <td>{{ing.minAmount}}</td>
+            <td>{{ing.minimum_level}} {{ing.ingredient.unit}}</td>
         </tr>
     }@else if (ing.quantity <= (ing.maxAmount*0.1)) {
         <tr class="bg-orange-600 text-white">
             <td>{{ing.ingredient.name}}</td>
             <td>{{ing.quantity}} {{ing.ingredient.unit}}</td>
-            <td>{{ing.minAmount}}</td>
+            <td>{{ing.minimum_level}} {{ing.ingredient.unit}}</td>
         </tr>
     }@else {
         <tr>
             <td>{{ing.ingredient.name}}</td>
             <td>{{ing.quantity}} {{ing.ingredient.unit}}</td>
-            <td>{{ing.minAmount}}</td>
+            <td>{{ing.minimum_level}} {{ing.ingredient.unit}}</td>
         </tr> 
     }
 }

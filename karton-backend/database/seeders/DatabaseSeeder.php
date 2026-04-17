@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
     {
         // roles
         $role = Role::firstOrCreate([
-            'name' => 'Admin'
+            'name' => 'admin'
         ]);
 
         // admin user

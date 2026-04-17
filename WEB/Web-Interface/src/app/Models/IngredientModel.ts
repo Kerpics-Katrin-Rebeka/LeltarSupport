@@ -1,7 +1,7 @@
 export default interface IngredientModel{
     id:number,
     name:string,
-    minAmount:number,
+    minimum_level:number,
     unit:string
 }
 

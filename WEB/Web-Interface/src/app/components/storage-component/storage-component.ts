@@ -18,6 +18,8 @@ export class StorageComponent {
 
   ngOnInit(){
     this.dataService.getIngredients().subscribe(data=>{this.ingredients = data;});
+    console.log(this.ingredients);
+    
   }
 
   goBack(){
