@@ -102,7 +102,7 @@ export class InventoryComponent {
     else{
       this.dialog.open(PopUpComponent, {
         width: '250px',
-        height: '150px',
+        height: '200',
         data: {message: "You don't have permission to place orders!"},
       });
     }
