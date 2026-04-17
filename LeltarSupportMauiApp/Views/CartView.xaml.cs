@@ -22,15 +22,15 @@ public partial class CartView : ContentPage
 				CartListView.ItemsSource = cvm.OrderItems;
 			}
 		}
-		catch
+		catch(Exception ex)
 		{
-			// ignore refresh errors
-		}
+			Console.WriteLine($"OnAppearing error: {ex.Message}");
+        }
 	}
 
     private async void PurchaseButton_Clicked(object sender, EventArgs e)
     {
-		_viewModel.PurchaseCommand.Execute(null);
+        _viewModel.PurchaseCommand.Execute(null);
         PurchasedPopUpOverlay.Opacity = 0;
         PurchasedPopUpOverlay.IsVisible = true;
         await PurchasedPopUpOverlay.FadeTo(1, 250);

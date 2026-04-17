@@ -2,6 +2,7 @@ using LeltarSupportMauiApp.Models;
 using LeltarSupportMauiApp.Services;
 using LeltarSupportMauiApp.ViewModels;
 using System.Timers;
+using System.Diagnostics;
 
 namespace LeltarSupportMauiApp.Views
 {
@@ -33,6 +34,18 @@ namespace LeltarSupportMauiApp.Views
                 });
 
                 _gestureAdded = true;
+            }
+            // Await the async method instead of calling .Execute(...)
+            if (await DataService.IsBuyerLoggedIn())
+            {
+                StartOverlay.IsVisible = false;
+                cbProductList.IsVisible = true;
+                if (BindingContext is ProductListViewModel vm)
+                {
+                    await vm.LoadProductsCommand.ExecuteAsync(null);
+                    SetupTimer();
+                }
+                return;
             }
 
             StartOverlay.IsVisible = true;
@@ -120,6 +133,7 @@ namespace LeltarSupportMauiApp.Views
 
         private void CancelOrderButton_Clicked(object sender, EventArgs e)
         {
+            Debug.WriteLine("CancelOrderButton clicked");
             CancelOrder();
         }
 
@@ -134,7 +148,7 @@ namespace LeltarSupportMauiApp.Views
                 IsInactiveFor1MinutesPopUp.IsVisible = false;
                 DataService.LogoutBuyer();
                 StartOverlay.IsVisible = true;
-                StartOverlay.Opacity = 0;
+                StartOverlay.Opacity = 1;
             });
         }
     }

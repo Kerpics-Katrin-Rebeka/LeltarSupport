@@ -29,7 +29,6 @@ namespace LeltarSupportMauiApp.Services
                 Password = password
             };
 
-            // Try wrapped response first (ServerResponse<LoginData>)
             var serverResponse = await _client.PostAsync<BuyerLoginRequest, ServerResponse<LoginData>>(
                 Normalize(LoginRoute),
                 request);
@@ -42,7 +41,6 @@ namespace LeltarSupportMauiApp.Services
             }
             else
             {
-                // Fallback: some endpoints now return the payload directly (LoginData)
                 try
                 {
                     loginData = await _client.PostAsync<BuyerLoginRequest, LoginData>(Normalize(LoginRoute), request)
@@ -50,7 +48,6 @@ namespace LeltarSupportMauiApp.Services
                 }
                 catch
                 {
-                    // ignore fallback exception - keep loginData null
                 }
             }
 
@@ -77,26 +74,21 @@ namespace LeltarSupportMauiApp.Services
             Preferences.Default.Set(BuyerSessionKey, true);
         }
 
-        // Now verifies stored token and product list: if products empty -> not logged in
         public static async Task<bool> IsBuyerLoggedIn()
         {
             try
             {
-                // Check for stored token first
                 var token = await SecureStorage.Default.GetAsync(AccessTokenKey);
                 if (string.IsNullOrWhiteSpace(token))
                     return false;
 
-                // Ensure the ApiClient uses the token for the product request
                 _client.SetBearerToken(token);
 
-                // Query products; if the list is empty treat as not logged in
                 var products = await SelectWrappedListAsync<Product>("api/products").ConfigureAwait(false);
                 return products != null && products.Any();
             }
             catch
             {
-                // Any error -> treat as not logged in
                 return false;
             }
         }

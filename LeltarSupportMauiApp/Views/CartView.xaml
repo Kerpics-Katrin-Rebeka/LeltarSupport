@@ -4,7 +4,7 @@
              x:Class="LeltarSupportMauiApp.Views.CartView"
              Title="CartView">
 
-    <Grid RowDefinitions="*,Auto">
+    <Grid RowDefinitions="*,Auto" BackgroundColor="Beige">
         <ListView x:Name="CartListView"
                   Grid.Row="0"
                   CachingStrategy="RecycleElement"
