@@ -9,8 +9,6 @@ namespace LeltarSupportMauiApp.Models
         public int? SupplierId { get; set; }
         public PurchaseOrderStatus? Status { get; set; }
         public DateTime CreatedAt { get; set; }
-
-        // Navigation
         public Supplier? Supplier { get; set; }
         public IList<PurchaseOrderItem> PurchaseOrderItems { get; set; } = new List<PurchaseOrderItem>();
     }

@@ -9,8 +9,6 @@ namespace LeltarSupportMauiApp.Models
         public decimal? ChangeAmount { get; set; }
         public StockMovementReason? Reason { get; set; }
         public DateTime CreatedAt { get; set; }
-
-        // Navigation
         public Ingredient? Ingredient { get; set; }
     }
 }

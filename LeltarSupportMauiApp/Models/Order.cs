@@ -10,7 +10,6 @@ namespace LeltarSupportMauiApp.Models
         public decimal? TotalPrice { get; set; }
         public DateTime CreatedAt { get; set; }
 
-        // Navigation
         public User? User { get; set; }
         public IList<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
     }

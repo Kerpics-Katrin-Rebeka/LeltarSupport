@@ -134,7 +134,6 @@ namespace LeltarSupportMauiApp.Services
 
         public static async Task<IEnumerable<T>> SelectWrappedListAsync<T>(string route)
         {
-            // Try wrapped response first (ServerResponse<List<T>>)
             try
             {
                 var wrapper = await _client.GetAsync<ServerResponse<List<T>>>(Normalize(route)).ConfigureAwait(false);
@@ -142,10 +141,7 @@ namespace LeltarSupportMauiApp.Services
             }
             catch
             {
-                // ignore and try fallback
             }
-
-            // Fallback: try to get a plain list directly
             try
             {
                 var list = await _client.GetListAsync<T>(Normalize(route)).ConfigureAwait(false);
@@ -153,7 +149,6 @@ namespace LeltarSupportMauiApp.Services
             }
             catch
             {
-                // As last resort try to deserialize as a single JSON array object to List<T>
                 try
                 {
                     var listDirect = await _client.GetAsync<List<T>>(Normalize(route)).ConfigureAwait(false);

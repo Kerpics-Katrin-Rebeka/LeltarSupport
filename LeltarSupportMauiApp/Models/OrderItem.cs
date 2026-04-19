@@ -56,7 +56,6 @@ namespace LeltarSupportMauiApp.Models
             }
         }
 
-        // Navigation
         public Order? Order
         {
             get => _order;

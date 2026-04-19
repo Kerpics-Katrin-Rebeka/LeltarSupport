@@ -39,7 +39,6 @@ public partial class CartViewModel : ObservableObject
 
     private void AddToCart(Product product)
     {
-        // Defensive checks and logging to avoid creating invalid OrderItems
         if (product == null)
         {
             Debug.WriteLine("AddToCart called with null product.");
@@ -139,7 +138,6 @@ public partial class CartViewModel : ObservableObject
         {
             foreach (OrderItem item in e.NewItems.Cast<OrderItem>())
             {
-                // If an OrderItem with both Product and ProductId null appears, remove and log stack trace
                 if (item.Product == null && item.ProductId == null)
                 {
                     badItems.Add(item);
@@ -158,7 +156,6 @@ public partial class CartViewModel : ObservableObject
                 DetachItemHandler(item);
         }
 
-        // Remove any bad items after iteration to avoid modifying collection while enumerating NewItems
         foreach (var bi in badItems)
         {
             DetachItemHandler(bi);

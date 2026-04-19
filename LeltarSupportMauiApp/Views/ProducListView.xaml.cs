@@ -35,7 +35,6 @@ namespace LeltarSupportMauiApp.Views
 
                 _gestureAdded = true;
             }
-            // Await the async method instead of calling .Execute(...)
             if (await DataService.IsBuyerLoggedIn())
             {
                 StartOverlay.IsVisible = false;

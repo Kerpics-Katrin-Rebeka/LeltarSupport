@@ -11,7 +11,6 @@ namespace LeltarSupportMauiApp.Models
         public string PasswordHash { get; set; } = null!;
         public DateTime CreatedAt { get; set; }
 
-        // Navigation
         public IList<UserRole> UserRoles { get; set; } = new List<UserRole>();
         public IList<Order> Orders { get; set; } = new List<Order>();
     }

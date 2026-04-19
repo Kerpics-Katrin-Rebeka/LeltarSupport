@@ -8,7 +8,6 @@ namespace LeltarSupportMauiApp.Models
         public string Name { get; set; } = null!;
         public string Unit { get; set; } = null!;
 
-        // Navigation
         public IList<ProductIngredient> ProductIngredients { get; set; } = new List<ProductIngredient>();
         public Inventory? Inventory { get; set; }
         public IList<StockMovement> StockMovements { get; set; } = new List<StockMovement>();
