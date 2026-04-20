@@ -24,6 +24,7 @@ namespace LeltarSupportMauiApp.ViewModels
         {
             _cartViewModel = cartViewModel;
             CartCommand = new Command(OpenCart);
+
         }
 
         [RelayCommand]
@@ -47,6 +48,12 @@ namespace LeltarSupportMauiApp.ViewModels
             {
                 Console.WriteLine($"LoadProductsAsync error: {ex.Message}");
             }
+        }
+
+        [RelayCommand]
+        private void CleanProducts()
+        {
+            productList.Clear();
         }
 
         [RelayCommand]

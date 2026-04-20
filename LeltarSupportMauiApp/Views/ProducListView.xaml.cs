@@ -121,6 +121,7 @@ namespace LeltarSupportMauiApp.Views
         {
             CancelOrder();
 
+
         }
 
         private void ContinuePopUpButton_Clicked(object sender, EventArgs e)
@@ -143,6 +144,7 @@ namespace LeltarSupportMauiApp.Views
             MainThread.BeginInvokeOnMainThread(() =>
             {
                 if (BindingContext is not ProductListViewModel vm) return;
+                vm.CleanProductsCommand.Execute(null);
                 vm.CleanCart();
                 IsInactiveFor1MinutesPopUp.IsVisible = false;
                 DataService.LogoutBuyer();
