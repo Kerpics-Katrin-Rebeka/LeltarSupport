@@ -16,13 +16,20 @@ spec:
       containers:
         - name: backend
           image: ghcr.io/kerpics-katrin-rebeka/laravel-backend:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 8000
           env:
+            - name: APP_NAME
+              value: Laravel
             - name: APP_ENV
               value: production
+            - name: APP_DEBUG
+              value: "false"
+            - name: APP_URL
+              value: https://vizsgaremek-inventory-backend.jcloud.jedlik.cloud
             - name: APP_KEY
-              value: base64:6HXtu5X7x+Ra7IQiJlDSsNtwPqLS5asvBOaj6ESiKyc=
+              value: base64:REPLACE_WITH_YOUR_REAL_APP_KEY
             - name: DB_CONNECTION
               value: mysql
             - name: DB_HOST
@@ -35,9 +42,19 @@ spec:
               value: laravel
             - name: DB_PASSWORD
               value: secret
-
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8000
+            initialDelaySeconds: 20
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8000
+            initialDelaySeconds: 40
+            periodSeconds: 20
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
@@ -50,9 +67,7 @@ spec:
     - port: 8000
       targetPort: 8000
   type: ClusterIP
-
 ---
-
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
