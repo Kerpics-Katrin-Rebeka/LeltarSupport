@@ -70,6 +70,8 @@ namespace LeltarSupportMauiApp.Views
                 SetupTimer();
             }
 
+            TbKosar.IsEnabled = true;
+
         }
 
         private void OnAddToCartClicked(object? sender, EventArgs e)

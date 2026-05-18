@@ -6,9 +6,15 @@
              x:DataType="viewmodels:ProductListViewModel"
              x:Class="LeltarSupportMauiApp.Views.ProductListView"
              x:Name="page"
-             Title="Products">
+             Shell.BackgroundColor="Red"
+             Shell.TitleColor="White"
+             Title="Order Menu">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Kosár"
+        <ToolbarItem IsEnabled="False" x:Name="TbCancelOrederButton" Text="Cancel Order" Order="Primary" Clicked="CancelOrderButton_Clicked"/>
+
+        <ToolbarItem IsEnabled="False"
+                     x:Name="TbKosar"
+                     Text="Kosár"
                      IconImageSource="kosar.png"
                      Order="Primary"
                      Command="{Binding CartCommand}" />
@@ -84,14 +90,19 @@
         </Grid>
 
         <Grid x:Name="StartOverlay"
-              BackgroundColor="#CC000000"
               IsVisible="True"
               ZIndex="10">
+            <Grid.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                    <GradientStop Color="Red" Offset="0.0" />
+                    <GradientStop Color="White" Offset="1.0" />
+                </LinearGradientBrush>
+            </Grid.Background>
             <VerticalStackLayout VerticalOptions="Center"
                                  HorizontalOptions="Center"
                                  Spacing="20"
                                  Padding="30">
-                <Label Text="Start your order"
+                <Label Text="Welcome!"
                        TextColor="White"
                        FontSize="36"
                        FontAttributes="Bold"
