@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: vizsgaremek-inventory-frontend
-  namespace: kerpics-katrin-rebek
+  namespace: holbok-peter
 spec:
   replicas: 1
   selector:
@@ -38,7 +38,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: vizsgaremek-inventory-frontend
-  namespace: kerpics-katrin-rebek
+  namespace: holbok-peter
 spec:
   selector:
     app: vizsgaremek-inventory-frontend
@@ -51,7 +51,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: vizsgaremek-inventory-frontend-ingress
-  namespace: kerpics-katrin-rebek
+  namespace: holbok-peter
 spec:
   ingressClassName: nginx
   rules:

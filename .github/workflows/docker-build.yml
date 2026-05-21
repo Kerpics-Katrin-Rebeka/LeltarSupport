@@ -61,10 +61,10 @@ jobs:
 
       - name: Restart deployments to pull latest images
         run: |
-          kubectl rollout restart deployment/vizsgaremek-inventory-backend -n kerpics-katrin-rebek
-          kubectl rollout restart deployment/vizsgaremek-inventory-frontend -n kerpics-katrin-rebek
+          kubectl rollout restart deployment/vizsgaremek-inventory-backend -n holbok-peter
+          kubectl rollout restart deployment/vizsgaremek-inventory-frontend -n holbok-peter
 
       - name: Wait for rollouts
         run: |
-          kubectl rollout status deployment/vizsgaremek-inventory-backend -n kerpics-katrin-rebek
-          kubectl rollout status deployment/vizsgaremek-inventory-frontend -n kerpics-katrin-rebek
+          kubectl rollout status deployment/vizsgaremek-inventory-backend -n holbok-peter
+          kubectl rollout status deployment/vizsgaremek-inventory-frontend -n holbok-peter
