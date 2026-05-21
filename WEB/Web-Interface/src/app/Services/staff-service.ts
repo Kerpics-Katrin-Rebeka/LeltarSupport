@@ -43,7 +43,7 @@ export class StaffService {
     const headers = new HttpHeaders({
     Authorization: sessionStorage.getItem("token")? `Bearer ${sessionStorage.getItem("token")}`:"",
     });
-    var data = this.http.delete<UserModel[]>(`http://vizsgaremek-leltar-support.jcloud.jedlik.cloud/api/users/${id}`, {headers});    
+    var data = this.http.delete<UserModel[]>(`https://vizsgaremek-leltar-support.jcloud.jedlik.cloud/api/users/${id}`, {headers});    
     return data;
   }
 }
