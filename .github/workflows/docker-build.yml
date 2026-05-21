@@ -1,0 +1,86 @@
+name: Build and Push to GHCR
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build backend image
+        run: docker build -f ./karton-backend/backend.Dockerfile -t ghcr.io/kerpics-katrin-rebeka/leltarsupport-backend:latest ./karton-backend
+
+      - name: Push backend image
+        run: docker push ghcr.io/kerpics-katrin-rebeka/leltarsupport-backend:latest
+
+      - name: Build frontend image
+        run: docker build -f ./WEB/Web-Interface/frontend.Dockerfile -t ghcr.io/kerpics-katrin-rebeka/leltarsupport-frontend:latest ./WEB/Web-Interface
+
+      - name: Push frontend image
+        run: docker push ghcr.io/kerpics-katrin-rebeka/leltarsupport-frontend:latest
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up kubectl
+        uses: azure/setup-kubectl@v4
+
+      - name: Configure kubeconfig
+        run: |
+          mkdir -p $HOME/.kube
+          echo "${{ secrets.KUBE_CONFIG }}" | base64 -d > $HOME/.kube/config
+          chmod 600 $HOME/.kube/config
+
+      - name: Create GHCR image pull secret
+        run: |
+          kubectl create secret docker-registry ghcr-secret \
+            --namespace kerpics-katrin-rebek \
+            --docker-server=ghcr.io \
+            --docker-username="${{ secrets.GHCR_USERNAME }}" \
+            --docker-password="${{ secrets.GHCR_TOKEN }}" \
+            --dry-run=client -o yaml | kubectl apply -f -
+
+      - name: Create backend app secret
+        run: |
+          kubectl create secret generic leltarsupport-backend-secrets \
+            --namespace kerpics-katrin-rebek \
+            --from-literal=APP_KEY="${{ secrets.LARAVEL_APP_KEY }}" \
+            --dry-run=client -o yaml | kubectl apply -f -
+
+      - name: Deploy to jcloud.jedlik
+        run: |
+          kubectl apply -f ./k8s/database.yaml
+          kubectl apply -f ./k8s/backend.yaml
+          kubectl apply -f ./k8s/frontend.yaml
+
+      - name: Restart deployments to pull latest images
+        run: |
+          kubectl rollout restart deployment/vizsgaremek-inventory-backend -n kerpics-katrin-rebek
+          kubectl rollout restart deployment/vizsgaremek-inventory-frontend -n kerpics-katrin-rebek
+
+      - name: Wait for rollouts
+        run: |
+          kubectl rollout status deployment/vizsgaremek-inventory-backend -n kerpics-katrin-rebek
+          kubectl rollout status deployment/vizsgaremek-inventory-frontend -n kerpics-katrin-rebek

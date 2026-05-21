@@ -13,9 +13,11 @@ spec:
       labels:
         app: vizsgaremek-inventory-frontend
     spec:
+      imagePullSecrets:
+        - name: ghcr-secret
       containers:
         - name: frontend
-          image: ghcr.io/kerpics-katrin-rebeka/angular-frontend:latest
+          image: ghcr.io/kerpics-katrin-rebeka/leltarsupport-frontend:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 80
