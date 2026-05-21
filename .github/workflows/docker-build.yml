@@ -55,12 +55,17 @@ jobs:
 
       - name: Create GHCR image pull secret
         run: |
-          kubectl create secret docker-registry ghcr-secret \
-            --namespace holbok-peter \
-            --docker-server=ghcr.io \
-            --docker-username="${{ secrets.GHCR_USERNAME }}" \
-            --docker-password="${{ secrets.GHCR_TOKEN }}" \
-            --dry-run=client -o yaml | kubectl apply -f -
+          if [ -n "${{ secrets.GHCR_USERNAME }}" ] && [ -n "${{ secrets.GHCR_TOKEN }}" ]; then
+            kubectl create secret docker-registry ghcr-secret \
+              --namespace holbok-peter \
+              --docker-server=ghcr.io \
+              --docker-username="${{ secrets.GHCR_USERNAME }}" \
+              --docker-password="${{ secrets.GHCR_TOKEN }}" \
+              --dry-run=client -o yaml | kubectl apply -f -
+          else
+            echo "GHCR_USERNAME or GHCR_TOKEN is empty. Skipping secret creation and checking for existing ghcr-secret..."
+            kubectl get secret ghcr-secret -n holbok-peter >/dev/null
+          fi
 
       - name: Create backend app secret
         run: |
