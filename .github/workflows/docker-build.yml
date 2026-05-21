@@ -55,9 +55,9 @@ jobs:
 
       - name: Deploy to jcloud.jedlik
         run: |
-          kubectl apply -f ./k8s/database.yaml
-          kubectl apply -f ./k8s/backend.yaml
-          kubectl apply -f ./k8s/frontend.yaml
+          kubectl apply --server-side --force-conflicts --field-manager=github-actions -f ./k8s/database.yaml
+          kubectl apply --server-side --force-conflicts --field-manager=github-actions -f ./k8s/backend.yaml
+          kubectl apply --server-side --force-conflicts --field-manager=github-actions -f ./k8s/frontend.yaml
 
       - name: Restart deployments to pull latest images
         run: |
