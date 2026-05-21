@@ -14,7 +14,7 @@ export class DataService {
     const headers = new HttpHeaders({
     Authorization: sessionStorage.getItem("token")? `Bearer ${sessionStorage.getItem("token")}`:"",
     });
-    var data = this.http.get<IngredientModel[]>("http://127.0.0.1:8000/api/inventory",{headers});
+    var data = this.http.get<IngredientModel[]>("https://vizsgaremek-leltar-support.jcloud.jedlik.cloud/api/inventory",{headers});
     return data;
   }
 
@@ -22,7 +22,7 @@ export class DataService {
     const headers = new HttpHeaders({
       Authorization: sessionStorage.getItem("token")? `Bearer ${sessionStorage.getItem("token")}`:"",
     });
-    var data = this.http.get<RecommendationItemModel>("http://127.0.0.1:8000/api/inventory/low-stock",{headers});
+    var data = this.http.get<RecommendationItemModel>("https://vizsgaremek-leltar-support.jcloud.jedlik.cloud/api/inventory/low-stock",{headers});
     return data;
   }
 
@@ -30,7 +30,7 @@ export class DataService {
     const headers = new HttpHeaders({
     Authorization: sessionStorage.getItem("token")? `Bearer ${sessionStorage.getItem("token")}`:"",
     });
-    var data = this.http.get<RestockModel[]>("http://127.0.0.1:8000/api/purchase-orders",{headers});
+    var data = this.http.get<RestockModel[]>("https://vizsgaremek-leltar-support.jcloud.jedlik.cloud/api/purchase-orders",{headers});
     return data;
   }
 
@@ -38,7 +38,7 @@ export class DataService {
     const headers = new HttpHeaders({
     Authorization: sessionStorage.getItem("token")? `Bearer ${sessionStorage.getItem("token")}`:"",
     });
-    var data = this.http.get<MovementModel[]>("http://127.0.0.1:8000/api/stock-movements",{headers});
+    var data = this.http.get<MovementModel[]>("https://vizsgaremek-leltar-support.jcloud.jedlik.cloud/api/stock-movements",{headers});
     return data;
   }
 
@@ -50,7 +50,7 @@ export class DataService {
       ingredient_id: item.ingredient.id,
       quantity: item.quantity,
     }));
-    return this.http.post("http://127.0.0.1:8000/api/purchase-orders", { items: mappedItems, supplier_id }, { headers });
+    return this.http.post("https://vizsgaremek-leltar-support.jcloud.jedlik.cloud/api/purchase-orders", { items: mappedItems, supplier_id }, { headers });
   }
 
   updatePurchaseOrder(id: number, status: string) {
@@ -58,11 +58,11 @@ export class DataService {
     const headers = new HttpHeaders({
       Authorization: sessionStorage.getItem("token")? `Bearer ${sessionStorage.getItem("token")}`:"",
     });
-    return this.http.post(`http://127.0.0.1:8000/api/purchase-orders/${id}`, { status, supplier_id }, { headers });
+    return this.http.post(`https://vizsgaremek-leltar-support.jcloud.jedlik.cloud/api/purchase-orders/${id}`, { status, supplier_id }, { headers });
   }
 
   Login(email:string, pwd:string){
-    var data = this.http.post<response>("http://127.0.0.1:8000/api/auth/login", {'email':email, 'password':pwd},);
+    var data = this.http.post<response>("https://vizsgaremek-leltar-support.jcloud.jedlik.cloud/api/auth/login", {'email':email, 'password':pwd},);
     return data;
   }
 
@@ -70,7 +70,7 @@ export class DataService {
     const headers = new HttpHeaders({
       Authorization: sessionStorage.getItem("token")? `Bearer ${sessionStorage.getItem("token")}`:"",
     });
-    var data = this.http.post("http://127.0.0.1:8000/api/logout", {}, {headers});
+    var data = this.http.post("https://vizsgaremek-leltar-support.jcloud.jedlik.cloud/api/auth/logout", {}, {headers});
     return data;
   }
 
@@ -78,7 +78,7 @@ export class DataService {
     const headers = new HttpHeaders({
     Authorization: sessionStorage.getItem("token")? `Bearer ${sessionStorage.getItem("token")}`:"",
     });
-    var data = this.http.get<UserModel>(`http://127.0.0.1:8000/api/users/${id}`,{headers});
+    var data = this.http.get<UserModel>(`https://vizsgaremek-leltar-support.jcloud.jedlik.cloud/api/users/${id}`,{headers});
     return data;
   }
 }

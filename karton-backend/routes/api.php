@@ -13,6 +13,10 @@ use App\Http\Controllers\Api\PurchaseOrderController;
 use App\Http\Controllers\Api\AnalyticsController;
 use App\Http\Controllers\Api\StaffController;
 
+Route::get('/', function () {
+    return response()->json(['status' => 'ok']);
+});
+
 Route::options('{any}', function () {
     return response('', 204);
 })->where('any', '.*');
