@@ -13,7 +13,7 @@ export class SalesService {
     const headers = new HttpHeaders({
     Authorization: sessionStorage.getItem("token")? `Bearer ${sessionStorage.getItem("token")}`:"",
     });
-    var data = this.http.get<OrderModel[]>(`https://vizsgaremek-leltar-support.jcloud.jedlik.cloud/api/${date.toISOString().split('T')[0]}/orders`,{headers});
+    var data = this.http.get<OrderModel[]>(`http://vizsgaremek-leltar-support.jcloud.jedlik.cloud/api/${date.toISOString().split('T')[0]}/orders`,{headers});
     return data;
   }
 
@@ -21,7 +21,7 @@ export class SalesService {
     const headers = new HttpHeaders({
     Authorization: sessionStorage.getItem("token")? `Bearer ${sessionStorage.getItem("token")}`:"",
     });
-    var data = this.http.get<RestockModel[]>("https://vizsgaremek-leltar-support.jcloud.jedlik.cloud/api/purchase-orders",{headers});
+    var data = this.http.get<RestockModel[]>("http://vizsgaremek-leltar-support.jcloud.jedlik.cloud/api/purchase-orders",{headers});
     return data;
   }
 
@@ -29,7 +29,7 @@ export class SalesService {
     const headers = new HttpHeaders({
     Authorization: sessionStorage.getItem("token")? `Bearer ${sessionStorage.getItem("token")}`:"",
     });
-    var data = this.http.get<RestockModel[]>("https://vizsgaremek-leltar-support.jcloud.jedlik.cloud/api/suppliers",{headers});
+    var data = this.http.get<RestockModel[]>("http://vizsgaremek-leltar-support.jcloud.jedlik.cloud/api/suppliers",{headers});
     return data;
   }
 
@@ -41,7 +41,7 @@ export class SalesService {
       ingredient_id: item.ingredient.id,
       quantity: item.quantity
     }));
-    var data = this.http.post<RestockModel[]>("https://vizsgaremek-leltar-support.jcloud.jedlik.cloud/api/purchase-orders",{items: mappedItems,supplier_id},{headers});
+    var data = this.http.post<RestockModel[]>("http://vizsgaremek-leltar-support.jcloud.jedlik.cloud/api/purchase-orders",{items: mappedItems,supplier_id},{headers});
     return data;
   }
 

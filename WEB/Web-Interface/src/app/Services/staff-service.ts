@@ -12,7 +12,7 @@ export class StaffService {
     const headers = new HttpHeaders({
     Authorization: sessionStorage.getItem("token")? `Bearer ${sessionStorage.getItem("token")}`:"",
     });
-    var data = this.http.get<UserModel[]>("https://vizsgaremek-leltar-support.jcloud.jedlik.cloud/api/users",{headers});    
+    var data = this.http.get<UserModel[]>("http://vizsgaremek-leltar-support.jcloud.jedlik.cloud/api/users",{headers});    
     return data;
   }
 
@@ -20,14 +20,14 @@ export class StaffService {
     const headers = new HttpHeaders({
       Authorization: sessionStorage.getItem("token")? `Bearer ${sessionStorage.getItem("token")}`:"",
     });
-    return this.http.get<Role[]>("https://vizsgaremek-leltar-support.jcloud.jedlik.cloud/api/roles", {headers});
+    return this.http.get<Role[]>("http://vizsgaremek-leltar-support.jcloud.jedlik.cloud/api/roles", {headers});
   }
 
   Recruit(newGuy:newUser){
     const headers = new HttpHeaders({
     Authorization: sessionStorage.getItem("token")? `Bearer ${sessionStorage.getItem("token")}`:"",
     });
-    var data = this.http.post<UserModel>("https://vizsgaremek-leltar-support.jcloud.jedlik.cloud/api/users", newGuy, {headers});    
+    var data = this.http.post<UserModel>("http://vizsgaremek-leltar-support.jcloud.jedlik.cloud/api/users", newGuy, {headers});    
     return data;
   }
 
@@ -35,7 +35,7 @@ export class StaffService {
     const headers = new HttpHeaders({
     Authorization: sessionStorage.getItem("token")? `Bearer ${sessionStorage.getItem("token")}`:"",
     });
-    var data = this.http.put<UserModel[]>(`https://vizsgaremek-leltar-support.jcloud.jedlik.cloud/api/users/${employee.id}`, employee, {headers});    
+    var data = this.http.put<UserModel[]>(`http://vizsgaremek-leltar-support.jcloud.jedlik.cloud/api/users/${employee.id}`, employee, {headers});    
     return data;
   }
 
@@ -43,7 +43,7 @@ export class StaffService {
     const headers = new HttpHeaders({
     Authorization: sessionStorage.getItem("token")? `Bearer ${sessionStorage.getItem("token")}`:"",
     });
-    var data = this.http.delete<UserModel[]>(`https://vizsgaremek-leltar-support.jcloud.jedlik.cloud/api/users/${id}`, {headers});    
+    var data = this.http.delete<UserModel[]>(`http://vizsgaremek-leltar-support.jcloud.jedlik.cloud/api/users/${id}`, {headers});    
     return data;
   }
 }
