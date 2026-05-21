@@ -25,16 +25,16 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build backend image
-        run: docker build -f ./karton-backend/backend.Dockerfile -t ghcr.io/holbok-peti/laravel:latest ./karton-backend
+        run: docker build -f ./karton-backend/backend.Dockerfile -t ghcr.io/kerpics-katrin-rebeka/leltarsupport-backend:latest ./karton-backend
 
       - name: Push backend image
-        run: docker push ghcr.io/holbok-peti/laravel:latest
+        run: docker push ghcr.io/kerpics-katrin-rebeka/leltarsupport-backend:latest
 
       - name: Build frontend image
-        run: docker build -f ./WEB/Web-Interface/frontend.Dockerfile -t ghcr.io/holbok-peti/angular:latest ./WEB/Web-Interface
+        run: docker build -f ./WEB/Web-Interface/frontend.Dockerfile -t ghcr.io/kerpics-katrin-rebeka/leltarsupport-frontend:latest ./WEB/Web-Interface
 
       - name: Push frontend image
-        run: docker push ghcr.io/holbok-peti/angular:latest
+        run: docker push ghcr.io/kerpics-katrin-rebeka/leltarsupport-frontend:latest
 
   deploy:
     runs-on: ubuntu-latest

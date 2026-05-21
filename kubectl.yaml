@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: laravel
-          image: ghcr.io/holbok-peti/laravel:latest
+          image: ghcr.io/kerpics-katrin-rebeka/leltarsupport-backend:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8000
@@ -50,7 +50,7 @@ spec:
     spec:
       containers:
         - name: angular
-          image: ghcr.io/holbok-peti/angular:latest
+          image: ghcr.io/kerpics-katrin-rebeka/leltarsupport-frontend:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 80
