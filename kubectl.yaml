@@ -14,8 +14,8 @@ spec:
     spec:
       containers:
         - name: laravel
-          image: laravel-backend:latest
-          imagePullPolicy: Never
+          image: ghcr.io/holbok-peti/laravel:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 8000
 
@@ -50,8 +50,8 @@ spec:
     spec:
       containers:
         - name: angular
-          image: angular-frontend:latest
-          imagePullPolicy: Never
+          image: ghcr.io/holbok-peti/angular:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 80
 

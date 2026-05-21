@@ -25,16 +25,16 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build backend image
-        run: docker build -f ./karton-backend/backend.Dockerfile -t ghcr.io/kerpics-katrin-rebeka/leltarsupport-backend:latest ./karton-backend
+        run: docker build -f ./karton-backend/backend.Dockerfile -t ghcr.io/holbok-peti/laravel:latest ./karton-backend
 
       - name: Push backend image
-        run: docker push ghcr.io/kerpics-katrin-rebeka/leltarsupport-backend:latest
+        run: docker push ghcr.io/holbok-peti/laravel:latest
 
       - name: Build frontend image
-        run: docker build -f ./WEB/Web-Interface/frontend.Dockerfile -t ghcr.io/kerpics-katrin-rebeka/leltarsupport-frontend:latest ./WEB/Web-Interface
+        run: docker build -f ./WEB/Web-Interface/frontend.Dockerfile -t ghcr.io/holbok-peti/angular:latest ./WEB/Web-Interface
 
       - name: Push frontend image
-        run: docker push ghcr.io/kerpics-katrin-rebeka/leltarsupport-frontend:latest
+        run: docker push ghcr.io/holbok-peti/angular:latest
 
   deploy:
     runs-on: ubuntu-latest
@@ -50,42 +50,18 @@ jobs:
       - name: Configure kubeconfig
         run: |
           mkdir -p $HOME/.kube
-          printf '%s' "${{ secrets.KUBE_CONFIG }}" > $HOME/.kube/config
+          echo "${{ secrets.KUBE_CONFIG }}" | base64 -d > $HOME/.kube/config
           chmod 600 $HOME/.kube/config
 
-      - name: Create GHCR image pull secret
-        run: |
-          if [ -n "${{ secrets.GHCR_USERNAME }}" ] && [ -n "${{ secrets.GHCR_TOKEN }}" ]; then
-            kubectl create secret docker-registry ghcr-secret \
-              --namespace holbok-peter \
-              --docker-server=ghcr.io \
-              --docker-username="${{ secrets.GHCR_USERNAME }}" \
-              --docker-password="${{ secrets.GHCR_TOKEN }}" \
-              --dry-run=client -o yaml | kubectl apply -f -
-          else
-            echo "GHCR_USERNAME or GHCR_TOKEN is empty. Skipping secret creation and checking for existing ghcr-secret..."
-            kubectl get secret ghcr-secret -n holbok-peter >/dev/null
-          fi
-
-      - name: Create backend app secret
-        run: |
-          kubectl create secret generic leltarsupport-backend-secrets \
-            --namespace holbok-peter \
-            --from-literal=APP_KEY="${{ secrets.LARAVEL_APP_KEY }}" \
-            --dry-run=client -o yaml | kubectl apply -f -
-
       - name: Deploy to jcloud.jedlik
-        run: |
-          kubectl apply --server-side --force-conflicts --field-manager=github-actions -f ./k8s/database.yaml
-          kubectl apply --server-side --force-conflicts --field-manager=github-actions -f ./k8s/backend.yaml
-          kubectl apply --server-side --force-conflicts --field-manager=github-actions -f ./k8s/frontend.yaml
+        run: kubectl apply -f kubectl.yaml
 
       - name: Restart deployments to pull latest images
         run: |
-          kubectl rollout restart deployment/vizsgaremek-inventory-backend -n holbok-peter
-          kubectl rollout restart deployment/vizsgaremek-inventory-frontend -n holbok-peter
+          kubectl rollout restart deployment/laravel-backend
+          kubectl rollout restart deployment/angular-frontend
 
       - name: Wait for rollouts
         run: |
-          kubectl rollout status deployment/vizsgaremek-inventory-backend -n holbok-peter
-          kubectl rollout status deployment/vizsgaremek-inventory-frontend -n holbok-peter
+          kubectl rollout status deployment/laravel-backend
+          kubectl rollout status deployment/angular-frontend
