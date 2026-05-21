@@ -14,9 +14,9 @@ namespace OrderMauiApp.Services
         private bool _disposed;
 
 #if ANDROID
-        private const string DefaultBaseUrl = "https://vizsgaremek-leltar-support.jcloud.jedlik.cloud/api/";
+        private const string DefaultBaseUrl = "https://vizsgaremek-leltar-support.jcloud.jedlik.cloud/";
 #else
-        private const string DefaultBaseUrl = "https://vizsgaremek-leltar-support.jcloud.jedlik.cloud/api/";
+        private const string DefaultBaseUrl = "https://vizsgaremek-leltar-support.jcloud.jedlik.cloud/";
 #endif
 
         public ApiClient(HttpClient? client = null)
