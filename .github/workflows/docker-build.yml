@@ -53,6 +53,22 @@ jobs:
           printf '%s' "${{ secrets.KUBE_CONFIG }}" > $HOME/.kube/config
           chmod 600 $HOME/.kube/config
 
+      - name: Create GHCR image pull secret
+        run: |
+          kubectl create secret docker-registry ghcr-secret \
+            --namespace holbok-peter \
+            --docker-server=ghcr.io \
+            --docker-username="${{ secrets.GHCR_USERNAME }}" \
+            --docker-password="${{ secrets.GHCR_TOKEN }}" \
+            --dry-run=client -o yaml | kubectl apply -f -
+
+      - name: Create backend app secret
+        run: |
+          kubectl create secret generic leltarsupport-backend-secrets \
+            --namespace holbok-peter \
+            --from-literal=APP_KEY="${{ secrets.LARAVEL_APP_KEY }}" \
+            --dry-run=client -o yaml | kubectl apply -f -
+
       - name: Deploy to jcloud.jedlik
         run: |
           kubectl apply --server-side --force-conflicts --field-manager=github-actions -f ./k8s/database.yaml
