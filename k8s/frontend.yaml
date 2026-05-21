@@ -55,7 +55,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: vizsgaremek-inventory-frontend.jcloud.jedlik.cloud
+    - host: holbok-peter-inventory-frontend.jcloud.jedlik.cloud
       http:
         paths:
           - path: /
