@@ -14,9 +14,9 @@ namespace LeltarSupportMauiApp.Services
         private bool _disposed;
 
 #if ANDROID
-        private const string DefaultBaseUrl = "https://holbok-peter-inventory-backend.jcloud.jedlik.cloud/";
+        private const string DefaultBaseUrl = "https://vizsgaremek-leltar-support.jcloud.jedlik.cloud/api/";
 #else
-        private const string DefaultBaseUrl = "https://holbok-peter-inventory-backend.jcloud.jedlik.cloud/";
+        private const string DefaultBaseUrl = "https://vizsgaremek-leltar-support.jcloud.jedlik.cloud/api/";
 #endif
 
         public ApiClient(HttpClient? client = null)

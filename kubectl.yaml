@@ -80,7 +80,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: vizsgaremek-inventory-backend.jcloud.jedlik.cloud
+    - host: vizsgaremek-leltar-support.jcloud.jedlik.cloud
       http:
         paths:
           - path: /api
